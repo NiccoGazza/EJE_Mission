@@ -1,13 +1,14 @@
 %primo script di prova: voglio plottare l'orbita con relativo movimento 
 %della Terra, aggiornato giornalmente
-%punto 1) mi serve un meccanismo per ottenere le date nel formato giusto
-clc; clear;
-addpath(genpath("M-Files for Orbital Mechanics for Engineering Students, 3e"));
+clc;
+clear all;
+addpath(genpath("..\M_files_Curtis"));
 
-global mu
+global mu R
 mu = 1.327124e11;
+R = 6.96e5;  %raggio del Sole: provo a inserirlo nel plot
 
-number_of_days = 10;
+number_of_days = 200;
 target = 3; %Earth_id
 k = 1;
 movie_fps = 20;
@@ -68,6 +69,12 @@ view(45, 35);
 %  comet3(m_posx, m_posy, m_posz, 0);
 h1 = animatedline('Color', 'r');
 h2 = animatedline('Color', 'b');
+
+[xx, yy, zz] = sphere(50);
+surf(R*50*xx, R*50*yy, R*50*zz);
+line([0 2*50*R],   [0 0],   [0 0]); text(2*50*R,   0,   0, 'X')
+line(  [0 0], [0 2*50*R],   [0 0]); text(  0, 2*50*R,   0, 'Y')
+line(  [0 0],   [0 0], [0 2*50*R]); text(  0,   0, 2*50*R, 'Z')
 
 for k = 1:number_of_days
     addpoints(h1, m_posx(k), m_posy(k), m_posz(k));
