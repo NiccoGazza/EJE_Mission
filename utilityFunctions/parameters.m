@@ -1,4 +1,3 @@
- 
 %    1 = Mercury
 %    2 = Venus
 %    3 = Earth
@@ -7,6 +6,11 @@
 %    7 = Uranus
 %    8 = Neptune
 %    9 = Pluto
+% Script scritto con l'obiettivo di non sporcare il codice delle singole funzioni
+% riempendole di dati noti e fissi. Per utilizzarlo, dichiarare le
+% variabili che si intendono utilizzare come globali e chiamare parameters.
+
+
 
 global mu r T
 Jy = 31557600; % [s], corrisponde a 365.25 d
