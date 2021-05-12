@@ -19,7 +19,8 @@ function lambert_phasing(dep_planet, arr_planet, t0)
    
     global mu r T
     parameters;
-        
+    
+    t0=datetime();
     dep_year = year(t0);
     dep_month = month(t0);
     dep_day = day(t0);
