@@ -20,7 +20,6 @@ function lambert_phasing(dep_planet, arr_planet, t0)
     global mu r T
     parameters;
     
-    t0=datetime();
     dep_year = year(t0);
     dep_month = month(t0);
     dep_day = day(t0);
@@ -82,7 +81,7 @@ function lambert_phasing(dep_planet, arr_planet, t0)
         grid on;
         hold on;
 end
-%NOTA IMPORTANTE: l'andamento che ci aspettiamo è quello di una funzione
+%NOTA IMPORTANTE: l'andamento che ci aspettiamo e' quello di una funzione
 %che raggiunge il suo minimo (teoricamente pari a 1) per deltaT coincidente
-%con il tempo che impiegherebbe Lambert: questo è vero soltanto se la
+%con il tempo che impiegherebbe Lambert: questo e' vero soltanto se la
 %partenza avviene con un deltaTheta pari a theta_H!! (VEDI MENGALI CAP.8)

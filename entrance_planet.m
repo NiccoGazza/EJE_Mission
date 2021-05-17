@@ -64,4 +64,8 @@ function [delta_v] = entrance_planet(planet_id, v_inf, e)
     
  %Delta-v delle manovre di entrata
     delta_v = vp_hyp - vp_cap;
+end
 
+%TODO: verificare che non siano le formule che assumono che la velocità di
+%ingresso derivi da una manovra di Hohmann e per questo sia parallela alla
+%velocità assoluta del pianeta attorno al sole 

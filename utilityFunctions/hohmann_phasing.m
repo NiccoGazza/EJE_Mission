@@ -48,7 +48,7 @@ function [delta_t_A, delta_T_h] = hohmann_phasing(dep_planet, arr_planet, t0)
     theta_H = pi*(1 - sqrt(((1 + r_dep_planet/r_arr_planet)/2)^3));
     delta_theta = theta_0 - theta_H;
     
-    if(delta_theta < 0)
+    if(delta_theta < 0) %questo è da verificare
         delta_theta = delta_theta + 2*pi;
     end
 
