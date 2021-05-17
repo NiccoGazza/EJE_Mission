@@ -29,3 +29,6 @@ PER LE VOLTE SUCCESSIVE IN CUI VUOI RICONNETTERTI A QUESTO SERVER REMOTO
 	da usare per vedere cosa è stato 'add', cosa è stato 'committed' ecc
 	quelli aggiunti ma non ancora committed, saranno registrati in verde. Quelli in rosso sono stati modificati o aggiornati, ma non sono 		stati aggiunti.
 	(comando che uso prima e dopo il git add, e dopo il git committed per verifica)
+
+		git add *
+	per aggiungere tutti i file in rosso 
