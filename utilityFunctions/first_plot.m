@@ -2,7 +2,7 @@
 %della Terra, aggiornato giornalmente
 clc;
 clear all;
-addpath(genpath("..\M_files_Curtis"));
+addpath(genpath("M_files_Curtis"));
 
 global mu R
 mu = 1.327124e11;
