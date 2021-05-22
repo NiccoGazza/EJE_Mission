@@ -69,7 +69,7 @@ function [delta_v] = entrance_planetEccentrity(planet_id, vinf, ec)
     %ra = 2*mu_planet/norm(vinf)^2;
     %velocity (scalare) della sonda nella traiettoria iperbolica nel
     %periasse
-    vp_hyp = sqrt(norm(vinf)^2 + 2*mu_planet/rp); 
+    vp_hyp = sqrt(norm(vinf,2)^2 + 2*mu_planet/rp); 
     
     %velocity (scalare) dell'orbita di cattura nel periasse
     vp_cap = sqrt (mu_planet*(1+ec)/rp);
