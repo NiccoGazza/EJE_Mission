@@ -55,13 +55,13 @@ function [delta_v] = entrance_planetEccentrity(planet_id, vinf, ec)
 	%parametri traiettoria iperbolica:
     %raggio al periasse dell'iperbole di ingresso che minimizza il delta-v:
     %(corrisponde al punto di manovra (rp della traiettoria iperbolica è uguale a rp dell'orbita di cattura -punto di manovra per rimanerci)
-    rp =  (2*mu_planet/norm(vinf)^2)*((1-ec)/(1+ec)); %(Eq.8.67 Curtis)
+    rp =  (2*mu_planet/norm(vinf,2)^2)*((1-ec)/(1+ec)); %(Eq.8.67 Curtis)
 	%eccentricità iperbole
-	ei = 1 + rp*vinf^2/mu_planet; %(Eq.8.53 Curtis)
+	ei = 1 + rp*norm(vinf,2)^2/mu_planet; %(Eq.8.53 Curtis)
 	%angolo di svolta /2 perchè la sonda compie metà della traiettoria iperbolica(quindi svolta a metà rispetto a un flyby)
 	half_turn = asin(1/ei);
 	%aiming radius 
-	h =rp*sqrt(vinf^2+2*mu_planet/rp);
+	h =rp*sqrt(norm(vinf,2)^2+2*mu_planet/rp);
 	Delta = (h^2/mu_planet)*(ei^2-1)^(-0.5);
 
     
