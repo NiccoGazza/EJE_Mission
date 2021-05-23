@@ -17,12 +17,12 @@
 %deltaT_h : s 
 
 function [deltaV_h, deltaT_h] = hohmann_transfer(dep_planet, arr_planet)
-    global mu r 
+    global mu radii 
     parameters; 
     
     %prelevo i dati di interesse 
-    r_dep = r(dep_planet);
-    r_arr = r(arr_planet);
+    r_dep = radii(dep_planet);
+    r_arr = radii(arr_planet);
     
     %mengali 7.4.1
     deltaV_1 = sqrt((2*(r_arr/r_dep))/(1 + r_arr/r_dep)) - 1; %normalizzata a v_c1

@@ -21,8 +21,8 @@
 %                9 = Pluto
 %               10=Europe
 
-function [delta_t_A, delta_T_h] = hohmann_phasing(dep_planet, arr_planet, t0)
-    global mu r T
+function [delta_t_A, delta_t_H] = hohmann_phasing(dep_planet, arr_planet, t0)
+    global mu radii T
     parameters
     dep_year = year(t0);
     dep_month = month(t0);
@@ -40,9 +40,9 @@ function [delta_t_A, delta_T_h] = hohmann_phasing(dep_planet, arr_planet, t0)
     end
     
     %prelevo informazioni per applicare l'algoritmo
-    r_dep_planet = r(dep_planet);
+    r_dep_planet = radii(dep_planet);
     T_dep_planet = T(dep_planet);
-    r_arr_planet = r(arr_planet);
+    r_arr_planet = radii(arr_planet);
     T_arr_planet = T(arr_planet);
     
     theta_0 = (TA_arr_planet - TA_dep_planet);
@@ -53,9 +53,10 @@ function [delta_t_A, delta_T_h] = hohmann_phasing(dep_planet, arr_planet, t0)
         delta_theta = delta_theta + 2*pi;
     end
 
-    delta_t_A = delta_theta/((2*pi*(1/T_earth - 1/T_arr))); %days
-    delta_t_H = pi/(sqrt(mu))*((R_earth+R_arr)/2)^(3/2); %s!!
-
+    delta_t_A = delta_theta/((2*pi*(1/T_dep_planet - 1/T_arr_planet)));%s
+    delta_t_H = pi/(sqrt(mu))*((r_dep_planet + r_arr_planet)/2)^(3/2); %s
+    
+    delta_t_A = delta_t_A/(60*60*24); %days
     delta_t_H = delta_t_H/(60*60*24); %days
 
     delta_t_tot = delta_t_A + delta_t_H;

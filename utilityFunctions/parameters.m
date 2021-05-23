@@ -12,14 +12,14 @@
 
 addpath(genpath("../M_files_Curtis"));
 
-global mu r T m G
+global mu radii T masses G
 Jy = 31557600; % [s], corrisponde a 365.25 d
 AU = 149597870.691; % [km]
 
 G = 6.6742e-20; %[km^3/kg/s^2]
 
-mu = 1.327565122000000e+11; % [km^3/s^2]
-r = [0.38709893;
+mu = 1.327565122000000e+11; % [km^3/s^2] //PARAMETRO MU DEL SOLE
+radii = [0.38709893;
      0.72333199;
      1.00000011;
      1.52366231;
@@ -40,7 +40,7 @@ T = [0.2408467;
 84.016846;	
 164.79132] * Jy; % [s]                
     
-m = 10^24 * [0.330104; %mercurio
+masses = 10^24 * [0.330104; %mercurio
                  4.86732; %venere
                  5.97219 %terra
                  0.641693 %marte
