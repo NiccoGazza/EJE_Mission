@@ -19,6 +19,7 @@
 %                7 = Uranus
 %                8 = Neptune
 %                9 = Pluto
+%               10=Europe
 
 function [delta_t_A, delta_T_h] = hohmann_phasing(dep_planet, arr_planet, t0)
     global mu r T
@@ -52,8 +53,8 @@ function [delta_t_A, delta_T_h] = hohmann_phasing(dep_planet, arr_planet, t0)
         delta_theta = delta_theta + 2*pi;
     end
 
-    delta_t_A = delta_theta/((2*pi*(1/T_earth - 1/T_mars))); %days
-    delta_t_H = pi/(sqrt(mu))*((R_earth+R_mars)/2)^(3/2); %s!!
+    delta_t_A = delta_theta/((2*pi*(1/T_earth - 1/T_arr))); %days
+    delta_t_H = pi/(sqrt(mu))*((R_earth+R_arr)/2)^(3/2); %s!!
 
     delta_t_H = delta_t_H/(60*60*24); %days
 
