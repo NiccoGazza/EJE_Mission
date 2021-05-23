@@ -82,7 +82,7 @@ function [coe, r, v, jd] = planet_elements_and_sv ...
              25362 %urano
              24622 %nettuno
              1151 %plutone
-             3122 %europa 
+             3122 + 100 %europa 
              695508] %sole; %[km] 
 
 	distances = [57909227 %mercurio
@@ -215,6 +215,34 @@ function [coe, r, v, jd] = planet_elements_and_sv ...
           au             - astronomical unit (149597871 km)
         %}
         % --------------------------------------------------------------------
+%Dati Europa da https://ssd.jpl.nasa.gov/?sat_elem#saturn
+aE = 0.004860642; %semiasse maggiore attorno a Giove [AU]
+eE = 0.0094; %eccentricità
+wE = 88.970; %argomento al pericentro - omega [deg]
+ME = 171.016; %anomalia media [deg]
+iE = 0.466; %inclinazione [deg]
+RAE = 268.084; %ascensione retta [deg]
+w_hatE = RAE + wE % longitudine al pericentro[deg]
+LE = w_hatE + ME %longitudine media [deg]
+OmegaE = 219.106; %node [deg] longitudine del nodo ascendente
+TE = 3.551; %periodo siderale
+PwE = 1.394; %[yr] periodo di precessione dell'argomento del pericentro omega	
+PnodeE = 30.184; %[yr] periodo di precesisone della longitudine del nodo ascendente Omega
+DecE = 64.506; %[deg] declinazione
+TiltE = 0.016; %[deg] angolo tra l'equatore del pianeta e il piano di Laplace
+tildeomegaE =OmegaE + wE;
+LE = ME + tildeomegaE -360;
+
+%centennial rates:
+dot_aE = 0;
+dot_eE =  0;
+dot_iE = 0;
+dot_RAE = 0.00014620; %(preso uguale a quello di Vesta perchè parametro introvabile)
+dot_w_hatE = 0.00588261; %(preso uguale a quello di Vesta perchè parametro introvabile)
+dot_tildeomegaE = 360 /( PwE/100) + 360 / (PnodeE /100);
+dot_OmegaE = 101.3747242 * 365.25*100; % n  longitude rate [deg/day]2[degcy]
+dot_LE = dot_tildeomegaE + dot_OmegaE;
+
 
         %---- a --------- e -------- i -------- RA --------- w_hat ------- L ------
 
@@ -227,7 +255,8 @@ function [coe, r, v, jd] = planet_elements_and_sv ...
          9.53667594  0.05386179  2.48599187 113.66242448  92.59887831 	49.95424423
         19.18916464  0.04725744  0.77263783  74.01692503 170.95427630  313.23810451
         30.06992276  0.00859048  1.77004347 131.78422574  44.96476227  -55.12002969 
-         0.004860642 0.0094       0.466       268.084      357.054      528.07       
+	39.48211675  0.24882730 17.14001206 110.30393684 224.06891629  238.92903833
+         aE		eE	     iE	        RAE	       w_hatE         LE   
         0.006977376  0.26965557  1.55468744 103.66985200 326.77648848  229.63858632];
 
         %---- a --------- e -------- i -------- RA --------- w_hat ------- L ------
@@ -241,8 +270,7 @@ function [coe, r, v, jd] = planet_elements_and_sv ...
         -0.00196176 -0.00004397 -0.00242939  0.04240589  0.40805281 	428.48202785 
          0.00026291  0.00005105  0.00035372 -0.00508664 -0.32241464 	218.45945325 
         -0.00031596  0.00005170  0.00004818 -0.01183482 -0.04062942 	145.20780515
-        -0.00011771 -0.00005380 -0.00888394  0.00014620  0.00588261      -1.61256000
-         
+     	  dot_aE	dot_eE 	   dot_iE      dot_RAE	  dot_w_hatE	   sdot_LE         
          0.0         0.0         0.0         0.0         0.0              0.00000000]; 
 
         J2000_coe      = J2000_elements(planet_id,:);
