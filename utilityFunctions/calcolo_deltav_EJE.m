@@ -3,7 +3,7 @@ function deltav_fin = calcolo_deltav_EJE(t_jupiter)
 %
 %Questa funzione restituisce il Deltav totale della missione su Giove.
 %  dati in ingresso:
-%   t_jupiter = tempo di arrivo su 
+%   t_jupiter = data  di arrivo su <Europa(?)>
 %  dati in uscita:
 %   deltav_fin = delta velocità dell'intera missione
 
