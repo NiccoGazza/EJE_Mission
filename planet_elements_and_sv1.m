@@ -1,4 +1,4 @@
-function [coe, r, v, jd] = planet_elements_and_sv ...
+function [coe, r, v, jd] = planet_elements_and_sv1 ...
                 (planet_id, year, month, day, hour, minute, second)
 % PLANET_ELEMENTS_AND_SV calculates the orbital elements and the state  
 %   vector of a planet from the date (year, month, day)
@@ -216,6 +216,7 @@ function [coe, r, v, jd] = planet_elements_and_sv ...
         %}
         % --------------------------------------------------------------------
 %Dati Europa da https://ssd.jpl.nasa.gov/?sat_elem#saturn
+
 aE = 0.004860642; %semiasse maggiore attorno a Giove [AU]
 eE = 0.0094; %eccentricità
 wE = 88.970; %argomento al pericentro - omega [deg]

@@ -66,9 +66,15 @@ v_infJ = v_jupiter_in-V_jupiter;      %velocità relativa della sonda
 [delta_ve] = entrance_planetEccentrity(5, v_infJ, 0);
 delta_ve
 
+%%Arrivo su Europa
+%Script load
+jup2europe
+[deltaV_h] = hohmann_transfer(5,10);
+deltav_orb  %CHIEDERE
+
 %% TOT Delta velocità 
 
-deltav_fin = delta_vu+delta_ve; % +deltav del cambio di piano orbitale (da equat. terra a eclittica)
+deltav_fin = delta_vu+delta_ve + delta + deltaV_h + deltav_orb; % +deltav del cambio di piano orbitale (da equat. terra a eclittica)
 end                                
 
 
