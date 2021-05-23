@@ -12,6 +12,7 @@
 %                7 = Uranus
 %                8 = Neptune
 %                9 = Pluto
+%		10= Europe
 %deltaV_h : km/s
 %deltaT_h : s 
 
