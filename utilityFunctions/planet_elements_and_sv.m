@@ -103,7 +103,7 @@ function [coe, r, v, jd] = planet_elements_and_sv ...
     %% Algorithm
     global mu
 
-    if((planet_id ~= 10)
+    if(planet_id ~= 10)
 
         deg    = pi/180;
 
