@@ -82,7 +82,7 @@ function [coe, r, v, jd] = planet_elements_and_sv ...
              25362 %urano
              24622 %nettuno
              1151 %plutone
-             3122 + 100 %europa  	%%100 È L'ALTEZZA DELL'ORBITA FINALE
+             3122 %europa  	
              695508] ;%sole; %[km] 
 
 	distances = [57909227 %mercurio
