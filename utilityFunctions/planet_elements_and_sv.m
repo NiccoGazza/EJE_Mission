@@ -33,7 +33,7 @@ function [coe, r, v, jd] = planet_elements_and_sv ...
 %                7 = Uranus
 %                8 = Neptune
 %                9 = Pluto
-%               10 = Europe
+%               10 = Europe 
 %               11 = Sun
 %  
 %   year      - range: 1901 - 2050
@@ -59,45 +59,9 @@ function [coe, r, v, jd] = planet_elements_and_sv ...
 % User subfunctions required: planetary_elements
 
     %% Constants
-    global mu
-
-     masses = 10^24 * [0.330104 %mercurio
-                      4.86732 %venere
-                      5.97219 %terra
-                      0.641693 %marte
-                      1898.13 %giove
-                      568.319 %saturno
-                      86.8100 %urano
-                      102.410  %nettuno
-                      0.01309 %plutone 
-                      0.04800 %europa 
-                      1989100];%sole %[kg]
-   
-	radii = [2439.7 %mercurio
-             6051.8 %venere
-             6371 %terra
-             3389.5 %marte
-             71490 %giove
-             60232 %saturno
-             25362 %urano
-             24622 %nettuno
-             1151 %plutone
-             3122 %europa  	
-             695508] ;%sole; %[km] 
-
-	distances = [57909227 %mercurio
-                 108209475 %venere
-                 149598262 %terra
-                 227943824 %marte
-                 778340821 %giove 
-                 1426666422 %saturno
-                 2870658186 %urano
-                 4498396441 %nettuno
-                 5906440628 %plutone
-                 78000000];%europa - distanza dal sole [km]
-    
-    G = 6.6742e-20; %[km^3/kg/s^2]
-    
+parameters
+	global mu
+       
     pl_mu = G * masses(planet_id); %[km^3/s^2]
 
     %% Algorithm
@@ -215,34 +179,7 @@ function [coe, r, v, jd] = planet_elements_and_sv ...
           au             - astronomical unit (149597871 km)
         %}
         % --------------------------------------------------------------------
-%Dati Europa da https://ssd.jpl.nasa.gov/?sat_elem#saturn
 
-aE = 0.004860642; %semiasse maggiore attorno a Giove [AU]
-eE = 0.0094; %eccentricità
-wE = 88.970; %argomento al pericentro - omega [deg]
-ME = 171.016; %anomalia media [deg]
-iE = 0.466; %inclinazione [deg]
-RAE = 268.084; %ascensione retta [deg]
-w_hatE = RAE + wE % longitudine al pericentro[deg]
-LE = w_hatE + ME %longitudine media [deg]
-OmegaE = 219.106; %node [deg] longitudine del nodo ascendente
-TE = 3.551; %periodo siderale
-PwE = 1.394; %[yr] periodo di precessione dell'argomento del pericentro omega	
-PnodeE = 30.184; %[yr] periodo di precesisone della longitudine del nodo ascendente Omega
-DecE = 64.506; %[deg] declinazione
-TiltE = 0.016; %[deg] angolo tra l'equatore del pianeta e il piano di Laplace
-tildeomegaE =OmegaE + wE;
-LE = ME + tildeomegaE -360;
-
-%centennial rates:
-dot_aE = 0;
-dot_eE =  0;
-dot_iE = 0;
-dot_RAE = 0.00014620; %(preso uguale a quello di Vesta perchè parametro introvabile)
-dot_w_hatE = 0.00588261; %(preso uguale a quello di Vesta perchè parametro introvabile)
-dot_tildeomegaE = 360 /( PwE/100) + 360 / (PnodeE /100);
-dot_OmegaE = 101.3747242 * 365.25*100; % n  longitude rate [deg/day]2[degcy]
-dot_LE = dot_tildeomegaE + dot_OmegaE;
 
 
         %---- a --------- e -------- i -------- RA --------- w_hat ------- L ------
@@ -271,7 +208,7 @@ dot_LE = dot_tildeomegaE + dot_OmegaE;
         -0.00196176 -0.00004397 -0.00242939  0.04240589  0.40805281 	428.48202785 
          0.00026291  0.00005105  0.00035372 -0.00508664 -0.32241464 	218.45945325 
         -0.00031596  0.00005170  0.00004818 -0.01183482 -0.04062942 	145.20780515
-     	  dot_aE	dot_eE 	   dot_iE      dot_RAE	  dot_w_hatE	   sdot_LE         
+     	  dot_aE	dot_eE 	   dot_iE      dot_RAE	  dot_w_hatE	   dot_LE         
          0.0         0.0         0.0         0.0         0.0              0.00000000]; 
 
         J2000_coe      = J2000_elements(planet_id,:);

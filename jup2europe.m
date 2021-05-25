@@ -1,31 +1,48 @@
-%Svolgimento del trasferimento della sonda dall'orbita di parcheggio attorno a Giove, fino a un'orbita attorno a Europa
+%Svolgimento del trasferimento alla Hohmann della sonda dall'orbita di parcheggio attorno a Giove, fino a un'orbita attorno a Europa
 %Specifiche della fase :
-%il satellite arriva in un'rbita circolare -equatoriale- a 100km di altezza. DEVO CONSIDERARE IL RAGGIO DI EUROPA'?
+%il satellite arriva in un'orbita circolare -equatoriale- a 100km di altezza.
 %Data di partenza dall'orbita planetostazionaria: a piacere
-%utilizzo un trasferimento alla Hohmann
+%raggio dell'orbita di partenza : rp ottimizzante energeticamente
 
 %capire quando partire da giove
 %requirements per poter effettuare la manovra :
 %	~phasing
-%	~considerare saturno come una sfera di raggio maggiorato di 100km
-%	~dare ulteriore delta-v quando si arriva per far combaciare la velocità circolare di saturno con quella della sonda (=> costringere la sonda ad orbitare attorno a Europa)	
-%planet_elements_and_sv1.m
+%planet_elements_and_sv.m
+
 addpath(genpath("utilityFunctions"));
 parameters
-dep_planet = 5 ;%jupiter
-arr_planet = 10 ;% satellite, Europe
+global pl_mu rp radii G masses
+
 %data di arrivo sull'orbita planetostazionaria attorno a Giove : 01/01/2030
 %ipotizzo di rimanere sull'orbita almeno 10gg
+
+
+%FASE ZEUSCENTRICA
 t0 = datetime(2030, 1, 15);
-[delta_t_A, delta_T_h] = hohmann_phasing(dep_planet, arr_planet ,t0);
-[deltaV_h, deltaT_h] = hohmann_transfer(dep_planet,arr_planet);
+%[delta_t_A, delta_T_h] = hohmann_phasing(5, 10, t0); 
+[~,rp]=entrance_planetEccentrity(5,vinfG, rp , 0);
+[deltaV_h, deltaT_h] = hohmann_transfer(5, 10, rp); %rp calcolato con entrance_planetEccentrity/Period di ingresso a Giove
 
-mu_E = G*(m(10));
-vc_s = sqrt(mu_E/100); %velocità circolare della sonda sull'orbita attorno a Europa
+%FASE DI INGRESSO NELLA SOI DI EUROPA
 
-%deltav_orb = vc_s - v_fin; %v_fin velocità all'apocentro dell'ellisse di trasferimento o velocità circolare DI Europa attorno a Giove??
-%CHIEDERE
+mu_E = pl_mu(10);
+vc_E = sqrt(mu_E/100); %velocità circolare della sonda sull'orbita attorno a Europa, rispetto a Giove
 
+t1 =t0+delta_T_h;
+t1_con = datetime(datenum(t0) + delta_T_h);
+[~, ~, pl_v, ~] = planet_elements_and_sv ...
+                (10, year(t1), month(t1), day(t1), hour(t1), minute(t1), second(t1));
+
+vinfE= vc_E - pl_v;
+r_orb = 100 + radii(10); %100km di altezza dalla superficie di Europa
+[delta_v] = entrance_planetEccentrity(10, vinf, r_orb); % orbita circolare all'arrivo su Europa
+
+
+
+
+
+%trasferimento alla Hohmann
+%Il rapporto r_soiE/aE è molto piccolo pertanto la sfer  
 
 
 
