@@ -1,10 +1,7 @@
-function plot_orbit(obj_id, annus, linewidth)
-% PLOT_ORBIT(obj_id, annus) plots the orbit of target planet OBJ_ID
-%   during the year ANNUS.
-%   It computes the planet day-by-day position for a complete
-%   orbital revolution of the planet.
+function jupiter_graph(body_id, y, linewidth)
+% funzione che plotta l'orbita del corpo celeste grazie al calcolo iterativo del vettore posizione e velocità di esso durante il suo periodo di rivoluzione  
 %
-%   obj_id   - planet identifier:
+%   body_id   - celestial body identifier:
 %                1 = Mercury
 %                2 = Venus
 %                3 = Earth
@@ -16,23 +13,21 @@ function plot_orbit(obj_id, annus, linewidth)
 %                9 = Pluto
 %               10 = Europe
 %               11 = Sun
-%              
 %
-%   annus    - year considered
-%
-   
-    %Earth-days for a complete revolution of the planet
-    year = [88 
+%   y    - year considered
+
+addpath(genpath("../utilityFunctions"));
+    %periodo di ogni corpo celeste espresso in giorni terrestri (durata di un periodo di rivoluzione del corpo attorno al proprio fuoco)
+    period = [88 
             225 
             365 
             687 
-            4331 
-            10747 
-            30589 
-            59800 
+            4330 
+            10748 
+            30666 
+            60148 
             90560 
-            1400 
-            1682 
+            3.551181041 
             25];
         
     colors = ["g"          %green
@@ -45,20 +40,19 @@ function plot_orbit(obj_id, annus, linewidth)
               "c"          %(bright) cyan
               "#D95319"    %orange
               "#77AC30"    %darker green
-              "#EDB120"    %ochre
               "#D95319"];  %orange, not visible due to Sun orbit dimensions
-
-	%Starting position at 1/1
-    [~, r0, v0, ~] = bodyelements_and_sv(obj_id,annus,1,1,0,0,0);
+ 	
+          %Starting position at 1/1
+    [~, r0, v0, ~] = body_elements_and_sv(body_id,y,1,1,0,0,0);
 
     pos = [r0];
-    for g = 1:year(obj_id)
-        %Planet position day by day
+    for g = 1:period(body_id)
+        %Body position day by day
         [r, ~] = rv_from_r0v0(r0, v0, g*60*60*24);
         pos = cat(1,pos,r);
     end
 
     %Orbit plot
-    plot3(pos(:,1),pos(:,2),pos(:,3),'-', 'LineWidth', linewidth, 'Color', colors(obj_id))
+    plot3(pos(:,1),pos(:,2),pos(:,3),'-', 'LineWidth', linewidth, 'Color', colors(body_id))
     
 end

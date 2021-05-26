@@ -58,7 +58,8 @@ function [coe, r, v, jd] = body_elements_and_sv ...
 % User M-functions required:  J0, kepler_E, sv_from_coe
 % User subfunctions required: planetary_elements
 
-    %% Constants
+ addpath(genpath("..M_files_Curtis"));
+%% Constants
     global mu G masses pl_mu
    
     %parameters //PROBLEMA: SE parameters viene chiamato da una funzione 
