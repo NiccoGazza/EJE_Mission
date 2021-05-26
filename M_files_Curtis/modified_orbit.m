@@ -1,5 +1,5 @@
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function orbit
+function modified_orbit
 % ~~~~~~~~~~~~
 %{
   This function computes the orbit of a spacecraft by using rkf45 to 

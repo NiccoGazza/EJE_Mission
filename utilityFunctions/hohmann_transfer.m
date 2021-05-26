@@ -1,4 +1,3 @@
-function [deltaV_h, deltaT_h] = hohmann_transfer(dep_body, arr_body , varargin )
 %hohmann_transfer restituisce il deltaV (NORMALIZZATO alla velocità di 
 %percorrimento dell'orbita circolare di partenza) e il deltaT necessario
 %ad effettuare una manovra di Hohmann tra i pianeti 
@@ -13,8 +12,8 @@ function [deltaV_h, deltaT_h] = hohmann_transfer(dep_body, arr_body , varargin )
 %                7 = Uranus
 %                8 = Neptune
 %                9 = Pluto
-%		10= Europe
-%		11 = Sun
+%               10= Europe
+%               11 = Sun
 %deltaV_h : km/s
 %deltaT_h : s 
 % body : boolean input
@@ -28,17 +27,20 @@ function [deltaV_h, deltaT_h] = hohmann_transfer(dep_body, arr_body , varargin )
 %validateattributes(varargin,{'float'})
 %body = true;
 
+function [deltaV_h, deltaT_h] = hohmann_transfer(dep_body, arr_body , varargin )
     global mu distances 
     parameters; 
     
     %prelevo i dati di interesse 
-	if (arr_body == 10 | dep_body == 10)
+	if (arr_body == 10 || dep_body == 10)
 		%body= false;
 		if (dep_body == 5) 
 			r_dep = varargin{1};
-			r_arr= distances (arr_body);
-		elseif (dep_body~=5 & arr_body==10)
+			r_arr = distances(arr_body);
+		elseif (dep_body~=5 && arr_body==10)
+
 			disp('The two bodies do not refer to the same focus. Cannot compute a Hohmann transfer')
+        end
 	else 
 		%body=true;
 		r_dep = distances(dep_body);
@@ -46,7 +48,7 @@ function [deltaV_h, deltaT_h] = hohmann_transfer(dep_body, arr_body , varargin )
 	end
 		
     
-    %mengali 7.4.1
+    %mengali 7.4.1: utilizza l'approx. di orbite circolari
     deltaV_1 = sqrt((2*(r_arr/r_dep))/(1 + r_arr/r_dep)) - 1; %normalizzata a v_c1
     deltaV_2 = sqrt(1/(r_arr/r_dep)) - sqrt(2/((r_arr/r_dep)*(1 + r_arr/r_dep))); %normalizzata a v_c1
     

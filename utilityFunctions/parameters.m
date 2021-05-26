@@ -46,7 +46,7 @@ global mu radii distances T masses G AU J2000Europe aE_km pl_mu
 	J2000Europe =[aE ,eE,iE, RAE, w_hatE, LE];   
  	cent_ratEurope = [dot_aE, dot_eE, dot_iE, dot_RAE, dot_w_hatE, dot_LE]    
     
-    	masses = 10^24 * [0.330104 %mercurio
+    masses = 10^24 * [0.330104 %mercurio
                       4.86732 %venere
                       5.97219 %terra
                       0.641693 %marte
@@ -79,7 +79,7 @@ global mu radii distances T masses G AU J2000Europe aE_km pl_mu
                  2870658186 %urano
                  4498396441 %nettuno
                  5906440628 %plutone
-                 aE ];%europa - distanza del corpo dal proprio fuoco [km]
+                 aE_km ];%europa - distanza del corpo dal proprio fuoco [km]
     
 	G = 6.6742e-20; %[km^3/kg/s^2]
 	Jy = 31557600; % [s], corrisponde a 365.25 d
@@ -96,5 +96,5 @@ global mu radii distances T masses G AU J2000Europe aE_km pl_mu
 		84.016846;	
 		164.79132] * Jy; % [s]                
     
-	pl_mu= G* masses ; %[km^3/s^2] è un array. per estrarre il mu del planet_id =i, scrivo pl_mu[i]
+	pl_mu = G * masses ; %[km^3/s^2] e' un array. per estrarre il mu del planet_id =i, scrivo pl_mu[i]
 

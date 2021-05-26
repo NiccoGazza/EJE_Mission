@@ -1,9 +1,3 @@
-% % %Raggi medi (approssimazione orbite circolari)
-% % R_earth = 150e6; %km 
-% % R_mars =  228e6; %km
-% % %Periodi 
-% % T_earth = 365.25636; %day
-% % T_mars = 686.97959; %day
 %hohmann_phasing restituisce il tempo di attesa e il tempo totale (che
 %comprende il primo più il tempo necessario ad eseguire la manovra di
 %Hohmann) necessari ad eseguire appunto una manovra di Hohmann a partire
@@ -21,9 +15,10 @@
 %                9 = Pluto
 %               10=Europe
 
-function [delta_t_A, delta_t_H] = hohmann_phasing(dep_body, arr_body, t0)
-    global mu radii T
+function [delta_t_A, delta_t_H, delta_t_tot] = hohmann_phasing(dep_body, arr_body, t0)
+    global mu distances T
     parameters
+    
     dep_year = year(t0);
     dep_month = month(t0);
     dep_day = day(t0);
@@ -40,9 +35,9 @@ function [delta_t_A, delta_t_H] = hohmann_phasing(dep_body, arr_body, t0)
     end
     
     %prelevo informazioni per applicare l'algoritmo
-    r_dep_body = radii(dep_body);
+    r_dep_body = distances(dep_body);
     T_dep_body = T(dep_body);
-    r_arr_body = radii(arr_body);
+    r_arr_body = distances(arr_body);
     T_arr_body = T(arr_body);
     
     theta_0 = (TA_arr_body - TA_dep_body);

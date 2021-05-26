@@ -17,7 +17,7 @@
 
 function lambert_phasing(dep_body, arr_body, t0)
    
-    global mu radii T
+    global distances 
     parameters;
     
     dep_year = year(t0);
@@ -27,15 +27,17 @@ function lambert_phasing(dep_body, arr_body, t0)
     %dati pianeta di partenza
     [~, r0_dep_body, vc1, ~] = body_elements_and_sv(dep_body, dep_year, dep_month,...
                                             dep_day, 0, 0, 0);
+                                        
     theta0_dep_body = atan2(r0_dep_body(2), r0_dep_body(1));
-    r_dep_body = radii(dep_body);
+    r_dep_body = distances(dep_body);
     
     %dati pianeta di arrivo
     [~, r0_arr_body, ~] = body_elements_and_sv(arr_body, dep_year, dep_month,...
                                            dep_day, 0, 0, 0);                                   
+                                       
     theta0_arr_body = atan2(r0_arr_body(2), r0_arr_body(1));
-    r_arr_body = radii(arr_body);
-    
+    r_arr_body = distances(arr_body);
+
     [deltaV_h, deltaT_h] = hohmann_transfer(dep_body, arr_body);
     %MENGALI 8.2.3 => posso usare direttamente i dati 'reali'
 %     theta0 = theta0_arr_body - theta0_dep_body; 
