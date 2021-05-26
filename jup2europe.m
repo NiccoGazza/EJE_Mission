@@ -18,11 +18,13 @@ global pl_mu rp radii G masses
 
 
 %FASE ZEUSCENTRICA
-t0 = datetime(2030, 1, 15);
-%[delta_t_A, delta_T_h] = hohmann_phasing(5, 10, t0); 
+t0 = datetime(2030, 1, 15); %fase di ingresso da considerare istantanea?
+[delta_t_A, delta_T_h] = hohmann_phasing(5, 10, t0); 
 %vinfG fine lambert  
 [~,rp]=entrance_planetEccentrity(5,v_infJ, rp , 0);
-[deltav_h, deltaT_h] = hohmann_transfer(5, 10, rp); %rp calcolato con entrance_bodyEccentrity/Period di ingresso a Giove
+[deltav_h, delta_T_h] = hohmann_transfer(5, 10, rp); %rp calcolato con entrance_bodyEccentrity/Period di ingresso a Giove
+
+global delta_T_h
 
 %FASE DI INGRESSO NELLA SOI DI EUROPA
 
