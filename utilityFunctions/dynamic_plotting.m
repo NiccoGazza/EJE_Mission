@@ -1,25 +1,28 @@
 %Giove- Europa plot
 %primo script di prova: voglio plottare l'orbita con relativo movimento 
 %della Terra, aggiornato giornalmente
-clc;
-clear all;
+% begin_date e end_date vengono date nel formato datetime(yyyy,mm,dd)
+
+function dynamic_plotting(body_id, begin_date, end_date)
+
+%clc;
+%clear all;
 addpath(genpath("M_files_Curtis"));
 
-global mu R delta_T_h
+global mu R 
 mu = 1.327124e11;
 R = 6.96e5;  %raggio del Sole: provo a inserirlo nel plot
 
-number_of_days = 300;
-target = 5; %jupiter_id
+%number_of_days = 300;
+%target = 5; %jupiter_id
 k = 1;
 movie_fps = 20;
 body_linewidth = 1;
 
-begin_date = datetime(2030, 1, 1);
-end_date = begin_date + number_of_days;
+%begin_date = datetime(2030, 1, 1);
+%end_date = begin_date + number_of_days;
 
 time_vector = generate_time(begin_date, end_date); 
-
 
 hold on
 	
@@ -49,20 +52,21 @@ view(45, 35);
  e_posy = []; m_posy = [];
  e_posz = []; m_posz = [];
 
+number_of_days = caldays(between(begin_date, end_date, 'days'));
  for day = 1:1:number_of_days
-    [~, target_pos, ~,~] = body_elements_and_sv(target, time_vector(day, 1),...
+    [~, body_id_pos, ~,~] = body_elements_and_sv(body_id, time_vector(day, 1),...
                                                   time_vector(day, 2),...
                                                   time_vector(day, 3), 0, 0, 0);
-    e_posx = [e_posx; target_pos(1)];
-    e_posy = [e_posy; target_pos(2)];
-    e_posz = [e_posz; target_pos(3)];
+    e_posx = [e_posx; body_id_pos(1)];
+    e_posy = [e_posy; body_id_pos(2)];
+    e_posz = [e_posz; body_id_pos(3)];
     
-   [~, m_target_pos, ~,~] = body_elements_and_sv(4, time_vector(day, 1),...
+   [~, m_body_id_pos, ~,~] = body_elements_and_sv(4, time_vector(day, 1),...
                                                   time_vector(day, 2),...
                                                   time_vector(day, 3), 0, 0, 0);
-    m_posx = [m_posx; m_target_pos(1)];
-    m_posy = [m_posy; m_target_pos(2)];
-    m_posz = [m_posz; m_target_pos(3)];
+    m_posx = [m_posx; m_body_id_pos(1)];
+    m_posy = [m_posy; m_body_id_pos(2)];
+    m_posz = [m_posz; m_body_id_pos(3)];
           
  end
 
