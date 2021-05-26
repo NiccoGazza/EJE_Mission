@@ -20,6 +20,7 @@ global pl_mu rp radii G masses
 %FASE ZEUSCENTRICA
 t0 = datetime(2030, 1, 15);
 %[delta_t_A, delta_T_h] = hohmann_phasing(5, 10, t0); 
+%vinfG fine lambert  
 [~,rp]=entrance_planetEccentrity(5,vinfG, rp , 0);
 [deltaV_h, deltaT_h] = hohmann_transfer(5, 10, rp); %rp calcolato con entrance_planetEccentrity/Period di ingresso a Giove
 
@@ -35,10 +36,7 @@ t1_con = datetime(datenum(t0) + delta_T_h);
 
 vinfE= vc_E - pl_v;
 r_orb = 100 + radii(10); %100km di altezza dalla superficie di Europa
-[delta_v] = entrance_planetEccentrity(10, vinf, r_orb); % orbita circolare all'arrivo su Europa
-
-
-
+[delta_v, ~] = entrance_planetEccentrity(10, vinf, r_orb); % orbita circolare all'arrivo su Europa
 
 
 %trasferimento alla Hohmann

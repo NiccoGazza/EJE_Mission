@@ -1,4 +1,4 @@
-function [delta_v, rp] = entrance_planetEccentrity(planet_id, vinf, varargin)
+function [delta_v, rp r_soi] = entrance_planetEccentrity(planet_id, vinf, varargin)
 
 %funzione che calcola l'iperbole di avvicinamento di una sonda di massa
 %1000kg in arrivo al pianeta identificato dal planet_id e la fa rimanere in
@@ -37,16 +37,15 @@ function [delta_v, rp] = entrance_planetEccentrity(planet_id, vinf, varargin)
 %	varargin{2} : se viene scelto rp, questo ingresso non va inserito. Se si sceglie  'opt' , questo ingresso serve per specificare %			l'eccentricità desiderata dell'orbita di parcheggio.
 %   
 %% Definizione input
-parameters
+	parameters
 	validateattributes(vinf,{'double'},{'size',[1 3]})
 	global masses G pl_mu
 	pl_mu= G* masses (planet_id); %[km^3/s^2]
     
- %%Computations
-%parametri traiettoria iperbolica:
+%%Computations
+%traiettoria iperbolica:
     %calcolo del raggio al periasse dell'iperbole di ingresso che minimizza il delta-v:
     %(corrisponde al punto di manovra (rp della traiettoria iperbolica è uguale a rp dell'orbita di cattura -punto di manovra per rimanerci)
-global r_soi;
 r_soi = soi_compute(planet_id);
 
 if (varargin{1} == 'opt')   
@@ -59,7 +58,6 @@ elseif (isa(varargin{1}, float)
 		disp('Orbit too small') ;
 	else
 		rp = varargin{1};
-return rp;
 end
 	
 	ei = 1 + rp*norm(vinf,2)^2/pl_mu; %eccentricità iperbole(Eq.8.53 Curtis)

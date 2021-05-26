@@ -26,6 +26,8 @@ parameters
 	end
 end
 
+global r_soi
+
 	
 
 
