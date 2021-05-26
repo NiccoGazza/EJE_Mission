@@ -7,10 +7,10 @@
 %hohmann_phasing restituisce il tempo di attesa e il tempo totale (che
 %comprende il primo più il tempo necessario ad eseguire la manovra di
 %Hohmann) necessari ad eseguire appunto una manovra di Hohmann a partire
-%dal pianeta dep_planet per arrivare ad arr_planet, e a partire dalla data
+%dal pianeta dep_body per arrivare ad arr_body, e a partire dalla data
 %t0. Il tempo di attesa delta_t_A è definito come l'intervallo di tempo in
 %giorni a partire da t0 che deve trascorrere per poter iniziare la manovra.
-%   dep_planet, arr_planet- planet identifier:
+%   dep_body, arr_body- body identifier:
 %                1 = Mercury
 %                2 = Venus
 %                3 = Earth
@@ -21,40 +21,40 @@
 %                9 = Pluto
 %               10=Europe
 
-function [delta_t_A, delta_t_H] = hohmann_phasing(dep_planet, arr_planet, t0)
+function [delta_t_A, delta_t_H] = hohmann_phasing(dep_body, arr_body, t0)
     global mu radii T
     parameters
     dep_year = year(t0);
     dep_month = month(t0);
     dep_day = day(t0);
 
-    [~, r_dep, ~] = planet_elements_and_sv(dep_planet, dep_year, dep_month, dep_day, 0, 0, 0);
-    [~, r_arr, ~] = planet_elements_and_sv(arr_planet, dep_year, dep_month, dep_day, 0, 0, 0);
+    [~, r_dep, ~] = body_elements_and_sv(dep_body, dep_year, dep_month, dep_day, 0, 0, 0);
+    [~, r_arr, ~] = body_elements_and_sv(arr_body, dep_year, dep_month, dep_day, 0, 0, 0);
 
-    TA_dep_planet = atan2(r_dep(2), r_dep(1)); %rad
-    %è la posizione iniziale di arr_planet
-    TA_arr_planet = atan2(r_arr(2), r_arr(1));  %rad
+    TA_dep_body = atan2(r_dep(2), r_dep(1)); %rad
+    %è la posizione iniziale di arr_body
+    TA_arr_body = atan2(r_arr(2), r_arr(1));  %rad
 
-    if(TA_dep_planet < 0)
-        TA_dep_planet = 2*pi - abs(TA_dep_planet);
+    if(TA_dep_body < 0)
+        TA_dep_body = 2*pi - abs(TA_dep_body);
     end
     
     %prelevo informazioni per applicare l'algoritmo
-    r_dep_planet = radii(dep_planet);
-    T_dep_planet = T(dep_planet);
-    r_arr_planet = radii(arr_planet);
-    T_arr_planet = T(arr_planet);
+    r_dep_body = radii(dep_body);
+    T_dep_body = T(dep_body);
+    r_arr_body = radii(arr_body);
+    T_arr_body = T(arr_body);
     
-    theta_0 = (TA_arr_planet - TA_dep_planet);
-    theta_H = pi*(1 - sqrt(((1 + r_dep_planet/r_arr_planet)/2)^3));
+    theta_0 = (TA_arr_body - TA_dep_body);
+    theta_H = pi*(1 - sqrt(((1 + r_dep_body/r_arr_body)/2)^3));
     delta_theta = theta_0 - theta_H;
     
     if(delta_theta < 0) %questo è da verificare
         delta_theta = delta_theta + 2*pi;
     end
 
-    delta_t_A = delta_theta/((2*pi*(1/T_dep_planet - 1/T_arr_planet)));%s
-    delta_t_H = pi/(sqrt(mu))*((r_dep_planet + r_arr_planet)/2)^(3/2); %s
+    delta_t_A = delta_theta/((2*pi*(1/T_dep_body - 1/T_arr_body)));%s
+    delta_t_H = pi/(sqrt(mu))*((r_dep_body + r_arr_body)/2)^(3/2); %s
     
     delta_t_A = delta_t_A/(60*60*24); %days
     delta_t_H = delta_t_H/(60*60*24); %days

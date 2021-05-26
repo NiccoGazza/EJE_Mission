@@ -27,8 +27,8 @@ t_earth2 = datetime(2026, 12, 1);   %arrivo su Terra per il Flyby
 
 dt1 = between(dep_time, t_mars, 'Days');  %numero di giorni fra le due date
 
-[~, R_earth, V_earth, ~] = planet_elements_and_sv (3,2024, 10, 1, 0, 0 ,0);
-[~, R_mars, V_mars, ~] = planet_elements_and_sv (4,2025, 2, 1, 0, 0 ,0);
+[~, R_earth, V_earth, ~] = body_elements_and_sv (3,2024, 10, 1, 0, 0 ,0);
+[~, R_mars, V_mars, ~] = body_elements_and_sv (4,2025, 2, 1, 0, 0 ,0);
 
 time_lamb1 = (day(dt1))*24*3600; %in secondi
 [v_dep, v_mars_in] = lambert (R_earth, R_mars, time_lamb1);
@@ -41,7 +41,7 @@ delta_vu
 
 dt2 = between(t_mars, t_earth2, 'Days');
 
-[~, R_earth2, V_earth2, ~] = planet_elements_and_sv (3, 2026, 12, 1, 0, 0 ,0);
+[~, R_earth2, V_earth2, ~] = body_elements_and_sv (3, 2026, 12, 1, 0, 0 ,0);
 time_lamb2 = (day(dt2))*24*3600; %in secondi
 [v_mars_out, v_earth_in] = lambert (R_mars, R_earth2, time_lamb2);
 
@@ -52,7 +52,7 @@ deltav_fb1
 
 dt3 = between (t_earth2, t_jupiter, 'Days');
 
-[~, R_jupiter, V_jupiter, ~] = planet_elements_and_sv (5, y, m, d, 0, 0 ,0);
+[~, R_jupiter, V_jupiter, ~] = body_elements_and_sv (5, y, m, d, 0, 0 ,0);
 time_lamb2 = (day(dt3))*24*3600; %in secondi
 [v_earth_out, v_jupiter_in] = lambert (R_earth2, R_jupiter, time_lamb2);
 
@@ -63,7 +63,7 @@ deltav_fb2
 %% Entrata in Giove 
 
 v_infJ = v_jupiter_in-V_jupiter;      %velocità relativa della sonda
-[delta_ve] = entrance_planetEccentrity(5, v_infJ, 0);
+[delta_ve] = entrance_bodyEccentrity(5, v_infJ, 0);
 delta_ve
 
 %%Arrivo su Europa

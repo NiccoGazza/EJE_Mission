@@ -14,9 +14,9 @@ function plot_orbit(obj_id, annus, linewidth)
 %                7 = Uranus
 %                8 = Neptune
 %                9 = Pluto
-%               10 = Vesta
-%               11 = Ceres
-%               12 = Sun
+%               10 = Europe
+%               11 = Sun
+%              
 %
 %   annus    - year considered
 %
@@ -49,7 +49,7 @@ function plot_orbit(obj_id, annus, linewidth)
               "#D95319"];  %orange, not visible due to Sun orbit dimensions
 
 	%Starting position at 1/1
-    [~, r0, v0, ~] = planet_elements_and_sv(obj_id,annus,1,1,0,0,0);
+    [~, r0, v0, ~] = bodyelements_and_sv(obj_id,annus,1,1,0,0,0);
 
     pos = [r0];
     for g = 1:year(obj_id)

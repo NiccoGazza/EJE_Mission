@@ -3,7 +3,7 @@ function [deltav, e, a, delta, r_p] = flyby ( v1, V, v2, mu)
 % dovuto alla manovra.
 % Grandezze in entrata:
 %   v1 = velocità della sonda in entrata al SOI del pianeta (da Lambert);
-%   V  = velocità del pianeta (da planet_elements_and_sv);
+%   V  = velocità del pianeta (da body_elements_and_sv);
 %   v2 = velocità in uscita da SOI del pianeta (da Lambert);
 %   mu = costante gravitazionele del pianeta
 %

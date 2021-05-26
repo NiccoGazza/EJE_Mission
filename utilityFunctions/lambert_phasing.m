@@ -1,11 +1,11 @@
 %lambert_phasing ha l'obiettivo di impostare una traiettoria eliocentrica
 %basandosi sulla risoluzione del problema di Lambert. In particolare, dati
-%in ingresso i pianeti dep_planet e arr_planet e la data t0 di partenza 
+%in ingresso i pianeti dep_body e arr_body e la data t0 di partenza 
 %calcola la traiettoria che permette il trasferimento.
 %Questo avviene selezionando, come tempo di trasferimento da utilizzare come
 %input del problema di Lambert, frazioni del tempo che sarebbe impiegato 
 %mediante una manovra di Hohmann (ignorando ovviamente il phasing).
-%   dep_planet, arr_planet- planet identifier:
+%   dep_body, arr_body- body identifier:
 %                1 = Mercury
 %                2 = Venus
 %                3 = Earth
@@ -15,7 +15,7 @@
 %                8 = Neptune
 %                9 = Pluto
 
-function lambert_phasing(dep_planet, arr_planet, t0)
+function lambert_phasing(dep_body, arr_body, t0)
    
     global mu radii T
     parameters;
@@ -25,22 +25,22 @@ function lambert_phasing(dep_planet, arr_planet, t0)
     dep_day = day(t0);
     
     %dati pianeta di partenza
-    [~, r0_dep_planet, vc1, ~] = planet_elements_and_sv(dep_planet, dep_year, dep_month,...
+    [~, r0_dep_body, vc1, ~] = body_elements_and_sv(dep_body, dep_year, dep_month,...
                                             dep_day, 0, 0, 0);
-    theta0_dep_planet = atan2(r0_dep_planet(2), r0_dep_planet(1));
-    r_dep_planet = radii(dep_planet);
+    theta0_dep_body = atan2(r0_dep_body(2), r0_dep_body(1));
+    r_dep_body = radii(dep_body);
     
     %dati pianeta di arrivo
-    [~, r0_arr_planet, ~] = planet_elements_and_sv(arr_planet, dep_year, dep_month,...
+    [~, r0_arr_body, ~] = body_elements_and_sv(arr_body, dep_year, dep_month,...
                                            dep_day, 0, 0, 0);                                   
-    theta0_arr_planet = atan2(r0_arr_planet(2), r0_arr_planet(1));
-    r_arr_planet = radii(arr_planet);
+    theta0_arr_body = atan2(r0_arr_body(2), r0_arr_body(1));
+    r_arr_body = radii(arr_body);
     
-    [deltaV_h, deltaT_h] = hohmann_transfer(dep_planet, arr_planet);
+    [deltaV_h, deltaT_h] = hohmann_transfer(dep_body, arr_body);
     %MENGALI 8.2.3 => posso usare direttamente i dati 'reali'
-%     theta0 = theta0_arr_planet - theta0_dep_planet; 
-%     vc1_h = sqrt(mu/r_dep_planet); %utilizzo approx. traiettoria circolare
-%     vc2_h = sqrt(mu/r_arr_planet);
+%     theta0 = theta0_arr_body - theta0_dep_body; 
+%     vc1_h = sqrt(mu/r_dep_body); %utilizzo approx. traiettoria circolare
+%     vc2_h = sqrt(mu/r_arr_body);
          
     deltaV_h = deltaV_h * norm(vc1); %per confrontare con Lambert mi serve il Av effettivo
     x = [];
@@ -50,10 +50,10 @@ function lambert_phasing(dep_planet, arr_planet, t0)
     
     for t = deltaT : deltaT : deltaT_h
 %   MENGALI 8.2.3 
-%          theta_t = theta0 + (2*pi*t)/T(arr_planet);
-%          %ricavo la posizione finale di arr_planet
-%          r1 = [r_arr_planet*cos(theta0_arr_planet + theta_t); ...
-%                r_arr_planet*sin(theta0_arr_planet + theta_t); 0];
+%          theta_t = theta0 + (2*pi*t)/T(arr_body);
+%          %ricavo la posizione finale di arr_body
+%          r1 = [r_arr_body*cos(theta0_arr_body + theta_t); ...
+%                r_arr_body*sin(theta0_arr_body + theta_t); 0];
        
         %aggiorno la data per calcolare la posizione del pianeta di arrivo
         t0 = t0 + seconds(deltaT); 
@@ -61,10 +61,10 @@ function lambert_phasing(dep_planet, arr_planet, t0)
         t_month = month(t0);
         t_day = day(t0);
         
-        [~, r2, vc2] = planet_elements_and_sv(arr_planet, t_year, t_month, ...
+        [~, r2, vc2] = body_elements_and_sv(arr_body, t_year, t_month, ...
                                               t_day, 0, 0, 0);
                                           
-        [v1, v2] = lambert([r0_dep_planet(1); r0_dep_planet(2);  0] ,...
+        [v1, v2] = lambert([r0_dep_body(1); r0_dep_body(2);  0] ,...
                             [r2(1); r2(2); 0] , t, 'pro');
                         
         deltaV1 = norm(v1 - vc1');

@@ -12,7 +12,7 @@ number_of_days = 200;
 target = 3; %Earth_id
 k = 1;
 movie_fps = 20;
-planet_linewidth = 1;
+body_linewidth = 1;
 
 begin_date = datetime(2021, 04, 28);
 end_date = begin_date + number_of_days;
@@ -49,14 +49,14 @@ view(45, 35);
  e_posz = []; m_posz = [];
 
  for day = 1:1:number_of_days
-    [~, target_pos, ~,~] = planet_elements_and_sv(target, time_vector(day, 1),...
+    [~, target_pos, ~,~] = body_elements_and_sv(target, time_vector(day, 1),...
                                                   time_vector(day, 2),...
                                                   time_vector(day, 3), 0, 0, 0);
     e_posx = [e_posx; target_pos(1)];
     e_posy = [e_posy; target_pos(2)];
     e_posz = [e_posz; target_pos(3)];
     
-   [~, m_target_pos, ~,~] = planet_elements_and_sv(4, time_vector(day, 1),...
+   [~, m_target_pos, ~,~] = body_elements_and_sv(4, time_vector(day, 1),...
                                                   time_vector(day, 2),...
                                                   time_vector(day, 3), 0, 0, 0);
     m_posx = [m_posx; m_target_pos(1)];

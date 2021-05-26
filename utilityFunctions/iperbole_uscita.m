@@ -1,4 +1,3 @@
-
 function  [delta_v, e, a, theta] = iperbole_uscita (V1, r_p, time)
 %Questa funzione calcola le caratteristiche dell'iperbole di uscita dal SOI
 %del pianeta Terra fissata un orbita di parcheggio circolare di raggio 
@@ -26,7 +25,7 @@ R  = radii(3); %raggio terra
 y = year(time);
 m = month(time);
 d = day(time);
-[~, ~, v, ~] = planet_elements_and_sv (3, y, m, d, 0, 0, 0); %v velocita'  della terra 
+[~, ~, v, ~] = body_elements_and_sv (3, y, m, d, 0, 0, 0); %v velocita'  della terra 
                                                              %nel sistema eliocentrico
 v_inf = norm((V1-v),2);                                      %velocita'  fuori da SOI                                
 

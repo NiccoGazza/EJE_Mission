@@ -1,6 +1,6 @@
-function [coe, r, v, jd] = planet_elements_and_sv ...
-                (planet_id, year, month, day, hour, minute, second)
-% PLANET_ELEMENTS_AND_SV calculates the orbital elements and the state  
+function [coe, r, v, jd] = body_elements_and_sv ...
+                (body_id, year, month, day, hour, minute, second)
+% body_ELEMENTS_AND_SV calculates the orbital elements and the state  
 %   vector of a planet from the date (year, month, day)
 %   and universal time (hour, minute, second).
 %  
@@ -23,7 +23,7 @@ function [coe, r, v, jd] = planet_elements_and_sv ...
 %                M     = mean anomaly                        (deg)
 %                E     = eccentric anomaly                   (deg)
 %  
-%   planet_id - planet identifier:
+%   body_id - planet identifier:
 %                1 = Mercury
 %                2 = Venus
 %                3 = Earth
@@ -62,12 +62,12 @@ function [coe, r, v, jd] = planet_elements_and_sv ...
 parameters
 	global mu
        
-    pl_mu = G * masses(planet_id); %[km^3/s^2]
+    pl_mu = G * masses(body_id); %[km^3/s^2]
 
     %% Algorithm
     global mu
 
-    if(planet_id ~= 10)
+    if(body_id ~= 10)
 
         deg    = pi/180;
 
@@ -80,7 +80,7 @@ parameters
         jd     = j0 + ut;
 
         %...Obtain the data for the selected planet from Table 8.1:
-        [J2000_coe, rates] = planetary_elements(planet_id);
+        [J2000_coe, rates] = planetary_elements(body_id);
 
         %...Equation 8.93a:
         t0     = (jd - 2451545)/36525;
@@ -115,13 +115,13 @@ parameters
         [r, v] = sv_from_coe(coe, mu);
         return
 
-    elseif(planet_id < 11)
+    elseif(body_id < 11)
 
         % Conversions
         au2km = 149597870.700; % [km]
         auday2kms = 149597870.700/86400.0; % [km/s]
 
-        if(planet_id == 10)
+        if(body_id == 10)
             % Data loading
             europe_data = europe_rv();
 
@@ -141,12 +141,12 @@ parameters
     end
 
         % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          function [J2000_coe, rates] = planetary_elements(planet_id)
+          function [J2000_coe, rates] = planetary_elements(body_id)
         %{
           This function extracts a planet's J2000 orbital elements and
           centennial rates from Table 8.1.
 
-          planet_id      - 1 through 12, for Mercury through Pluto, plus
+          body_id      - 1 through 12, for Mercury through Pluto, plus
                            Vesta, Ceres and the Sun
 
           J2000_elements - 12 by 6 matrix of J2000 orbital elements for the nine
@@ -172,9 +172,9 @@ parameters
                              Ldot      (deg/Cy)
 
           J2000_coe      - row vector of J2000_elements corresponding
-                           to "planet_id", with au converted to km
+                           to "body_id", with au converted to km
           rates          - row vector of cent_rates corresponding to
-                           "planet_id", with au converted to km              
+                           "body_id", with au converted to km              
 
           au             - astronomical unit (149597871 km)
         %}
@@ -211,8 +211,8 @@ parameters
      	  dot_aE	dot_eE 	   dot_iE      dot_RAE	  dot_w_hatE	   dot_LE         
          0.0         0.0         0.0         0.0         0.0              0.00000000]; 
 
-        J2000_coe      = J2000_elements(planet_id,:);
-        rates          = cent_rates(planet_id,:);
+        J2000_coe      = J2000_elements(body_id,:);
+        rates          = cent_rates(body_id,:);
 
         %...Convert from AU to km:
         au             = 149597871; 
@@ -222,4 +222,4 @@ parameters
         end %planetary_elements
         % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-end %planet_elements_and_sv
+end %body_elements_and_sv

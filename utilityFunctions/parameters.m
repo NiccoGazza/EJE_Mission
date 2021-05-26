@@ -1,3 +1,4 @@
+% Object identifiers :
 %    1 = Mercury
 %    2 = Venus
 %    3 = Earth
@@ -14,7 +15,7 @@
 
 addpath(genpath("../M_files_Curtis"));
 
-global mu radii distances T masses G AU aE_km pl_mu
+global mu radii distances T masses G AU J2000Europe aE_km pl_mu
 
     %Dati Europa da https://ssd.jpl.nasa.gov/?sat_elem#saturn
  
@@ -32,7 +33,7 @@ global mu radii distances T masses G AU aE_km pl_mu
     tildeomegaE =OmegaE + wE;
     LE = ME + tildeomegaE -360;
 
-    %centennial rates:
+   %centennial rates:
     dot_aE = 0;
     dot_eE =  0;
     dot_iE = 0;
@@ -41,7 +42,9 @@ global mu radii distances T masses G AU aE_km pl_mu
     dot_tildeomegaE = 360 /( PwE/100) + 360 / (PnodeE /100);
     dot_OmegaE = 101.3747242 * 365.25*100; % n  longitude rate [deg/day]2[degcy]
     dot_LE = dot_tildeomegaE + dot_OmegaE;
-    
+
+	J2000Europe =[aE ,eE,iE, RAE, w_hatE, LE];   
+ 	cent_ratEurope = [dot_aE, dot_eE, dot_iE, dot_RAE, dot_w_hatE, dot_LE]    
     
     	masses = 10^24 * [0.330104 %mercurio
                       4.86732 %venere
