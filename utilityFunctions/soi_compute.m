@@ -14,11 +14,11 @@ function [r_soi] = soi_compute(body_id, focus_id)
 %               10 = Europe 
 %               11 = Sun
     %% Constants
-    parameters
+    parameters;
     global distances masses 
      
 %% Algoritmo
-	if (body_id==10 && focus_id~=11 )
+	if (body_id==10 && focus_id~=5)
    		 disp('Computation not contemplated.');
 	else
     		r_soi = distances(body_id)*(masses(body_id)/masses(focus_id))^(2/5);
@@ -26,7 +26,6 @@ function [r_soi] = soi_compute(body_id, focus_id)
 	end
 end
 
-global r_soi
 
 	
 
