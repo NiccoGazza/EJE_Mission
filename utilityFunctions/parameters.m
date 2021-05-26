@@ -15,7 +15,7 @@
 
 addpath(genpath("../M_files_Curtis"));
 
-global mu radii distances T masses G AU J2000Europe aE_km pl_mu
+global mu radii distances T masses G AU  aE_km pl_mu
 
     %Dati Europa da https://ssd.jpl.nasa.gov/?sat_elem#saturn
  
@@ -96,5 +96,5 @@ global mu radii distances T masses G AU J2000Europe aE_km pl_mu
 		84.016846;	
 		164.79132] * Jy; % [s]                
     
-	pl_mu = G * masses ; %[km^3/s^2] e' un array. per estrarre il mu del planet_id =i, scrivo pl_mu[i]
+	pl_mu = G * masses ; %[km^3/s^2]
 

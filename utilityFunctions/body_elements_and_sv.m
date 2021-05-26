@@ -59,8 +59,8 @@ function [coe, r, v, jd] = body_elements_and_sv ...
 % User subfunctions required: planetary_elements
 
     %% Constants
-    global mu G masses aE eE iE RAE w_hatE LE
-    global dot_aE dot_eE dot_iE dot_RAE dot_w_hatE dot_LE
+    global mu G masses pl_mu
+   
     %parameters //PROBLEMA: SE parameters viene chiamato da una funzione 
     %che a sua volta chiama planet_elements_and_sv si genera un errore
     %dovuto alla chiamata annidata di parameters
@@ -68,7 +68,7 @@ function [coe, r, v, jd] = body_elements_and_sv ...
     %caricarlo solo se necessario
 	
        
-    pl_mu = G * masses(body_id); %[km^3/s^2]
+    pl_mu = G * masses; %[km^3/s^2]
 
     %% Algorithm
     
