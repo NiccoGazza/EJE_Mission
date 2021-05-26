@@ -39,43 +39,43 @@ function [delta_v, rp] = entrance_bodyEccentrity(body_id, vinf, varargin)
 %% Definizione input
 	parameters
 	validateattributes(vinf,{'double'},{'size',[1 3]})
-	global masses G pl_mu
-	pl_mu= G* masses (body_id); %[km^3/s^2]
+	global pl_mu
+	mu_p = pl_mu(body_id);
     
 %%Computations
 %traiettoria iperbolica:
     %calcolo del raggio al periasse dell'iperbole di ingresso che minimizza il delta-v:
     %(corrisponde al punto di manovra (rp della traiettoria iperbolica è uguale a rp dell'orbita di cattura -punto di manovra per rimanerci)
-r_soi = soi_compute(body_id);
-
+r_soi = soi_compute(body_id, 11); %da aggiustare!!!!
 if (varargin{1} == 'opt')   
 	ec = varargin{2}; 
-	rp =  (2*pl_mu/norm(vinf,2)^2)*((1-ec)/(1+ec)); %(Eq.8.67 Curtis)
-elseif (isa(varargin{1}, float) 
+	rp =  (2*mu_p/norm(vinf,2)^2)*((1-ec)/(1+ec)); %(Eq.8.67 Curtis)
+elseif (isa(varargin{1}, 'float')) 
 	if (varargin{1}> r_soi)
 		disp('Too far away to be held by the celestial body');
 	if(varargin{1}<radii(body_id))
 		disp('Orbit too small') ;
 	else
 		rp = varargin{1};
+    end
+    end
 end
-	
-	ei = 1 + rp*norm(vinf,2)^2/pl_mu; %eccentricità iperbole(Eq.8.53 Curtis)
+	ei = 1 + rp*norm(vinf,2)^2/mu_p; %eccentricità iperbole(Eq.8.53 Curtis)
 	%angolo di svolta /2 perchè la sonda compie metà della traiettoria iperbolica(quindi svolta a metà rispetto a un flyby)
 	half_turn = asin(1/ei);
 	%aiming radius 
-	h =rp*sqrt(norm(vinf,2)^2+2*pl_mu/rp);
-	Delta = (h^2/pl_mu)*(ei^2-1)^(-0.5);
+	h =rp*sqrt(norm(vinf,2)^2+2*mu_p/rp);
+	Delta = (h^2/mu_p)*(ei^2-1)^(-0.5);
 
     
     %raggio all'apoasse dell'orbita di cattura
     %ra = 2*mu_body/norm(vinf)^2;
     %velocity (scalare) della sonda nella traiettoria iperbolica nel
     %periasse
-    vp_hyp = sqrt(norm(vinf,2)^2 + 2*pl_mu/rp); 
+    vp_hyp = sqrt(norm(vinf,2)^2 + 2*mu_p/rp); 
     
     %velocity (scalare) dell'orbita di cattura nel periasse
-    vp_cap = sqrt (pl_mu*(1+ec)/rp);
+    vp_cap = sqrt (mu_p*(1+ec)/rp);
     
  %Delta-v delle manovre di entrata
     delta_v = vp_hyp - vp_cap;  
