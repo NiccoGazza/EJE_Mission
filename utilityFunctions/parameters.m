@@ -44,7 +44,7 @@ global mu radii distances T masses G AU J2000Europe aE_km pl_mu
     dot_LE = dot_tildeomegaE + dot_OmegaE;
 
 	J2000Europe =[aE ,eE,iE, RAE, w_hatE, LE];   
- 	cent_ratEurope = [dot_aE, dot_eE, dot_iE, dot_RAE, dot_w_hatE, dot_LE]    
+ 	cent_ratEurope = [dot_aE, dot_eE, dot_iE, dot_RAE, dot_w_hatE, dot_LE];    
     
     masses = 10^24 * [0.330104 %mercurio
                       4.86732 %venere

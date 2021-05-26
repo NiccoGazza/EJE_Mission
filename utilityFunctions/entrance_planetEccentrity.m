@@ -1,4 +1,4 @@
-function [delta_v, rp r_soi] = entrance_bodyEccentrity(body_id, vinf, varargin)
+function [delta_v, rp] = entrance_bodyEccentrity(body_id, vinf, varargin)
 
 %funzione che calcola l'iperbole di avvicinamento di una sonda di massa
 %1000kg in arrivo al pianeta identificato dal body_id e la fa rimanere in
@@ -30,11 +30,11 @@ function [delta_v, rp r_soi] = entrance_bodyEccentrity(body_id, vinf, varargin)
 %	ec = eccentricità desiderata dell'orbita di cattura 
 %       	ec = 0 orbita circolare
 %         		< 1 ellisse
-%	varargin{1} :input per definire l'altezza dell'orbita di cattura
+%	varargin{1} :primo input per definire l'altezza dell'orbita di cattura
 %			varargin = 'opt' la funzione fa i calcoli considerando il raggio al periasse che ottimizza le spese energetiche
 %			Alternativamente, a varargin viene assegnato un valore numerico per specificare il raggio al periasse desiderato.
 %			Qualunque sia la scelta dell'utente, la funzione riporta nuovamente il raggio al periasse (ci serve per richiamarla)
-%	varargin{2} : se viene scelto rp, questo ingresso non va inserito. Se si sceglie  'opt' , questo ingresso serve per specificare %			l'eccentricità desiderata dell'orbita di parcheggio.
+%	varargin{2} :secondo input, se viene scelto rp, questo ingresso non va inserito. Se si sceglie  'opt' , questo ingresso serve per specificare %			l'eccentricità desiderata dell'orbita di parcheggio.
 %   
 %% Definizione input
 	parameters

@@ -151,10 +151,8 @@ function [coe, r, v, jd] = body_elements_and_sv ...
         %{
           This function extracts a planet's J2000 orbital elements and
           centennial rates from Table 8.1.
-
           body_id      - 1 through 12, for Mercury through Pluto, plus
                            Vesta, Ceres and the Sun
-
           J2000_elements - 12 by 6 matrix of J2000 orbital elements for the nine
                            planets Mercury through Pluto, plus Vesta, Ceres
                            and the Sun. The columns of each 
@@ -166,7 +164,6 @@ function [coe, r, v, jd] = body_elements_and_sv ...
                                      node (degrees)
                              w_hat = longitude of perihelion (degrees)
                              L     = mean longitude (degrees)
-
           cent_rates     - 12 by 6 matrix of the rates of change of the 
                            J2000_elements per Julian century (Cy). Using "dot"
                            for time derivative, the columns of each row are:
@@ -176,12 +173,10 @@ function [coe, r, v, jd] = body_elements_and_sv ...
                              RA_dot    (deg/Cy)
                              w_hat_dot (deg/Cy)
                              Ldot      (deg/Cy)
-
           J2000_coe      - row vector of J2000_elements corresponding
                            to "body_id", with au converted to km
           rates          - row vector of cent_rates corresponding to
                            "body_id", with au converted to km              
-
           au             - astronomical unit (149597871 km)
         %}
         % --------------------------------------------------------------------
@@ -200,7 +195,7 @@ function [coe, r, v, jd] = body_elements_and_sv ...
         19.18916464  0.04725744  0.77263783  74.01692503 170.95427630  313.23810451
         30.06992276  0.00859048  1.77004347 131.78422574  44.96476227  -55.12002969 
 	39.48211675  0.24882730 17.14001206 110.30393684 224.06891629  238.92903833
-         aE		eE	     iE	        RAE	       w_hatE         LE   
+         0.004860642 0.0094	 0.466	    268.084	 357.0540      119.0920   
         0.006977376  0.26965557  1.55468744 103.66985200 326.77648848  229.63858632];
 
         %---- a --------- e -------- i -------- RA --------- w_hat ------- L ------
@@ -214,7 +209,7 @@ function [coe, r, v, jd] = body_elements_and_sv ...
         -0.00196176 -0.00004397 -0.00242939  0.04240589  0.40805281 	428.48202785 
          0.00026291  0.00005105  0.00035372 -0.00508664 -0.32241464 	218.45945325 
         -0.00031596  0.00005170  0.00004818 -0.01183482 -0.04062942 	145.20780515
-     	  dot_aE	dot_eE 	   dot_iE      dot_RAE	  dot_w_hatE	   dot_LE         
+     	 0	     0 	         0           1.4620e-04	 0.0059	          3.7297e+06         
          0.0         0.0         0.0         0.0         0.0              0.00000000]; 
 
         J2000_coe      = J2000_elements(body_id,:);
