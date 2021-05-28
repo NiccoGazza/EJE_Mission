@@ -1,4 +1,4 @@
-function  [delta_v, e, a, theta] = iperbole_uscita (V1, r_p, time)
+function  [delta_v, coe, theta] = iperbole_uscita (V1, r_p, time)
 %Questa funzione calcola le caratteristiche dell'iperbole di uscita dal SOI
 %del pianeta Terra fissata un orbita di parcheggio circolare di raggio 
 %r_p attorno alla Terra
@@ -46,6 +46,12 @@ e = 1 - r_p/a;                       %eccentricita' 
 betha = 1/e;                         %angolo di controllo iperbole di uscita
 theta = pi + betha;                  %argomento del perigeo
 %h = norm(cross(r_p, vel_f),2);      %modulo del momento angolare
-
+h = r_p * sqrt( v_inf^2 + 2 * (mu_t / r_p) );
+%% PRIMA PROVA: NON SO COME RICAVARE w E RA
+TA = 0;
+w = 0;
+RA = 0;
+incl = 23.5;
+coe = [h e RA incl w TA];
 end
 
