@@ -10,7 +10,7 @@ function deltav_fin = calcolo_deltav_EJE(t_jupiter)
 
 %dati preliminari 
 global mu mu_m mu_t       %costanti gravitazionali
-parameters
+%parameters
 mu = 132e9;               %SOLE
 mu_m = 42828;             %MARTE
 mu_t = 398600.4418;       %TERRA
@@ -37,7 +37,7 @@ time_lamb1 = (caldays(dt1))*24*3600; %in secondi
 [v_dep, v_mars_in] = lambert (R_earth, R_mars, time_lamb1);
 
 %iperbole di uscita
-[delta_vu, e_u, a_u, theta_u] = iperbole_uscita (v_dep, r_park, dep_time);
+[delta_vu, coe] = escape_hyp (v_dep, r_park, dep_time);
 delta_vu
 
 %% Traiettoria Marte-Terra
@@ -65,7 +65,7 @@ deltav_fb2
 
 %% Entrata in Giove 
 
-<<<<<<< HEAD
+%<<<<<<< HEAD
 v_infJ = v_sjupiter_in-V_jupiter;      %velocità relativa della sonda
 [deltav_ej, ~] = entrance_bodyEccentrity(5, v_infJ, 0);
 deltav_ej %entrata e parcheggio su Giove
@@ -81,21 +81,19 @@ deltav_ee  %entrata e parcheggio su Europa
 
 deltav_fin = delta_vu+ deltav_fb1 + delta_fb2 + deltav_ej + deltav_he + deltav_ee; % +deltav del cambio di piano orbitale (da equat. terra a eclittica)
 %inseriamo anche i deltav dei flyby , -uno dovrebbe <0 l'altro >0. vediamo se si compensano......
-=======
-v_infJ = v_jupiter_in-V_jupiter;      %velocità relativa della sonda
-[delta_ve] = entrance_bodyEccentrity(5, v_infJ, 'opt', 0);
-delta_ve
-
-%%Arrivo su Europa
-%Script load
-%jup2europe
-%[deltaV_h] = hohmann_transfer(5,10);
-%deltav_orb  %CHIEDERE
-
-%% TOT Delta velocità 
-
-deltav_fin = delta_vu+delta_ve %+ delta + deltaV_h + deltav_orb; % +deltav del cambio di piano orbitale (da equat. terra a eclittica)
->>>>>>> 401d04a99bea9159b617458f975fcb1a984a18fd
+% =======
+% v_infJ = v_jupiter_in-V_jupiter;      %velocità relativa della sonda
+% [delta_ve] = entrance_bodyEccentrity(5, v_infJ, 'opt', 0);
+% delta_ve
+% 
+% %%Arrivo su Europa
+% %Script load
+% %jup2europe
+% %[deltaV_h] = hohmann_transfer(5,10);
+% %deltav_orb  %CHIEDERE
+% 
+% %% TOT Delta velocità 
+% 
+% deltav_fin = delta_vu+delta_ve %+ delta + deltaV_h + deltav_orb; % +deltav del cambio di piano orbitale (da equat. terra a eclittica)
+% >>>>>>> 401d04a99bea9159b617458f975fcb1a984a18fd
 end                                
-
-
