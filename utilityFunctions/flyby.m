@@ -1,9 +1,9 @@
-function [deltav, e, a, delta, r_p] = flyby ( v1, V, v2, mu)
+function [deltav, deltav_inf e, a, delta, r_p] = flyby ( v1, V, v2, mu)
 % Questa funzione calcola i parametri dell'ipeebole di flyby e il deltav
 % dovuto alla manovra.
 % Grandezze in entrata:
 %   v1 = velocità della sonda in entrata al SOI del pianeta (da Lambert);
-%   V  = velocità del pianeta (da body_elements_and_sv);
+%   V  = velocità del pianeta (da planet_elements_and_sv);
 %   v2 = velocità in uscita da SOI del pianeta (da Lambert);
 %   mu = costante gravitazionele del pianeta
 %
@@ -25,5 +25,6 @@ r_p = (mu/((norm(v_inf1))^2))*(1/(sin(delta_rad/2))-1);
 e = 1+r_p *norm(v_inf1)^2/mu;
 a = r_p/(e-1);
 
-deltav = norm(v1,2) - norm(v2,2);
+deltav = norm((v_inf1-v_inf2),2); %norma del vettore differenza fra le v_inf
+deltav_inf = norm(v_inf1, 2) - norm(v_inf2, 2);%differenza delle norme (mi aspetto che sia prossima a 0)
 end
