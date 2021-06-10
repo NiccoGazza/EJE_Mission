@@ -37,7 +37,7 @@ function [delta_v, rp] = entrance_bodyEccentrity(body_id, vinf, varargin)
 %	varargin{2} :secondo input, se viene scelto rp, questo ingresso non va inserito. Se si sceglie  'opt' , questo ingresso serve per specificare %			l'eccentricità desiderata dell'orbita di parcheggio.
 %   
 %% Definizione input
-	parameters
+	parameters;
 	validateattributes(vinf,{'double'},{'size',[1 3]})
 	global pl_mu
 	mu_p = pl_mu(body_id);
