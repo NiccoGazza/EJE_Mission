@@ -1,3 +1,11 @@
+% EUROPE_RV loads official data about position and velocity of Europe, 
+% obtained through the NASA Horizons platform.
+% 
+%   data(1:3) - position [au]
+%   data(4:6) - velocity [au/day]
+% 
+% source: https://ssd.jpl.nasa.gov/horizons.cgi
+
 function data = europe_rv() 
 data = [ 
  -4.225204851500057E-03  1.455042973201096E-03 -2.034022111128900E-05 -2.525091728322702E-03 -7.551894429647147E-03 -2.459978554828741E-04
