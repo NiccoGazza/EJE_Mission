@@ -23,11 +23,11 @@ function [delta_v] = entrance_bodyPeriod(body_id, vinf, T)
 %               10 = Europe
 %               11 = Sun
 %
-%	vinf [m/s] = velocità di eccesso iperbolico in ingresso alla SOI del pianeta
+%    vinf [m/s] = velocita'� di eccesso iperbolico in ingresso alla SOI del pianeta
 %		target
-%		vinf = delta-v2helio (secondo impulso a fine fase eliocentrica -es. pag.431 Curtis) 
+%		vinf = delta - v2helio (secondo impulso a fine fase eliocentrica -es. pag.431 Curtis) 
 %
-%	T [s] = periodo dell'orbita di cattura 
+%    T [s] = periodo dell'orbita di cattura 
 %       	
 %% Definizione input
     validateattributes(vinf,{'double'},{'size',[1 3]})
@@ -60,7 +60,7 @@ function [delta_v] = entrance_bodyPeriod(body_id, vinf, T)
     %beta angolo tra il periasse e velocità del pianeta
         % beta= acos(1/(1+rp*vinf^2/mu_body));
 
-  %parametri traiettoria iperbolica:
+    %parametri traiettoria iperbolica:
     %raggio al periasse dell'iperbole di ingresso che minimizza il delta-v:
     %(corrisponde al punto di manovra (rp della traiettoria iperbolica è uguale a rp dell'orbita di cattura -punto di manovra per rimanerci)
     rp =  (2*mu_body/norm(vinf)^2)*((1-ec)/(1+ec)); %(Eq.8.67 Curtis)
@@ -72,7 +72,7 @@ function [delta_v] = entrance_bodyPeriod(body_id, vinf, T)
 	h =rp*sqrt(vinf^2+2*mu_body/rp);
 	Delta = (h^2/mu_body)*(ei^2-1)^(-0.5);
     
- %Minimo Delta-v per il piazzamento della sonda sull'orbita
+    %Minimo Delta-v per il piazzamento della sonda sull'orbita
     delta_v = vp_hyp - vp_cap;
     
 

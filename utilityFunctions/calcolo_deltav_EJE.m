@@ -15,14 +15,10 @@ mu = 132e9;               %SOLE
 mu_m = 42828;             %MARTE
 mu_t = 398600.4418;       %TERRA
 
-y = year(t_jupiter);
-m = month(t_jupiter);
-d = day(t_jupiter);
-
 r_park = 200;
 
 %scelta dei tempi
-dep_time = datetime(2024, 10, 1);   %partenza
+dep_time = datetime(2024, 10, 17);   %partenza
 t_mars = datetime (2025, 2, 1);     %arrivo su Marte per il Flyby 
 t_earth2 = datetime(2026, 12, 1);   %arrivo su Terra per il Flyby
 
@@ -30,7 +26,7 @@ t_earth2 = datetime(2026, 12, 1);   %arrivo su Terra per il Flyby
 
 dt1 = between(dep_time, t_mars, 'Days');  %numero di giorni fra le due date
 
-[~, R_earth, V_earth, ~] = body_elements_and_sv (3, 2024, 10, 1, 0, 0 ,0);
+[~, R_earth, V_earth, ~] = body_elements_and_sv (3, 2024, 10, 17, 0, 0 ,0);
 [~, R_mars, V_mars, ~] = body_elements_and_sv (4, 2025, 2, 1, 0, 0 ,0);
 
 time_lamb1 = (caldays(dt1))*24*3600; %in secondi
@@ -54,6 +50,9 @@ deltav_fb1
 %% Traiettoria Terra-Giove
 
 dt3 = between (t_earth2, t_jupiter, 'Days');
+y = year(t_jupiter);
+m = month(t_jupiter);
+d = day(t_jupiter);
 
 [~, R_jupiter, V_jupiter, ~] = body_elements_and_sv (5, y, m, d, 0, 0 ,0);
 time_lamb2 = (caldays(dt3))*24*3600; %in secondi
@@ -66,7 +65,7 @@ deltav_fb2
 %% Entrata in Giove 
 
 %<<<<<<< HEAD
-v_infJ = v_sjupiter_in-V_jupiter;      %velocità relativa della sonda
+v_infJ = v_jupiter_in-V_jupiter;      %velocità relativa della sonda
 [deltav_ej, ~] = entrance_bodyEccentrity(5, v_infJ, 0);
 deltav_ej %entrata e parcheggio su Giove
 

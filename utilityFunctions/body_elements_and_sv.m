@@ -69,7 +69,7 @@ function [coe, r, v, jd] = body_elements_and_sv ...
     %caricarlo solo se necessario
 	
        
-    pl_mu = G * masses; %[km^3/s^2]
+    %pl_mu = G * masses; %[km^3/s^2]
 
     %% Algorithm
     

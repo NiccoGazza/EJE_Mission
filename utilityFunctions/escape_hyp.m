@@ -1,60 +1,71 @@
-function  [vel_f, delta_v, coe, theta] = escape_hyp (V1, r_park, time)
+function  [delta_v, coe] = escape_hyp (body_id, V1, r_park, ...
+                                              dep_time, incl)
 %Questa funzione calcola le caratteristiche dell'iperbole di uscita dal SOI
 %del pianeta Terra fissata un orbita di parcheggio circolare di raggio 
 %r_p attorno alla Terra
 %
 %   input:
-%   V1 = velocita' eliocentrica della sonda all'uscita della SOI
-%   time = data di partenza dell'orbita di Lambert dati come vettore 'datetime'
-%   r_park = raggio dell'orbita di parcheggio
+%   V1 = velocita' eliocentrica della sonda all'uscita della SOI    [km/s]
+%   time = data di inizio trasferimento interplanetario          [datetime]
+%   r_park = raggio dell'orbita di parcheggio                       [km]
+%   incl = inclinazione dell'orbita iperbolica di uscita rispetto al piano 
+%          equatoriale del pianeta                                  [deg] 
 
 %   output:
 %   delta_v = deltaV necessario per entrare nell'iperbole di uscita
 %   e       - eccentricita'  (magnitude of E)
 %   a       - semiasse maggiore (km)
 %   theta   - angolo di partenza della sonda rispetta all'asse X terrestre
+    %% Definizione input
+    validateattributes(V1,{'double'},{'size',[1 3]})
+    
+    global pl_mu radii %Costanti globali (contenuti in parameters.m)
+    global mu_p R      %Parametri che dipendono da costanti globali  
+    
+    global r_soi r_p v_park v_hyp  %variabili necessarie per il plot
+    
+    mu_p = pl_mu(body_id); %(km^3/s^2)
+    R  = radii(body_id); 
+    r_soi = soi_compute(body_id, 11); %11: SUN
+    r_p = R + r_park;
+    
+    if(r_p > r_soi)
+        disp('Periapsis radius bigger than SOI of the body chosen')
+        return
+    end
+ 
+    % calcolo velocita' di eccesso iperbolico in uscita da SOI
+    y = year(dep_time);
+    m = month(dep_time);
+    d = day(dep_time);
+    
+    [~, ~, v, ~] = body_elements_and_sv (body_id, y, m, d, 0, 0, 0); 
+                                                                 
+    v_inf = norm((V1-v),2);                                                                    
 
-%parametri orbitali 
-global G masses radii
-parameters
-mu_t = G * masses(3); %(km^3/s^2)
-R  = radii(3); %raggio terra
+    %velocita'  e delta v
+    v_park = sqrt(mu_p/r_p);                    %velocita' di parcheggio
+    v_hyp = sqrt(2*(mu_p)/r_p + (v_inf)^2);     %velocita' di ingresso nell'iperbole
 
-% calcolo velocita'  in uscita da SOI
-y = year(time);
-m = month(time);
-d = day(time);
-[~, ~, v, ~] = body_elements_and_sv (3, y, m, d, 0, 0, 0); %v velocita'  della terra 
-                                                             %nel sistema eliocentrico
-v_inf = norm((V1-v),2);                                      %velocita'  fuori da SOI                                
+    delta_v = abs(v_hyp - v_park);                         
 
-
-%velocita'  e delta v
-vel_p = sqrt(mu_t/(r_park + R));                    %velocita' di parcheggio
-vel_f = sqrt(2*(mu_t)/(r_park + R)+ (v_inf)^2);     %velocita' di ingresso nell'iperbole
-
-delta_v = vel_f - vel_p;                         
-
-
-%iperbole dati caratteristici rispetto a un sistema di riferimento 
-%geocentrico equatoriale con asse y diretto nella direzione della velocita'  
-%della Terra
-
-a = - mu_t/((v_inf)^2);             %semiasse maggiore 
-e = 1 - (R + r_park)/a;                %eccentricita'  
-beta = 1/e;                         %(manca asin?) angolo di controllo iperbole di uscita
-theta = pi + beta;                  %argomento del perigeo
-h = r_park * sqrt( v_inf^2 + 2 * (mu_t / r_park) );%modulo del momento angolare
-% e = 1 + ((R + r_p) * v_inf^2)/mu_t;
-% h = (r_p + R) * vel_f;
-% beta = acos(1/e);   %rad
-% a = (r_p + R) / (e - 1);
-% theta = pi + beta; %rad
-%% RESTITUISCO COE RELATIVI A SDR PERIFOCALE
-TA = 0;
-w = 0;
-RA = 0;
-incl = 0;
-coe = [h e RA incl w TA a beta];
+    a = - mu_p / (v_inf^2);                              %semiasse maggiore  
+    e = 1 - r_p / a;                                     %eccentricita'  
+    beta = 1/e;                         %(manca asin?) angolo di controllo iperbole di uscita
+    theta = pi + beta;                          %argomento del perigeo
+    h = r_p * v_hyp;                            %modulo del momento angolare
+    % e = 1 + ((R + r_p) * v_inf^2)/mu_t;
+    % h = (r_p + R) * vel_f;es
+    % beta = acos(1/e);   %rad
+    % a = (r_p + R) / (e - 1);
+    % theta = pi + beta; %rad
+    %% RESTITUISCO COE RELATIVI A SDR PERIFOCALE
+    TA = 0;
+    w = 0;
+    RA = 0;
+    coe = [h e RA incl w TA a];
+    
+    %% HYPERBOLA PLOT
+    escape_hyp_plot(incl)
 end
 

@@ -1,6 +1,6 @@
 function [epsilon, t, dv, r] = iterazione_flyby(t1, t2)
 % Questa funzione trova una data di partenza per Lambert pre Flyby su terra in modo
-% da far coincidere le velocitÃ  relative di entrata e uscita.
+% da far coincidere le velocità relative di entrata e uscita.
 %
 %  Dati in igresso:
 %      t1 - data del Fly_by (fissata) su Terra
@@ -41,7 +41,7 @@ t_volo = (caldays(dt))*24*3600;
 [v_dep, ~] = lambert (r_earth, r_jupiter, t_volo);
 %v_dep = [v_dep(1), v_dep(2)];
 
-%Valutazione della velocitÃ  relativa post Flyby su Terra
+%Valutazione della velocità relativa post Flyby su Terra
 
 modul_vout = norm((v_dep-v_earth),2);
 
@@ -71,7 +71,7 @@ while n~=730
     [~, v2] = lambert (r_mars, r_earth, t_lam);
     %v2 = [v2(1), v2(2)];
     
-    %Valutazione velocitÃ  relativa post Flyby rispetto alla Terra
+    %Valutazione velocità relativa post Flyby rispetto alla Terra
     modul_vin = norm((v2-v_earth),2);
     
     %Se modul_vin e modul_vout sono comparabili posso considerare fattibile
@@ -83,7 +83,7 @@ while n~=730
         [deltav,~, ~, ~, ~, r_p] = flyby ( v2, v_earth, v_dep, pl_mu(3));
         
         %Aggiornamento delle variabili alla data che approssima in moglior
-        %modo le condizioni del Flyby sulle velocitÃ  relative        
+        %modo le condizioni del Flyby sulle velocità relative        
         if r_p > 150
                 t=[t, t0];
                 dv=[dv, deltav];
@@ -94,8 +94,6 @@ while n~=730
     n = n+1;
 end
 end
-
-
   
    
   

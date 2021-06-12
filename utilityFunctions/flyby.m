@@ -1,4 +1,4 @@
-function [deltav, deltav_inf e, a, delta, r_p] = flyby ( v1, V, v2, mu)
+function [deltav, deltav_inf, e, a, delta, r_p] = flyby ( v1, V, v2, mu)
 % Questa funzione calcola i parametri dell'ipeebole di flyby e il deltav
 % dovuto alla manovra.
 % Grandezze in entrata:
@@ -9,22 +9,28 @@ function [deltav, deltav_inf e, a, delta, r_p] = flyby ( v1, V, v2, mu)
 %
 % Grandezze in uscita:
 %   deltav = accelerazione dovuta al flyby;
-%   e      = eccemtricit√† dell'iperbole di flyby;
+%   e      = eccemtricita'† dell'iperbole di flyby;
 %   a      = semiasse maggiore dell'iperbole di flyby;
 %   delta  = angolo caratteristico di flyby;
 %   r_p    = raggio del periasse dell'iperbole di flyby;
-%
 
-v_inf1 = v1 - V;
-v_inf2 = v2 - V;
+    v_inf1 = v1 - V;
+    v_inf2 = v2 - V;
 
-delta_rad = acos(dot(v_inf1, v_inf2)/(norm(v_inf1)*norm(v_inf2)));
-delta = rad2deg (delta_rad);
-r_p = (mu/((norm(v_inf1))^2))*(1/(sin(delta_rad/2))-1);
+    delta_rad = acos(dot(v_inf1, v_inf2)/(norm(v_inf1)*norm(v_inf2)));
+    delta = rad2deg (delta_rad);
+    r_p = (mu / ((norm(v_inf1))^2))*(1 / (sin(delta_rad/2)) - 1);
 
-e = 1+r_p *norm(v_inf1)^2/mu;
-a = r_p/(e-1);
+    e = 1+ (r_p * norm(v_inf1)^2) / mu;
+    a = r_p / (e-1);
+
+%ASSERT
+%     if( norm(v_inf1) ~= norm(v_inf2) )
+%         disp('ERRORE: LE v_inf HANNO MODULO DIVERSO');
+%         return;
+%     end
 
 deltav = norm((v_inf1-v_inf2),2); %norma del vettore differenza fra le v_inf
 deltav_inf = norm(v_inf1, 2) - norm(v_inf2, 2);%differenza delle norme (mi aspetto che sia prossima a 0)
 end
+
