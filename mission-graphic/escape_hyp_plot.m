@@ -1,4 +1,4 @@
-function escape_hyp_plot(incl)
+function escape_hyp_plot(body_id, incl)
 %escape_hyp_plot plotta l'iperbole di uscita partendo da un'orbita di
 %parcheggio. L'orbita è inclinata di incl; si assume che
 %l'orbita di parcheggio dalla quale avviene il cambio sia anch'essa
@@ -130,7 +130,6 @@ v_at_rmin   = norm([y(imin,4) y(imin,5) y(imin,6)]);
  
 %...Output to the command window:
 fprintf('\n\n--------------------------------------------------------\n')
-fprintf('\n Earth Orbit\n')
 fprintf(' %s\n', datestr(now))
 fprintf('\n The initial position is [%g, %g, %g] (km).',...
                                                      r0(1), r0(2), r0(3))
@@ -149,24 +148,28 @@ fprintf('\n--------------------------------------------------------\n\n')
  
 %...Plot the results:
 %   Draw the planet
-[xx, yy, zz] = sphere(100);
-surf(R*xx/1.5, R*yy/1.5, R*zz/1.5)
-colormap(light_gray)
-caxis([-R/100 R/100])
-shading interp
+% [xx, yy, zz] = sphere(100);
+% surf(R*xx/1.5, R*yy/1.5, R*zz/1.5)
+% colormap(light_gray)
+% caxis([-R/100 R/100])
+% shading interp
+fig = gca;
+fig.Color = [0, 0.1686, 0.4196];
+fig.GridColor = [0.9020, 0.9020, 0.9020];
+obj_pos = [0, 0, 0]; %plotto il pianeta nell'origine, dal momento che 
+                     %utilizziamo un s.d.r. planetocentrico
+
+body_sphere(body_id, obj_pos);
+grid on
+grid minor
+
  
 %   Draw and label the X, Y and Z axes
 line([0 2*R/1.5],   [0 0],   [0 0]); text(2*R/1.5,   0,   0, 'X')
 line(  [0 0], [0 2*R/1.5],   [0 0]); text(  0, 2*R/1.5,   0, 'Y')
 line(  [0 0],   [0 0], [0 2*R/1.5]); text(  0,   0, 2*R/1.5, 'Z')
 hold on 
-%   Plot the orbit, draw a radial to the starting point
-%   and label the starting point (o) and the final point (f)
-% hold on
-% plot3(  y(:,1),    y(:,2),    y(:,3),'k')
-% line([0 r0(1)], [0 r0(2)], [0 r0(3)])
-% text(   y(1,1),    y(1,2),    y(1,3), 'o')
-% text( y(end,1),  y(end,2),  y(end,3), 'f')
+
   
 %   Specify some properties of the graph
 grid on
@@ -177,8 +180,10 @@ xlabel('km')
 ylabel('km')
 zlabel('km')
 view( [15 , 9] )
-h = animatedline('Color', 'b');
+h = animatedline('Color', [1, 0.93333, 0]);
 
+
+pause();
 for k = 1:size(y,1)
     if(k ~= 1)
         delete(sonda)

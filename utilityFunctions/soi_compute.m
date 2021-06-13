@@ -14,7 +14,6 @@ function [r_soi] = soi_compute(body_id, focus_id)
 %               10 = Europe 
 %               11 = Sun
     %% Constants
-    parameters;
     global distances masses 
      
 %% Algoritmo

@@ -141,7 +141,7 @@ function [coe, r, v, jd] = body_elements_and_sv ...
             % Setting position, velocity, coe
             r = au2km * europe_data(t,1:3);
             v = auday2kms * europe_data(t,4:6);
-            coe = coe_from_sv(r,v,pl_mu);
+            coe = coe_from_sv(r, v, pl_mu(10));
 
         end
 

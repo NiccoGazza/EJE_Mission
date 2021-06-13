@@ -37,7 +37,7 @@ t1_con = datetime(datenum(t0) + delta_T_h);
                 (10, year(t1), month(t1), day(t1), hour(t1), minute(t1), second(t1));
 
 v_infe= v_seurope - V_europe;
-h_park =100; [km] %altezza finale della sonda dalla superficie di europa
+h_park =100; %[km] %altezza finale della sonda dalla superficie di europa
 r_orb = h_park + radii(10);   
   
 [deltav_ee, ~] = entrance_planetEccentrity(10, vinf, r_orb); % orbita circolare all'arrivo su Europa

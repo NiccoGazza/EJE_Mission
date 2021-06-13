@@ -5,8 +5,8 @@
 function y = change_orbital_plane
     %% PARKING ORBIT
     global pl_mu radii 
-    %parameters;
     global y
+    
     mu_obj = pl_mu(3);
     R = radii(3);
     r_park = 200; %E' fissato dalle specifiche di progetto
@@ -144,14 +144,23 @@ fprintf('\n--------------------------------------------------------\n\n')
  
 %...Plot the results:
 %   Draw the planet
-[xx, yy, zz] = sphere(100);
-%NOTA: riduco le dimensioni della Terra di 1.5 soltanto per rendere la
-%traiettoria più visibile
-surf(R*xx/1.5, R*yy/1.5, R*zz/1.5)
-colormap(light_gray)
-caxis([-R/100 R/100])
-shading interp
- 
+% [xx, yy, zz] = sphere(100);
+% %NOTA: riduco le dimensioni della Terra di 1.5 soltanto per rendere la
+% %traiettoria più visibile
+% surf(R*xx/1.5, R*yy/1.5, R*zz/1.5)
+% colormap(light_gray)
+% caxis([-R/100 R/100])
+% shading interp
+%fig = set(gca, 'Color', [0, 0.1686, 0.4196]);
+fig = gca;
+fig.Color = [0, 0.1686, 0.4196];
+fig.GridColor = [0.9020, 0.9020, 0.9020];
+obj_pos = [0, 0, 0];
+body_sphere(3, obj_pos);
+grid on
+grid minor
+
+
 %   Draw and label the X, Y and Z axes
 line([0 2*R/1.5],   [0 0],   [0 0]); text(2*R/1.5,   0,   0, 'X')
 line(  [0 0], [0 2*R/1.5],   [0 0]); text(  0, 2*R/1.5,   0, 'Y')
@@ -165,8 +174,9 @@ axis equal
 xlabel('km')
 ylabel('km')
 zlabel('km')
-view( [128 , 28] )
-h = animatedline('Color', 'b');
+%view( [128 , 28] )
+view( [158, 26] )
+h = animatedline('Color', [1, 0.93333, 0]);
 
 for k = 1:size(y,1)
     if(k ~= 1)

@@ -1,5 +1,6 @@
-function jupiter_graph(body_id, y, linewidth)
-% funzione che plotta l'orbita del corpo celeste grazie al calcolo iterativo del vettore posizione e velocit√† di esso durante il suo periodo di rivoluzione  
+function orbit_graph(body_id, y, linewidth)
+% funzione che plotta l'orbita del corpo celeste grazie al calcolo iterativo
+% del vettore posizione e velocita'† di esso durante il suo periodo di rivoluzione  
 %
 %   body_id   - celestial body identifier:
 %                1 = Mercury
@@ -11,12 +12,9 @@ function jupiter_graph(body_id, y, linewidth)
 %                7 = Uranus
 %                8 = Neptune
 %                9 = Pluto
-%               10 = Europe
-%               11 = Sun
 %
 %   y    - year considered
 
-addpath(genpath("../utilityFunctions"));
     %periodo di ogni corpo celeste espresso in giorni terrestri (durata di un periodo di rivoluzione del corpo attorno al proprio fuoco)
     period = [88 
             225 
@@ -26,9 +24,7 @@ addpath(genpath("../utilityFunctions"));
             10748 
             30666 
             60148 
-            90560 
-            3.551181041 
-            25];
+            90560];
         
     colors = ["g"          %green
               "m"          %magenta
@@ -38,9 +34,7 @@ addpath(genpath("../utilityFunctions"));
               "#7E2F8E"    %purple
               "#4DBEEE"    %darker cyan
               "c"          %(bright) cyan
-              "#D95319"    %orange
-              "#77AC30"    %darker green
-              "#D95319"];  %orange, not visible due to Sun orbit dimensions
+              "#D95319"];    %orange
  	
           %Starting position at 1/1
     [~, r0, v0, ~] = body_elements_and_sv(body_id,y,1,1,0,0,0);

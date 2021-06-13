@@ -66,6 +66,6 @@ function  [delta_v, coe] = escape_hyp (body_id, V1, r_park, ...
     coe = [h e RA incl w TA a];
     
     %% HYPERBOLA PLOT
-    escape_hyp_plot(incl)
+    escape_hyp_plot(body_id, incl)
 end
 
