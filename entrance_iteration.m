@@ -5,12 +5,12 @@ function [t, dv, r_p, v_lam] = entrance_iteration(t1, e)
 %
 %   Dati in ingresso:
 %       t1  - Data di arrivo su Giove
-%       e   - eccentricita'  desiderata per l'orbita di parcheggio su Giove
+%       e   - eccentricita' desiderata per l'orbita di parcheggio su Giove
 %
 %   Dati in uscita:
 %       t   - Data di partenza dalla Terra
-%       dv  - Variazione ottima di velocita'  richiesta per la manovra di parcheggio
-%       r_p   - Raggio dell'orbita di parcheggio
+%       dv  - Variazione ottima di velocita' richiesta per la manovra di parcheggio
+%       r_p - Raggio dell'orbita di parcheggio
 %
 
 %% Posizione di Giove
