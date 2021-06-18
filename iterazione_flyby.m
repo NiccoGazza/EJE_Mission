@@ -1,4 +1,4 @@
-function [epsilon, t, dv, r] = iterazione_flyby(t1, t2)
+function [t, dv, r, v_dep, v_arr] = iterazione_flyby(t1, t2)
 % Questa funzione trova una data di partenza per Lambert pre Flyby su terra in modo
 % da far coincidere le velocità relative di entrata e uscita.
 %
@@ -10,13 +10,13 @@ function [epsilon, t, dv, r] = iterazione_flyby(t1, t2)
 %      t       - tempo plausibile di partenza da planet_id0 per il Lambert pre
 %                Fly-by (nominal value = 0)
 %      dv      - deltav del Fly-by su planet_id1 (nominal value = 1)
-%      epsilon - differenza fra i due moduli delle v infinito (nomianal
+%      epsilon - differenza fra i due moduli delle v infinito (nominal
 %                value = 1)
 %      r       - raggio al periasse dell'iperbole di Flyby
 
 
 %inizializzazione
-global pl_mu
+global radii 
  
 %% TRAGITTO TERRA-GIOVE
 
@@ -37,27 +37,27 @@ d2 = day(t2);
 
 %Lambert fra Terra e Giove
 dt = between (t1, t2, 'Days');
-t_volo = (caldays(dt))*24*3600;
+t_volo = (caldays(dt)) * 24 * 3600;
 [v_dep, ~] = lambert (r_earth, r_jupiter, t_volo);
 %v_dep = [v_dep(1), v_dep(2)];
 
 %Valutazione della velocità relativa post Flyby su Terra
+norm_vout = norm( (v_dep - v_earth) , 2);
 
-modul_vout = norm((v_dep-v_earth),2);
-
+v_arr = [];
 %% TRAGITTO MARTE-TERRA
 
 %Inizializzazione dati dell'iterazione
-t0 = datetime(2023, 6, 1);
-n=0;
-toll = 0.05;
-t= datetime(2010, 1, 1);
-dv=0;
-epsilon=toll;
-r=0;
+t0 = datetime(2024, 1, 1);
+n = 0;
+toll = 1.5;
+t = [];
+dv = [];
+epsilon = toll;
+r = [];
 
 %Scandaglio due anni
-while n~=730 
+while n ~= 730 
     y = year(t0);
     m = month(t0);
     d = day(t0);
@@ -67,27 +67,26 @@ while n~=730
     
     %Lambert fra Marte e Terra
     dt1 = between (t0, t1, 'Days');
-    t_lam = (caldays(dt1))*24*3600;
+    t_lam = (caldays(dt1)) * 24 * 3600;
     [~, v2] = lambert (r_mars, r_earth, t_lam);
     %v2 = [v2(1), v2(2)];
-    
     %Valutazione velocità relativa post Flyby rispetto alla Terra
-    modul_vin = norm((v2-v_earth),2);
+    norm_vin = norm( (v2 - v_earth) , 2);
     
-    %Se modul_vin e modul_vout sono comparabili posso considerare fattibile
+    %Se norm_vin e norm_vout sono comparabili posso considerare fattibile
     %il Flyby su Terra
-    diff = abs(modul_vout-modul_vin);
+    diff = abs(norm_vout - norm_vin);
     
-    if diff<toll 
+    if diff < toll 
         %FLYBY
-        [deltav,~, ~, ~, ~, r_p] = flyby ( v2, v_earth, v_dep, pl_mu(3));
-        
-        %Aggiornamento delle variabili alla data che approssima in moglior
+        [deltav, ~, ~, ~, ~, r_p] = flyby (3, v2, v_earth, v_dep);
+        %Aggiornamento delle variabili alla data che approssima in miglior
         %modo le condizioni del Flyby sulle velocità relative        
-        if r_p > 150
-                t=[t, t0];
-                dv=[dv, deltav];
-                r = [r, r_p];
+        if r_p > radii(3) + 150 %Distanza di sicurezza: 150km
+            t = [t; t0];
+            dv = [dv; deltav];
+            r = [r; r_p];
+            v_arr = [v_arr; v2];         
         end
     end
     t0 = t0+1;

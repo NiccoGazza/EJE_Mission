@@ -1,7 +1,7 @@
 function [r_soi] = compute_soi(body_id, focus_id)
 %funzione che calcola il raggio della sfera di influenza del corpo celeste dato in ingresso secondo body_id, rispetto al corpo principale focus_id
 % [km]
-% body_id - body identifier:
+% body_id, focus_id - body identifier:
 %                1 = Mercury
 %                2 = Venus
 %                3 = Earth
@@ -17,11 +17,10 @@ function [r_soi] = compute_soi(body_id, focus_id)
     global distances masses 
      
 %% Algoritmo
-	if (body_id==10 && focus_id~=5)
-   		 disp('Computation not contemplated.');
-	else
-    		r_soi = distances(body_id)*(masses(body_id)/masses(focus_id))^(2/5);
-        
+	if (body_id == 10 && focus_id ~= 5)
+   		disp('Computation not contemplated.');
+    else
+        r_soi = distances(body_id)*(masses(body_id)/masses(focus_id))^(2/5);     
 	end
 end
 

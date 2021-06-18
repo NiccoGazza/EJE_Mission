@@ -1,4 +1,4 @@
-function [delta_v] = capture_hyp(body_id, V2, arr_time, varargin)
+function [delta_v, r_p] = capture_hyp(body_id, V2, arr_time, varargin)
 %funzione che calcola l'iperbole di avvicinamento di una sonda di massa
 %in arrivo al pianeta identificato dal body_id e la fa rimanere in
 %orbita attorno ad esso ad una distanza rp (distanza che ottimizza l'uso
@@ -79,7 +79,7 @@ function [delta_v] = capture_hyp(body_id, V2, arr_time, varargin)
             %IN QUESTO CASO E' NECESSARIO SPECIFICARE ANCHE
             %L'ECCENTRICITA'!!
             r_p = varargin{1};
-            e_park = 0.5;
+            e_park = 0.4;
             
             %NOTA: se viene fissato r_p, l'eccentricità risulta fissata
             e_hyp = 1 + (r_p * v_inf^2) / mu_p;
@@ -105,6 +105,6 @@ function [delta_v] = capture_hyp(body_id, V2, arr_time, varargin)
     delta_v = abs(v_hyp - v_park);  
     
     %% HYPERBOLA PLOT
-    capture_hyp_plot(body_id);
+    %capture_hyp_plot(body_id);
 
 end

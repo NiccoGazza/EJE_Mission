@@ -44,7 +44,7 @@ theta = acos(dot(R1,R2)/r1/r2);
 %...Determine whether the orbit is prograde or retrograde:
 if nargin < 4 || (~strcmp(string,'retro') & (~strcmp(string,'pro')))
     string = 'pro';
-    fprintf('\n ** Prograde trajectory assumed.\n')
+    %fprintf('\n ** Prograde trajectory assumed.\n')
 end
  
 if strcmp(string,'pro')
