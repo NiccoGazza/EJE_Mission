@@ -28,9 +28,7 @@
 %body = true;
 
 function [deltaV_h, deltaT_h] = hohmann_transfer(dep_body, arr_body , varargin )
-    global mu distances 
-    parameters; 
-    
+    global mu distances     
     %prelevo i dati di interesse 
 	if (arr_body == 10 || dep_body == 10)
 		%body= false;

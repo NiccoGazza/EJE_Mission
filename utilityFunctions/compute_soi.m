@@ -1,4 +1,4 @@
-function [r_soi] = soi_compute(body_id, focus_id)
+function [r_soi] = compute_soi(body_id, focus_id)
 %funzione che calcola il raggio della sfera di influenza del corpo celeste dato in ingresso secondo body_id, rispetto al corpo principale focus_id
 % [km]
 % body_id - body identifier:

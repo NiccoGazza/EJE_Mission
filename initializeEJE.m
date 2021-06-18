@@ -17,10 +17,10 @@
 %% Genero i percorsi per tutte le funzioni
 addpath(genpath("M_files_Curtis"));
 addpath(genpath("utilityFunctions"));
-addpath(genpath("mission-graphic"));
+addpath(genpath("animationFunctions"));
 
 %% Variabili Globali
-global mu radii distances T masses G AU  pl_mu  
+global mu radii distances T masses G AU  pl_mu incl_body 
 
 G = 6.6742e-20; %[km^3/kg/s^2]
 Jy = 31557600; % [s], corrisponde a 365.25 d
@@ -51,11 +51,11 @@ mu = 1.327565122000000e+11; % [km^3/s^2] //PARAMETRO MU DEL SOLE
              1560.8     %europa  	
              695508] ;  %sole;                  %[km] 
 
-	distances = [57909227   %mercurio
-                 108209475  %venere
+	distances = [57909175   %mercurio
+                 108208930  %venere
                  149598262  %terra
-                 227943824  %marte
-                 778340821  %giove 
+                 227936640  %marte
+                 778412010  %giove 
                  1426666422 %saturno
                  2870658186 %urano
                  4498396441 %nettuno
@@ -69,7 +69,29 @@ mu = 1.327565122000000e+11; % [km^3/s^2] //PARAMETRO MU DEL SOLE
 		11.862615;	
 		29.447498;	
 		84.016846;	
-		164.79132] * Jy; % [s]                
+		164.79132] * Jy; % [s] 
+    
+    incl_body = [ 0.0;	
+                  177.3;
+                  23.45;
+                  25.19;
+                  3.12;
+                  26.73;
+                  97.86;
+                  29.58]; %[deg] : rappresenta l'inclinazione ASSIALE, ovvero
+                          %        l'inclinazione dell'asse di rotazione
+                          %        rispetto alla perpendicolare al piano
+                          %        orbitale. Viene utilizzata nel plot
+                          %        delle manovre orbitali, dal momento che
+                          %        si sceglie come sdr planetocentrico
+                          %        quello equatoriale. Avendo inoltre i
+                          %        pianeti di interesse un'inclinazione
+                          %        trascurabile dell'orbita rispetto
+                          %        all'eclittica (ordine di circa 1°),
+                          %        questi valori possono essere visti anche
+                          %        come inclinazioni rispetto all'equatore
+                          %        celeste.
+                    
     
 	pl_mu = G * masses ; %[km^3/s^2]
 

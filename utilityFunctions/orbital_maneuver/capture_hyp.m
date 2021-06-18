@@ -1,6 +1,6 @@
 function [delta_v] = capture_hyp(body_id, V2, arr_time, varargin)
 %funzione che calcola l'iperbole di avvicinamento di una sonda di massa
-%1000kg in arrivo al pianeta identificato dal body_id e la fa rimanere in
+%in arrivo al pianeta identificato dal body_id e la fa rimanere in
 %orbita attorno ad esso ad una distanza rp (distanza che ottimizza l'uso
 %di carburante) 
 %ATT. questa funzione non permette di scegliere il raggio al periasse
@@ -27,10 +27,10 @@ function [delta_v] = capture_hyp(body_id, V2, arr_time, varargin)
 %   e = 0 orbita circolare
 %       < 1 orbita ellittica
 %	varargin{1}: primo input per definire l'altezza dell'orbita di cattura
-%			varargin = 'opt' la funzione calcola il raggio al periasse che
-%			ottimizza il deltaV
-%			Alternativamente, a varargin viene assegnato un valore numerico per specificare il raggio al periasse desiderato.
-%			Qualunque sia la scelta dell'utente, la funzione riporta nuovamente il raggio al periasse (ci serve per richiamarla)
+%       varargin = 'opt' la funzione calcola il raggio al periasse che
+%		ottimizza il deltaV
+%		Alternativamente, a varargin viene assegnato un valore numerico per specificare il raggio al periasse desiderato.
+%		Qualunque sia la scelta dell'utente, la funzione riporta nuovamente il raggio al periasse (ci serve per richiamarla)
 %	varargin{2}: secondo input, se viene scelto rp, questo ingresso non va inserito. 
 %                Se si sceglie 'opt', questo ingresso serve per specificare 
 %                l'eccentricita'  desiderata dell'orbita di parcheggio.
@@ -60,7 +60,7 @@ function [delta_v] = capture_hyp(body_id, V2, arr_time, varargin)
     %(corrisponde al punto di manovra (rp della traiettoria iperbolica e'
     %uguale a rp dell'orbita di cattura -punto di manovra per rimanerci)
     
-    r_soi = soi_compute(body_id, 11); 
+    r_soi = compute_soi(body_id, 11); 
     
     if (varargin{1} == 'opt')   
         e_park = varargin{2}; 
@@ -79,7 +79,7 @@ function [delta_v] = capture_hyp(body_id, V2, arr_time, varargin)
             %IN QUESTO CASO E' NECESSARIO SPECIFICARE ANCHE
             %L'ECCENTRICITA'!!
             r_p = varargin{1};
-            e_park = 0.7;
+            e_park = 0.5;
             
             %NOTA: se viene fissato r_p, l'eccentricità risulta fissata
             e_hyp = 1 + (r_p * v_inf^2) / mu_p;
@@ -105,6 +105,6 @@ function [delta_v] = capture_hyp(body_id, V2, arr_time, varargin)
     delta_v = abs(v_hyp - v_park);  
     
     %% HYPERBOLA PLOT
-    capture_hyp_plot;
+    capture_hyp_plot(body_id);
 
 end

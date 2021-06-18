@@ -9,6 +9,7 @@ function body_sphere(obj_id,obj_pos)
 %
 
     %% Constants
+    global radii
     body = ["planets/mercury.jpg" 
             "planets/venus.jpg" 
             "planets/earth.jpg" 
@@ -17,28 +18,19 @@ function body_sphere(obj_id,obj_pos)
             "planets/saturn.jpg" 
             "planets/uranus.jpg" 
             "planets/neptune.jpg" 
-            "planets/pluto.jpg"  
-            "/planets/sun.jpg"];
-        
-    radii = [2439.7
-             6051.8 
-             6371
-             3389.5
-             69911
-             58232
-             25362
-             24622
-             1151
-             262.7
-             476.2
-             695508]; %[km]
-         
+            "planets/pluto.jpg"
+            "planets/europe"
+            "planets/sun.jpg"];
+     
 	R = radii(obj_id); %[km]
     
     %% Sphere creation
     [xx,yy,zz] = sphere(100);
-    sp_hand = surface(obj_pos(1)+R*xx/1.5, obj_pos(2)+R*yy/1.5, obj_pos(3)+R*zz/1.5);
-    
+    if(obj_id == 11)
+        sp_hand = surface(obj_pos(1)+R*xx*20, obj_pos(2)+R*yy*20, obj_pos(3)+R*zz*20);
+    else
+        sp_hand = surface(obj_pos(1)+R*xx/1.5, obj_pos(2)+R*yy/1.5, obj_pos(3)+R*zz/1.5);
+    end
     %% Surface change
     img = imread(body(obj_id));
     

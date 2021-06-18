@@ -1,65 +1,69 @@
-% change_orbital_plane plotta il cambio di piano da equatoriale a quello
-% dell'eclittica, nel quale poi tutta la missione si svilupperà. Potrebbe
-% essere generalizzata, ma essendo una manovra che avviene solo sulla Terra
-% si è scelto di farla (per ora) specificatamente per questo caso.
-function y = change_orbital_plane
-    %% PARKING ORBIT
-    global pl_mu radii 
-    global y
+function escape_hyp_plot(body_id, incl)
+%escape_hyp_plot plotta l'iperbole di uscita partendo da un'orbita di
+%parcheggio. L'orbita è inclinata di incl; si assume che
+%l'orbita di parcheggio dalla quale avviene il cambio sia anch'essa
+%inclinata dello stesso angolo; ovvero la manovra di entrata nell'iperbole
+%di uscita non prevede un cambio di piano orbitale.
+
+   
+%% Definizione input
+    rad = pi/180;
+    global mu_p R 
+    global r_soi r_p v_park v_hyp 
     
-    mu_obj = pl_mu(3);
-    R = radii(3);
-    r_park = 200; %E' fissato dalle specifiche di progetto
-    v_park = sqrt( pl_mu(3) / (R + r_park) );
+    %matrice di rotazione: viene utilizzata non come cambio di coordinate 
+    %ma per mappare una rotazione rigida 
+    R_x = [1 0 0; 0 cos(incl*rad) -sin(incl*rad); 0 sin(incl*rad) cos(incl*rad)];
     
-    h = (v_park * (R + r_park)); %essendo traiettoria circolare 
-                                        %sono perpendicolari
-    e = 0; %circonferenza
-    RA = 0; 
-    incl = 0;
-    w = 0;
-    TA = 0;  
-    coe_park_orbit = [h e RA incl w TA];
-    [r0, v0] = sv_from_coe(coe_park_orbit, pl_mu(3));
+%% PARKING ORBIT
+    r0 = (R_x*[-r_p, 0, 0]')'; 
+    v0 = (R_x*[0, -v_park, 0]')';
     
+    %Integro utilizzando rates
+    t0 = 0;
+    T = 2*pi*sqrt(r_p^3/mu_p);
+    tf = 2.5*T;
+    y0 = [r0 v0]';
+    [t,y] = rkf45(@rates, [t0 tf], y0);
+    first_orbit = y;
+    
+%% ESCAPE HYPERBOLA
+    %NOTA IMPORTANTE: di fatto la traiettoria iperbolica è calcolata rispetto al sdr
+    %planetocentrico, con RA = w = 0. Si tratta di una semplificazione, in
+    %quanto in realtà la direzione della v_inf potrebbe portare alla
+    %necessita' di un burnout che non avviene in corrispondenza di TA = 0
+    %anche per l'orbita circolare.
+    
+    %Ricavo posizione e velocità nell'istante di burnout, ovvero con TA = 0
+    r0_new = (R_x*[r_p, 0, 0]')';
+    v0_new = (R_x*[0, v_hyp, 0]')'; %velocità al periasse
+    
+    %Integro utilizzando rates
     hours = 3600;
     t0 = 0;
-    tf = 2*pi*sqrt( (R + r_park)^3 / pl_mu(3) ); %[s]
-    %...End input data
- 
- 
-    %...Numerical integration:
-    y0    = [r0, v0]';
-    [t,y] = rkf45(@rates, [t0 2*tf], y0); %tempo finale: multiplo del periodo
-    first_orbit = y;
-    len = size(y,1);
-    
-    %% ORBITAL PLANE CHANGE
-    %prelevo r e v dall'ultima iterazione
-     r_fin = [ y(len,1), y(len,2), y(len,3) ];
-     v_fin = [ y(len,4), y(len,5), y(len,6) ];
-     new_incl = 23.5*pi/180;
-    
-    % i vettori vengono ruotati per evitare possibili incoerenze dovute al
-    % fatto che, per orbite circolari, l'anomalia vera non è univocamente
-    % definita (dipende da dove viene scelto il perigeo)
-    R_incl = [1 0 0; 0 cos(new_incl) -sin(new_incl); 0 sin(new_incl) cos(new_incl)];
-    r0_new = R_incl*r_fin';
-    v0_new = R_incl*v_fin';
-
-    y0_new = [r0_new; v0_new];
-    [t_new, y_new] = rkf45(@rates, [t0 tf], y0_new);
+    tf = 2*hours;
+    y0_new = [r0_new, v0_new]';
+    [t_new,y_new] = rkf45(@rates, [t0 tf], y0_new);
     
     t = [t; t_new];
     y = [first_orbit; y_new];
- 
     
+    %controllo di non essere uscito dalla SOI:
+    %altrimenti rimuovo gli elementi non coerenti
+    for i = 1 : size(y,1)
+        if(norm(y(i, 1:3)) > r_soi)
+            y = y(1:i-1, :);
+            t = t(1:i-1, :);
+            break;
+        end
+    end
+
     %...Output the results:
     output
  
-return 
-
-%%
+    return
+    
+%% UTILITY FUNCTIONS 
 % ~~~~~~~~~~~~~~~~~~~~~~~~
 function dydt = rates(t,f)
 % ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -85,20 +89,21 @@ vy   = f(5);
 vz   = f(6);
  
 r    = norm([x y z]);
- 
-ax   = -mu_obj*x/r^3;
-ay   = -mu_obj*y/r^3;
-az   = -mu_obj*z/r^3;
-    
-dydt = [vx vy vz ax ay az]';    
+
+ax   = -mu_p*x/r^3;
+ay   = -mu_p*y/r^3;
+az   = -mu_p*z/r^3;
+
+dydt = [vx vy vz ax ay az]';  
+
 end %rates
-%%
+ 
  
 % ~~~~~~~~~~~~~
 function output
 % ~~~~~~~~~~~~~
 %{
-  This function computes the maximum and minimum radii, the times they
+  This function computes the maximu_pm and minimu_pm radii, the times they
   occur and and the speed at those times. It prints those results to
   the command window and plots the orbit.
  
@@ -122,10 +127,9 @@ end
  
 v_at_rmax   = norm([y(imax,4) y(imax,5) y(imax,6)]);
 v_at_rmin   = norm([y(imin,4) y(imin,5) y(imin,6)]);
-
+ 
 %...Output to the command window:
 fprintf('\n\n--------------------------------------------------------\n')
-fprintf('\n Earth Orbit\n')
 fprintf(' %s\n', datestr(now))
 fprintf('\n The initial position is [%g, %g, %g] (km).',...
                                                      r0(1), r0(2), r0(3))
@@ -134,10 +138,10 @@ fprintf('\n The initial velocity is [%g, %g, %g] (km/s).',...
                                                      v0(1), v0(2), v0(3))
 fprintf('\n   Magnitude = %g km/s\n', norm(v0))
 fprintf('\n Initial time = %g h.\n Final time   = %g h.\n',0,tf/hours) 
-fprintf('\n The minimum altitude is %g km at time = %g h.',...
+fprintf('\n The minimu_pm altitude is %g km at time = %g h.',...
             rmin-R, t(imin)/hours)
 fprintf('\n The speed at that point is %g km/s.\n', v_at_rmin)
-fprintf('\n The maximum altitude is %g km at time = %g h.',...
+fprintf('\n The maximu_pm altitude is %g km at time = %g h.',...
             rmax-R, t(imax)/hours)
 fprintf('\n The speed at that point is %g km/s\n', v_at_rmax)
 fprintf('\n--------------------------------------------------------\n\n')
@@ -145,51 +149,56 @@ fprintf('\n--------------------------------------------------------\n\n')
 %...Plot the results:
 %   Draw the planet
 % [xx, yy, zz] = sphere(100);
-% %NOTA: riduco le dimensioni della Terra di 1.5 soltanto per rendere la
-% %traiettoria più visibile
 % surf(R*xx/1.5, R*yy/1.5, R*zz/1.5)
 % colormap(light_gray)
 % caxis([-R/100 R/100])
 % shading interp
-%fig = set(gca, 'Color', [0, 0.1686, 0.4196]);
 fig = gca;
 fig.Color = [0, 0.1686, 0.4196];
 fig.GridColor = [0.9020, 0.9020, 0.9020];
-obj_pos = [0, 0, 0];
-body_sphere(3, obj_pos);
+obj_pos = [0, 0, 0]; %plotto il pianeta nell'origine, dal momento che 
+                     %utilizziamo un s.d.r. planetocentrico
+
+body_sphere(body_id, obj_pos);
 grid on
 grid minor
 
-
+ 
 %   Draw and label the X, Y and Z axes
 line([0 2*R/1.5],   [0 0],   [0 0]); text(2*R/1.5,   0,   0, 'X')
 line(  [0 0], [0 2*R/1.5],   [0 0]); text(  0, 2*R/1.5,   0, 'Y')
 line(  [0 0],   [0 0], [0 2*R/1.5]); text(  0,   0, 2*R/1.5, 'Z')
-hold on
+hold on 
 
-%   Select a view direction (a vector directed outward from the origin) 
+  
 %   Specify some properties of the graph
 grid on
 axis equal
+% xlim([-0.7e4, 0.7e4])
+% ylim([-2e4, 2e4])
 xlabel('km')
 ylabel('km')
 zlabel('km')
-%view( [128 , 28] )
-view( [158, 26] )
+view( [15 , 9] )
 h = animatedline('Color', [1, 0.93333, 0]);
 
+
+pause();
 for k = 1:size(y,1)
-    if(k ~= 1)
-        delete(sonda)
+    if(k == 1)
+        sonda = plot3(y(k,1),y(k,2), y(k,3),...
+						'o','Color','#A2142F', 'MarkerSize', 5,...
+						'MarkerFaceColor','#A2142F');
+    else
+        sonda.XData = y(k,1);
+        sonda.YData = y(k,2);
+        sonda.ZData = y(k,3);
     end
-    sonda = plot3(y(k,1),y(k,2), y(k,3),...
-						'o','Color','#A2142F', 'MarkerSize', 10,...
-						'MarkerFaceColor','#A2142F');    
+    
     addpoints(h, y(k,1), y(k,2), y(k,3));
-    drawnow 
-    pause(0.01)
+    drawnow limitrate 
+    pause(0.03)
 end
- 
 % ~~~~~~~~~~~~~~~~~~~~~~~
 function map = light_gray
 % ~~~~~~~~~~~~~~~~~~~~~~~
@@ -211,5 +220,6 @@ end %light_gray
  
 end %output
  
-end %circular_orbit
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+end %escape_hyp_plot
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+

@@ -1,8 +1,8 @@
 function  [delta_v, coe] = escape_hyp (body_id, V1, r_park, ...
                                               dep_time, incl)
-%Questa funzione calcola le caratteristiche dell'iperbole di uscita dal SOI
-%del pianeta Terra fissata un orbita di parcheggio circolare di raggio 
-%r_p attorno alla Terra
+%Questa funzione calcola le caratteristiche dell'iperbole di uscita dalla SOI
+%del pianeta body_id fissata un orbita di parcheggio CIRCOLARE di raggio 
+%r_p attorno al pianeta body_id
 %
 %   input:
 %   V1 = velocita' eliocentrica della sonda all'uscita della SOI    [km/s]
@@ -26,7 +26,9 @@ function  [delta_v, coe] = escape_hyp (body_id, V1, r_park, ...
     
     mu_p = pl_mu(body_id); %(km^3/s^2)
     R  = radii(body_id); 
-    r_soi = soi_compute(body_id, 11); %11: SUN
+    r_soi = compute_soi(body_id, 11); %11: SUN (non dovendo fare l'iperbole
+                                      %di uscita di Europa, è l'unico caso 
+                                      %di interesse).
     r_p = R + r_park;
     
     if(r_p > r_soi)
@@ -43,7 +45,6 @@ function  [delta_v, coe] = escape_hyp (body_id, V1, r_park, ...
                                                                  
     v_inf = norm((V1-v),2);                                                                    
 
-    %velocita'  e delta v
     v_park = sqrt(mu_p/r_p);                    %velocita' di parcheggio
     v_hyp = sqrt(2*(mu_p)/r_p + (v_inf)^2);     %velocita' di ingresso nell'iperbole
 

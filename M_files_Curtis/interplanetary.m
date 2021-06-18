@@ -1,6 +1,6 @@
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   function ...
-  [planet1, planet2, trajectory] = interplanetary(depart, arrive)
+  [planet1, planet2, trajectory, tof] = interplanetary(depart, arrive)
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %{
   This function determines the spacecraft trajectory from the sphere

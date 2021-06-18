@@ -160,12 +160,15 @@ zlabel('km')
 h = animatedline('Color', 'b');
 
 for k = 1:size(y,1)
-    if(k ~= 1)
-        delete(europe)
-    end
-    europe = plot3(y(k,1),y(k,2), y(k,3),...
-						'o','Color','#A2142F', 'MarkerSize', 10,...
-						'MarkerFaceColor','#A2142F');    
+    if(k == 1)
+        europa = plot3(y(k,1),y(k,2), y(k,3),...
+						'o','Color','#A2142F', 'MarkerSize', 5,...
+						'MarkerFaceColor','#A2142F');
+    else
+        europa.XData = y(k,1);
+        europa.YData = y(k,2);
+        europa.ZData = y(k,3);
+    end   
     addpoints(h, y(k,1), y(k,2), y(k,3));
     drawnow limitrate 
     pause(0.03)

@@ -1,10 +1,10 @@
-function capture_hyp_plot
+function capture_hyp_plot(body_id)
 
-%RICORDA: I SDR PLANETOCENTRICI HANNO incl_bodyINAZIONE DIVERSA RISPETTO
+%RICORDA: I SDR PLANETOCENTRICI HANNO INCLINAZIONE DIVERSA RISPETTO
 %ALL'ECLITTICA. AD ESEMPIO: TERRA => 23.5 DEG
 %SE ASSUMIAMO DI LAVORARE SUL PIANO DELL'ECLITTICA, DEVO TENERE IN
 %CONSIDERAZIONE IL FATTO SOPRA. LE TRAIETTORIE DI CATTURA SARANNO DUNQUE
-%INCLINATE DI UN ANGOLO PARI A incl_body, misurato rispetto all'eclittica
+%INCLINATE DI UN ANGOLO PARI A incl_body, MISURATO RISPETTO ALL'ECLITTICA
 
     
 %% Definizione input
@@ -13,18 +13,18 @@ function capture_hyp_plot
     global r_p v_hyp v_park
     %incl_body = 3; %potrebbe essere aggiunto un vettore contentente
     %l'inclinazione dei vari pianeti rispetto all'eclittica (in parameters)
-
+    incl = incl_body(body_id); 
     
     %matrice di rotazione: viene utilizzata non come cambio di coordinate 
     %ma per mappare una rotazione rigida 
-    R_x = [1 0 0; 0 cos(incl_body*rad) -sin(incl_body*rad); 0 sin(incl_body*rad) cos(incl_body*rad)];
+    R_x = [1 0 0; 0 cos(incl*rad) -sin(incl*rad); 0 sin(incl*rad) cos(incl*rad)];
     
     
 %% CAPTURE HYPERBOLA
     %NOTA IMPORTANTE: di fatto la traiettoria iperbolica è calcolata rispetto al sdr
     %planetocentrico, con RA = w = 0. Si tratta di una semplificazione, in
     %quanto in realtà la direzione della v_inf potrebbe portare alla
-    %necessita' di un burnout che non avviene in corrispondenza di TA = 0
+    %necessita' di un burn-in che non avviene in corrispondenza di TA = 0
     %anche per l'orbita circolare.
     
     r0 = (R_x*[-r_p, 0, 0]')';
@@ -33,7 +33,7 @@ function capture_hyp_plot
     %Integro utilizzando rates
     hours = 3600;
     t0 = 0;
-    tf = 15*hours;
+    tf = 10*hours;
     y0 = [r0, v0]';
     [t,y] = rkf45(@rates, [t0 tf], y0);
    
@@ -52,7 +52,7 @@ function capture_hyp_plot
     
     %Integro utilizzando rates
     t0 = 0;
-    tf = 30*hours;
+    tf = 10*hours;
     y0 = [r0_new v0_new]';
     [t_new ,y_new] = rkf45(@rates, [t0 tf], y0);
     
@@ -129,7 +129,6 @@ v_at_rmin   = norm([y(imin,4) y(imin,5) y(imin,6)]);
  
 %...Output to the command window:
 fprintf('\n\n--------------------------------------------------------\n')
-fprintf('\n Earth Orbit\n')
 fprintf(' %s\n', datestr(now))
 fprintf('\n The initial position is [%g, %g, %g] (km).',...
                                                      r0(1), r0(2), r0(3))
@@ -148,11 +147,19 @@ fprintf('\n--------------------------------------------------------\n\n')
  
 %...Plot the results:
 %   Draw the planet
-[xx, yy, zz] = sphere(100);
-surf(R*xx/1.5, R*yy/1.5, R*zz/1.5)
-colormap(light_gray)
-caxis([-R/100 R/100])
-shading interp
+% [xx, yy, zz] = sphere(100);
+% surf(R*xx/1.5, R*yy/1.5, R*zz/1.5)
+% colormap(light_gray)
+% caxis([-R/100 R/100])
+% shading interp
+fig = gca;
+fig.Color = [0, 0.1686, 0.4196];
+fig.GridColor = [0.9020, 0.9020, 0.9020];
+obj_pos = [0, 0, 0];
+body_sphere(body_id, obj_pos);
+grid on
+grid minor
+
  
 %   Draw and label the X, Y and Z axes
 line([0 2*R/1.5],   [0 0],   [0 0]); text(2*R/1.5,   0,   0, 'X')
@@ -164,18 +171,25 @@ hold on
 grid on
 axis equal
 xlabel('km')
+%xlim([-6e5, 6e5])
 ylabel('km')
 zlabel('km')
 view( [-23 , 26] )
-h = animatedline('Color', 'b');
+h = animatedline('Color', [1, 0.93333, 0]);
 
+pause();
 for k = 1:size(y,1)
-    if(k ~= 1)
-        delete(sonda)
+    
+    if(k == 1)
+        sonda = plot3(y(k,1),y(k,2), y(k,3),...
+						'o','Color','#A2142F', 'MarkerSize', 5,...
+						'MarkerFaceColor','#A2142F');
+    else
+        sonda.XData = y(k,1);
+        sonda.YData = y(k,2);
+        sonda.ZData = y(k,3);
     end
-    sonda = plot3(y(k,1),y(k,2), y(k,3),...
-						'o','Color','#A2142F', 'MarkerSize', 10,...
-						'MarkerFaceColor','#A2142F');    
+    
     addpoints(h, y(k,1), y(k,2), y(k,3));
     drawnow limitrate 
     pause(0.03)

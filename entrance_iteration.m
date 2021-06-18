@@ -1,15 +1,15 @@
 function [t, dv, r] = entrance_iteration(t1, e)
-%Questa funzione restituisce data di partenza, raggio dell'orita di parcheggio e
-%variazione di velocit√† dell'orbita interplanetaria ottima data una data di
-%arrivo, un' eccentricit√† richiesta e un anno di partenza. 
+%Questa funzione restituisce data di partenza, raggio dell'orbita di parcheggio e
+%variazione di velocita'† dell'orbita interplanetaria ottima data una data di
+%arrivo, un'eccentricita'† richiesta e un anno di partenza. 
 %
-%   Dati in ingrasso:
+%   Dati in ingresso:
 %       t1  - Data di arrivo su Giove
-%       e   - eccentricit√† desiderata per l'orbita di parcheggio su Giove
+%       e   - eccentricita'† desiderata per l'orbita di parcheggio su Giove
 %
 %   Dati in uscita:
 %       t   - Data di partenza dalla Terra
-%       dv  - Variazione ottima di velocit√† richiesta per la manovra di parcheggio
+%       dv  - Variazione ottima di velocita'† richiesta per la manovra di parcheggio
 %       r   - Ragio dell'orbita di parcheggio
 %
 
@@ -47,6 +47,8 @@ while n~=547
     
     %MANOVRA DI ENTRATA IN GIOVE
     vinf = v2 - vj;
+    
+    %MODIFICARE IN BASE ALAL NUOVA FUNZIONE
     [deltav, rp] = entrance_bodyEccentrity (5, vinf, 'opt', e);
     
     if deltav < 4.2
