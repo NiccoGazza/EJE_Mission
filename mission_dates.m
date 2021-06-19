@@ -15,7 +15,7 @@ end
 
 %Ricavo la data con il delta_v2 minore
 [dv_jup_min, k] = min(delta_park_jup);
-t_earth2 = t_earth2(k);            %%19-11-2027
+t_earth2 = t_earth2(k);                                        %%19-11-2027
 
 %% Secondo Step:
 %fissata la data di partenza dalla Terra post-flyby, cercare una data di
@@ -32,7 +32,7 @@ end
 %Prima questione: quale data scelgo? Il delta_v garantito dal flyby, essendo
 % """gratis""", è meglio che sia piccolo o grande?
 [dv_fb2, j] = max(dv_fb2);
-t_mars = t_mars(j);               %%04-03-2025  
+t_mars = t_mars(j);                                            %%04-03-2025  
 
 %% Terzo step:
 %fissata la data di partenza da Marte post-flyby, cercare una data di
@@ -48,10 +48,7 @@ if ( isempty(t_dep_earth) )
 end
                                                              
 [dv_esc_earth, i] = min(dv_esc_earth); 
-t_dep_earth = t_dep_earth(i);                   %%30-10-2024
-
-
-
+t_dep_earth = t_dep_earth(i);                                  %%30-10-2024
 
 
 
