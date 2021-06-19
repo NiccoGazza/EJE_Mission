@@ -4,7 +4,7 @@ function [t, dv, r_p, v_lam] = entrance_iteration(t1, e)
 %arrivo, un'eccentricita' richiesta e un anno di partenza. 
 %
 %   Dati in ingresso:
-%       t1  - Data di arrivo su Giove
+%       t1  - Data di arrivo su Giove (datetime)
 %       e   - eccentricita' desiderata per l'orbita di parcheggio su Giove
 %
 %   Dati in uscita:

@@ -1,44 +1,47 @@
 function [delta_v, r_p] = capture_hyp(body_id, V2, arr_time, varargin)
-%funzione che calcola l'iperbole di avvicinamento di una sonda di massa
+%funzione che calcola l'iperbole di avvicinamento della sonda 
 %in arrivo al pianeta identificato dal body_id e la fa rimanere in
 %orbita attorno ad esso ad una distanza rp (distanza che ottimizza l'uso
-%di carburante) 
+%di carburante) - presa dal centro del pianeta.
 %ATT. questa funzione non permette di scegliere il raggio al periasse
 %dell'orbita di cattura.
 %
-%
-%body_id = numero associato al pianeta al quale la sonda si sta
+% Dati in ingresso:
+%	body_id : numero associato al pianeta al quale la sonda si sta
 %		avvicinando (sonda giunta al confine della SOI del pianeta)
-%    body_id - body identifier:
-%                1 = Mercury
-%                2 = Venus
-%                3 = Earth
-%                4 = Mars
-%                5 = Jupiter
-%                6 = Saturn
-%                7 = Uranus
-%                8 = Neptune
-%                9 = Pluto
-%               10 = Europe
-%               11 = Sun
+%   		body identifier:
+%                	1 = Mercury
+%                	2 = Venus
+%                	3 = Earth
+%                	4 = Mars
+%                	5 = Jupiter
+%                	6 = Saturn
+%                	7 = Uranus
+%                	8 = Neptune
+%                	9 = Pluto
+%               	10 = Europe
+%               	11 = Sun
 %
-%   V2 = velocita' eliocentrica di arrivo alla SOI del pianeta target
-%	e = eccentricita'  desiderata dell'orbita di cattura 
-%   e = 0 orbita circolare
-%       < 1 orbita ellittica
-%	varargin{1}: primo input per definire l'altezza dell'orbita di cattura
-%       varargin = 'opt' la funzione calcola il raggio al periasse che
-%		ottimizza il deltaV
-%		Alternativamente, a varargin viene assegnato un valore numerico per specificare il raggio al periasse desiderato.
-%		Qualunque sia la scelta dell'utente, la funzione riporta nuovamente il raggio al periasse (ci serve per richiamarla)
-%	varargin{2}: secondo input, se viene scelto rp, questo ingresso non va inserito. 
-%                Se si sceglie 'opt', questo ingresso serve per specificare 
-%                l'eccentricita'  desiderata dell'orbita di parcheggio.
+%	V2 : velocita' eliocentrica della sonda, in arrivo alla SOI del pianeta target
+%
+%	e : eccentricita'  desiderata dell'orbita di cattura 
+%   			e = 0 orbita circolare
+%       		< 1 orbita ellittica
+
+%	arr_time : data di arrivo alla SOI del body_id. Formato datetime
+%
+%	varargin : campo sostituibile con uno o due ingressi.
+%		varargin{1}: primo input per definire l'altezza dell'orbita di cattura
+%       		varargin = 'opt' la funzione calcola il raggio al periasse che ottimizza il deltaV
+%			Alternativamente, a varargin viene assegnato un valore numerico per specificare il raggio al periasse desiderato.
+%			Qualunque sia la scelta dell'utente, la funzione riporta nuovamente il raggio al periasse (ci serve per richiamarla)
+%		varargin{2}: secondo input; se viene scelto rp, questo ingresso non va inserito. 
+%                	Se si sceglie 'opt', questo ingresso serve per specificare l'eccentricita'  desiderata dell'orbita di parcheggio.
 %   
     %% Definizione input
     validateattributes(V2,{'double'},{'size',[1 3]})
     close all;
-    global pl_mu radii  %Costanti globali (contenuti in parameters.m) 
+    global pl_mu radii  %Costanti globali (contenuti in initializeEJE.m) 
     global R mu_p       %Parametri che dipendono da costanti globali
     
     global r_p v_park v_hyp  %Variabili necessarie per il plot
