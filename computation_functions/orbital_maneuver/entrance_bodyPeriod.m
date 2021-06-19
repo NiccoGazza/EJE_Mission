@@ -1,5 +1,7 @@
 function [delta_v] = entrance_bodyPeriod(body_id, vinf, T)
 
+%%DA UNIFORMARE CON LE ALTRE FUNZIONI
+
 %funzione che calcola l'iperbole di avvicinamento di una sonda di massa
 %1000kg in arrivo al pianeta identificato dal body_id e la fa rimanere in
 %orbita attorno ad esso ad una distanza rp (distanza che ottimizza l'uso

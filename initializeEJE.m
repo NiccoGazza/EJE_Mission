@@ -16,8 +16,9 @@
 
 %% Genero i percorsi per tutte le funzioni
 addpath(genpath("M_files_Curtis"));
-addpath(genpath("utilityFunctions"));
-addpath(genpath("animationFunctions"));
+addpath(genpath("computation_functions"));
+addpath(genpath("animation_functions"));
+addpath(genpath("europe_ephemerides"));
 
 %% Variabili Globali
 global mu radii distances T masses G AU  pl_mu incl_body 

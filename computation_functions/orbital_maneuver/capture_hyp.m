@@ -1,5 +1,5 @@
 function [delta_v, r_p] = capture_hyp(body_id, V2, arr_time, varargin)
-%funzione che calcola l'iperbole di avvicinamento della sonda 
+%Questa funzione calcola l'iperbole di avvicinamento della sonda 
 %in arrivo al pianeta identificato dal body_id e la fa rimanere in
 %orbita attorno ad esso ad una distanza rp (distanza che ottimizza l'uso
 %di carburante) - presa dal centro del pianeta.
