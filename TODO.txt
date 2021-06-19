@@ -1,11 +1,12 @@
 TODO LIST:
 -> modificare entrance_bodyPeriod in modo che sia uniforme alle altre funzioni (e chiamarla capture_hyp_period)
--> aggiungere il check su r_p nella funzione capture_hyp, e permettere la scelta dell'eccentricita'� di parcheggio anche nel caso di scelta non ottima
+-> aggiungere il check su r_p nella funzione capture_hyp, e permettere la scelta dell'eccentricita'  di parcheggio anche nel caso di scelta non ottima
 -> modificare i nomi delle funzioni in dates_choice: scriverli in inglese e scegliere nomi piu' "esplicativi" (i commenti vanno bene)
 -> scegliere l'orbita di parcheggio su Giove
 -> scegliere la manovra di trasferimento Giove_to_Europa
--> inserire uno script che calcoli il delta_V complessivo (potremmo farlo nello script mission_dates in cui i delta_V vengono già salvati)
--> EUROPE_PLOT dovr� essere inglobato dentro entire_mission_plot e dovr� plottare il trasferimento Giove-Europa
+-> inserire uno script che calcoli il delta_V complessivo (potremmo farlo nello script mission_dates in cui i delta_V vengono giÃ  salvati)
+-> fare script per calcolo del tempo di volo totale
+-> EUROPE_PLOT dovrà essere inglobato dentro entire_mission_plot e dovrà plottare il trasferimento Giove-Europa
 Obiettivo Finale:
 Avere un paio di script che, una volta chiamato initializeEJE, facciano il plot dell'intera missione ed il calcolo del delta_V complessivo.
 Tali script si troveranno nella cartella principale EJE_Mission, in modo che non ci sia bisogno di andare a cercare all'interno delle sottocartelle 
