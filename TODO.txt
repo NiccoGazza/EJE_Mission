@@ -1,6 +1,6 @@
 TODO LIST:
 -> modificare entrance_bodyPeriod in modo che sia uniforme alle altre funzioni (e chiamarla capture_hyp_period)
--> aggiungere il check su r_p nella funzione capture_hyp, e permettere la scelta dell'eccentricita'  di parcheggio anche nel caso di scelta non ottima
+-> ✅ aggiungere il check su r_p nella funzione capture_hyp, e permettere la scelta dell'eccentricita'  di parcheggio anche nel caso di scelta non ottima
 -> modificare i nomi delle funzioni in dates_choice: scriverli in inglese e scegliere nomi piu' "esplicativi" (i commenti vanno bene)
 -> scegliere l'orbita di parcheggio su Giove
 -> scegliere la manovra di trasferimento Giove_to_Europa
