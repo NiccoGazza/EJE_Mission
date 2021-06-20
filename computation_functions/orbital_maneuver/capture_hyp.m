@@ -1,4 +1,5 @@
 function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, varargin)
+
 %Questa funzione calcola l'iperbole di avvicinamento della sonda 
 %in arrivo al pianeta identificato dal body_id e la fa rimanere in
 %orbita attorno ad esso ad una distanza rp (distanza che ottimizza l'uso
@@ -8,7 +9,7 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, varargin)
 %
 % Dati in ingresso:
 %	body_id : numero associato al pianeta al quale la sonda si sta
-%		avvicinando (sonda giunta al confine della SOI del pianeta)
+%		avvicinando (sonda giunta alla SOI del pianeta)
 %   		body identifier:
 %                	1 = Mercury
 %                	2 = Venus
@@ -27,7 +28,7 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, varargin)
 %	arr_time : data di arrivo alla SOI del body_id. [datetime] - (yyyy,mm,dd)
 %
 %	varargin : campo equivalente a due ingressi come spiegato di seguito.
-%		varargin{1}: primo input per definire l'altezza dell'orbita di cattura. L'utente può scegliere di utilizzare uno dei due casi: 
+%		varargin{1} = h : primo input per definire l'ALTEZZA dell'orbita di cattura. L'utente può scegliere di utilizzare uno dei due casi: 
 %       		(a) varargin = 'opt' . In tal caso questa funzione usa il raggio al periasse che ottimizza il deltaV;
 %			(b) float varargin . L'utente assegna un valore numerico all'altezza dell'orbita di parcheggio.
 %			=> Qualunque sia la scelta dell'utente, la funzione riporta nuovamente il raggio al periasse (consente di poter richiamare facilmente questa variabile, per comodità)
@@ -70,14 +71,11 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, varargin)
 			return
 		end
     elseif (isa(varargin{1}, 'float')) %caso (b)
-        if (varargin{1} > r_soi)
+        if ((varargin{1} + R) > r_soi)
             disp('Error! ----> r_p out of SOI <----');
             return
-        elseif(varargin{1} < R)
-            disp('Error! ----> r_p too small <----') ;
-            return
         else
-            r_p = varargin{1};
+            r_p = varargin{1} + R;
             e_park = varargin{2};
             
             %NOTA: se viene fissato r_p, l'eccentricità risulta fissata
