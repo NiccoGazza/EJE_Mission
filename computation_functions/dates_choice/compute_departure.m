@@ -1,4 +1,6 @@
-function [t, dv, r, v_dep, v_arr] = iterazione_flyby(t1, t2)
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function [t, dv, r, v_dep, v_arr] = compute_departure(t1, t2)
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % Questa funzione trova una data di partenza per Lambert pre Flyby su terra in modo
 % da far coincidere le velocità relative di entrata e uscita.
 %
@@ -7,10 +9,10 @@ function [t, dv, r, v_dep, v_arr] = iterazione_flyby(t1, t2)
 %      t2 - data di arrivo del Lambert post Fly-by su Giove
 %
 %  Dati in uscita:
-%      t       - tempo plausibile di partenza da planet_id0 per il Lambert pre
+%      t       - Vettore dei tempi plausibili di partenza da planet_id0 per il Lambert pre
 %                Fly-by (nominal value = 0)
 %      dv      - deltav del Fly-by su planet_id1 (nominal value = 1)
-%      epsilon - differenza fra i due moduli delle v infinito (nominal
+%      toll    - differenza fra i due moduli delle v infinito (nominal
 %                value = 1)
 %      r       - raggio al periasse dell'iperbole di Flyby
 
@@ -53,7 +55,6 @@ n = 0;
 toll = 1.5;
 t = [];
 dv = [];
-epsilon = toll;
 r = [];
 
 %Scandaglio due anni
@@ -80,8 +81,8 @@ while n ~= 730
     if diff < toll 
         %FLYBY
         [deltav, ~, ~, ~, ~, r_p] = flyby (3, v2, v_earth, v_dep);
-        %Aggiornamento delle variabili alla data che approssima in miglior
-        %modo le condizioni del Flyby sulle velocità relative        
+        %Aggiornamento delle variabili alla data che approssima al meglio
+        % le condizioni del Flyby sulle velocità relative        
         if r_p > radii(3) + 150 %Distanza di sicurezza: 150km
             t = [t; t0];
             dv = [dv; deltav];

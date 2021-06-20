@@ -1,5 +1,7 @@
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function [e_pos, m_pos, j_pos, s_pos, number_of_days] = ...
-         gen_patched_conic_orbit(begin_date, end_date, dep_body_id, arr_body_id)     
+         gen_patched_conic_orbit(begin_date, end_date, dep_body_id, arr_body_id)  
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
 %Questa funzione genera la traiettoria di una sonda che parte in data
 %begin_date dal pianeta dep_body_id e arriva in data end_date al pianeta
 %arr_body_id. Genera inoltre, nello stesso intervallo di tempo, anche la

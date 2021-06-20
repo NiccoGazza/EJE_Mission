@@ -1,4 +1,6 @@
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function time_vector = generate_time(begin_date, end_date)
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %Questa funzione ha l'obiettivo di generare un vettore di date per ogni
 %giorno compreso tra begin_date ed end_date; essendo le componenti del 
 %vettore anno, mese e giorno di una datetime, possono essere utilizzate

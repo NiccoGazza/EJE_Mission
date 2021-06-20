@@ -1,3 +1,6 @@
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function [deltaV_h, deltaT_h] = hohmann_transfer(dep_body, arr_body , varargin )
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %hohmann_transfer restituisce il deltaV (NORMALIZZATO alla velocità di 
 %percorrimento dell'orbita circolare di partenza) e il deltaT necessario
 %ad effettuare una manovra di Hohmann tra i pianeti 
@@ -27,7 +30,7 @@
 %validateattributes(varargin,{'float'})
 %body = true;
 
-function [deltaV_h, deltaT_h] = hohmann_transfer(dep_body, arr_body , varargin )
+
     global mu distances     
     %prelevo i dati di interesse 
 	if (arr_body == 10 || dep_body == 10)

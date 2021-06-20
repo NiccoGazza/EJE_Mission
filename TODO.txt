@@ -1,7 +1,7 @@
 TODO LIST:
--> modificare entrance_bodyPeriod in modo che sia uniforme alle altre funzioni (e chiamarla capture_hyp_period)
--> ✅ aggiungere il check su r_p nella funzione capture_hyp, e permettere la scelta dell'eccentricita'  di parcheggio anche nel caso di scelta non ottima
--> modificare i nomi delle funzioni in dates_choice: scriverli in inglese e scegliere nomi piu' "esplicativi" (i commenti vanno bene)
+✖️ DELETED  modificare entrance_bodyPeriod in modo che sia uniforme alle altre funzioni (e chiamarla capture_hyp_period)
+✅ DONE     aggiungere il check su r_p nella funzione capture_hyp, e permettere la scelta dell'eccentricita'  di parcheggio anche nel caso di scelta non ottima
+✅ DONE (TO CHECK) modificare i nomi delle funzioni in dates_choice: scriverli in inglese e scegliere nomi piu' "esplicativi" (i commenti vanno bene)
 -> scegliere l'orbita di parcheggio su Giove
 -> scegliere la manovra di trasferimento Giove_to_Europa
 -> inserire uno script che calcoli il delta_V complessivo (potremmo farlo nello script mission_dates in cui i delta_V vengono giÃ  salvati)

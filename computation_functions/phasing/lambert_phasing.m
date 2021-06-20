@@ -1,3 +1,6 @@
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function lambert_phasing(dep_body, arr_body, t0)
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %lambert_phasing ha l'obiettivo di impostare una traiettoria eliocentrica
 %basandosi sulla risoluzione del problema di Lambert. In particolare, dati
 %in ingresso i pianeti dep_body e arr_body e la data t0 di partenza 
@@ -15,8 +18,6 @@
 %                8 = Neptune
 %                9 = Pluto
 
-function lambert_phasing(dep_body, arr_body, t0)
-   
     global distances 
     parameters;
     

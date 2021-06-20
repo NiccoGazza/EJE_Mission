@@ -1,5 +1,6 @@
-function [t, dv, r_p, v_lam] = entrance_iteration(t1, e_park)
-
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function [t, dv, r_p, v_lam] = compute_intplt_launch(t1, e_park)
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %Questa funzione restituisce data di partenza, variazione di velocita' dell'orbita interplanetaria ottima e raggio dell'orbita di parcheggio, data una data di arrivo t1 e un'eccentricita' e. 
 %
 %   Dati in ingresso:
@@ -7,9 +8,9 @@ function [t, dv, r_p, v_lam] = entrance_iteration(t1, e_park)
 %       e_park - eccentricita' desiderata per l'orbita di parcheggio su Giove
 %
 %   Dati in uscita:
-%       t   - Data di partenza dalla Terra
-%       dv  - Variazione ottima di velocita' richiesta per la manovra di parcheggio
-%       r_p - Raggio dell'orbita di parcheggio
+%       t   - Vettore delle date di partenza dalla Terra 
+%       dv  - Vettore delle variazioni ottime di velocita' richiesta per la manovra di parcheggio
+%       r_p - Vettore dei raggi dell'orbita di parcheggio
 %
 
     %% Posizione di Giove

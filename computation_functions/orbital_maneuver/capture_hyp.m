@@ -1,13 +1,14 @@
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, varargin)
-
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %Questa funzione calcola l'iperbole di avvicinamento della sonda 
 %in arrivo al pianeta identificato dal body_id e la fa rimanere in
 %orbita attorno ad esso ad una distanza rp (distanza che ottimizza l'uso
 %di carburante) - presa dal centro del pianeta.
 %L'orbita scelta dovrà ovviamente essere chiusa.
 %
-% Dati in ingresso:
-%	body_id : numero associato al pianeta al quale la sonda si sta
+%   Dati in ingresso:
+%	body_id - numero associato al pianeta al quale la sonda si sta
 %		avvicinando (sonda giunta alla SOI del pianeta)
 %   		body identifier:
 %                	1 = Mercury
@@ -22,17 +23,19 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, varargin)
 %               	10 = Europe
 %               	11 = Sun
 %
-%	Va : velocita' eliocentrica della sonda, in arrivo alla SOI del pianeta target [m/s]
-%
-%	arr_time : data di arrivo alla SOI del body_id. [datetime] - (yyyy,mm,dd)
-%
-%	varargin : campo equivalente a due ingressi come spiegato di seguito.
+%	Va       - velocita' eliocentrica della sonda, in arrivo alla SOI del pianeta target [m/s]
+%	arr_time - data di arrivo alla SOI del body_id. [datetime] - (yyyy,mm,dd)
+%	varargin - campo equivalente a due ingressi come spiegato di seguito.
 %		varargin{1} = h : primo input per definire l'ALTEZZA dell'orbita di cattura. L'utente può scegliere di utilizzare uno dei due casi: 
 %       		(a) varargin = 'opt' . In tal caso questa funzione usa il raggio al periasse che ottimizza il deltaV;
 %			(b) float varargin . L'utente assegna un valore numerico all'altezza dell'orbita di parcheggio.
 %			=> Qualunque sia la scelta dell'utente, la funzione riporta nuovamente il raggio al periasse (consente di poter richiamare facilmente questa variabile, per comodità)
 %		varargin{2}: secondo input; in entrambi i casi, questo ingresso serve per specificare l'eccentricita' desiderata dell'orbita di parcheggio e_park
 %   
+%   Dati di uscita:
+%	delta_v - deltaV totale della manovra 
+%	r_p     - raggio al periasse dell'iperbole di ingressi e dell'orbita di parcheggio (le due, coincidono)
+%
     %% Definizione di input e costanti
     validateattributes(Va,{'double'},{'size',[1 3]})
     close all;

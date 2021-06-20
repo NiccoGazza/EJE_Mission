@@ -1,5 +1,7 @@
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function  [delta_v, coe] = escape_hyp (body_id, V1, r_park, ...
                                               dep_time, incl)
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %Questa funzione calcola le caratteristiche dell'iperbole di uscita dalla SOI
 %del pianeta body_id fissata un orbita di parcheggio CIRCOLARE di raggio 
 %r_p attorno al pianeta body_id

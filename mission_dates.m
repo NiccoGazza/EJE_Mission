@@ -5,8 +5,8 @@
 
 t_arr_jup = datetime(2031, 01, 01);
 
-% per ora passo e = 0; dobbiamo sistemare capture_hyp
-[t_earth2, delta_park_jup, ~] = entrance_iteration(t_arr_jup, 0);
+% per ora passo e = 0; dobbiamo sistemare capture_hyp %DONE
+[t_earth2, delta_park_jup, ~] = compute_departure(t_arr_jup, 0);
 
 if( isempty(t_earth2) )
     fprintf("No date found for second flyby earth->jupiter \n");
@@ -22,7 +22,7 @@ t_earth2 = t_earth2(k);                                        %%19-11-2027
 %partenza da Marte (post primo flyby) in modo che il flyby sulla Terra sia
 %effettivamente fattibile 
 
-[t_mars, dv_fb2, ~] = iterazione_flyby(t_earth2, t_arr_jup);
+[t_mars, dv_fb2, ~] = compute_departure(t_earth2, t_arr_jup);
 
 if ( isempty(t_mars) ) 
     fprintf("No date found for departure from mars \n");

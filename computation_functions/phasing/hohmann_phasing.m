@@ -1,3 +1,6 @@
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function [delta_t_A, delta_t_H, delta_t_tot] = hohmann_phasing(dep_body, arr_body, t0)
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %hohmann_phasing restituisce il tempo di attesa e il tempo totale (che
 %comprende il primo più il tempo necessario ad eseguire la manovra di
 %Hohmann) necessari ad eseguire appunto una manovra di Hohmann a partire
@@ -15,7 +18,7 @@
 %                9 = Pluto
 %               10=Europe
 
-function [delta_t_A, delta_t_H, delta_t_tot] = hohmann_phasing(dep_body, arr_body, t0)
+
     global mu distances T
     parameters
     

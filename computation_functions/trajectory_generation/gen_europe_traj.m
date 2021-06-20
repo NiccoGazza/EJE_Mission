@@ -1,4 +1,6 @@
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function [eur_pos] = gen_europe_traj(begin_date, end_date)
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %Questa funzione genera la traiettoria di Europa, nel sdr zeuscentrico, a
 %partire dalla data begin_date fino alla data end_date, integrando
 %l'equazione della dinamica con il metodo numerico Range-Kutta a step
