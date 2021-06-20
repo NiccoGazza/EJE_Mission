@@ -1,4 +1,4 @@
-function [delta_v, r_p] = capture_hyp(body_id, V2, arr_time, varargin)
+function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, varargin)
 %Questa funzione calcola l'iperbole di avvicinamento della sonda 
 %in arrivo al pianeta identificato dal body_id e la fa rimanere in
 %orbita attorno ad esso ad una distanza rp (distanza che ottimizza l'uso
@@ -22,67 +22,63 @@ function [delta_v, r_p] = capture_hyp(body_id, V2, arr_time, varargin)
 %               	10 = Europe
 %               	11 = Sun
 %
-%	V2 : velocita' eliocentrica della sonda, in arrivo alla SOI del pianeta target
+%	Va : velocita' eliocentrica della sonda, in arrivo alla SOI del pianeta target [m/s]
 %
-%	e : eccentricita'  desiderata dell'orbita di cattura 
-%   			e = 0 orbita circolare
-%       		< 1 orbita ellittica
-
-%	arr_time : data di arrivo alla SOI del body_id. Formato datetime
+%	arr_time : data di arrivo alla SOI del body_id. [datetime] - (yyyy,mm,dd)
 %
-%	varargin : campo sostituibile con uno o due ingressi.
-%		varargin{1}: primo input per definire l'altezza dell'orbita di cattura
-%       		varargin = 'opt' la funzione calcola il raggio al periasse che ottimizza il deltaV
-%			Alternativamente, a varargin viene assegnato un valore numerico per specificare il raggio al periasse desiderato.
-%			Qualunque sia la scelta dell'utente, la funzione riporta nuovamente il raggio al periasse (ci serve per richiamarla)
-%		varargin{2}: secondo input; se viene scelto rp, questo ingresso non va inserito. 
-%                	Se si sceglie 'opt', questo ingresso serve per specificare l'eccentricita'  desiderata dell'orbita di parcheggio.
+%	varargin : campo equivalente a due ingressi come spiegato di seguito.
+%		varargin{1}: primo input per definire l'altezza dell'orbita di cattura. L'utente può scegliere di utilizzare uno dei due casi: 
+%       		(a) varargin = 'opt' . In tal caso questa funzione usa il raggio al periasse che ottimizza il deltaV;
+%			(b) float varargin . L'utente assegna un valore numerico all'altezza dell'orbita di parcheggio.
+%			=> Qualunque sia la scelta dell'utente, la funzione riporta nuovamente il raggio al periasse (consente di poter richiamare facilmente questa variabile, per comodità)
+%		varargin{2}: secondo input; in entrambi i casi, questo ingresso serve per specificare l'eccentricita' desiderata dell'orbita di parcheggio e_park
 %   
-    %% Definizione input
-    validateattributes(V2,{'double'},{'size',[1 3]})
+    %% Definizione di input e costanti
+    validateattributes(Va,{'double'},{'size',[1 3]})
     close all;
     global pl_mu radii  %Costanti globali (contenuti in initializeEJE.m) 
-    global R mu_p       %Parametri che dipendono da costanti globali
-    
-    global r_p v_park v_hyp  %Variabili necessarie per il plot
+    global R mu_p r_soi     %Parametri che dipendono da costanti globali
+    global r_p v_park v_p_hyp  %Variabili necessarie per il plot
     
     R = radii(body_id);
     mu_p = pl_mu(body_id);
+    r_soi = compute_soi(body_id, 11); 
     
-    % calcolo velocita' di eccesso iperbolico in entrata alla SOI
+    %% Calcolo velocita' di eccesso iperbolico v_inf in entrata alla SOI
     y = year(arr_time);
     m = month(arr_time);
     d = day(arr_time);
     
-    [~, ~, v, ~] = body_elements_and_sv (body_id, y, m, d, 0, 0, 0); 
+    [~, ~, V2, ~] = body_elements_and_sv (body_id, y, m, d, 0, 0, 0); 
        
-    v_inf = norm((V2 - v)); 
+    v_inf = norm((V2 - Va)); 
  
-    %traiettoria iperbolica:
-    %calcolo del raggio al periasse dell'iperbole di ingresso che minimizza il delta-v:
-    %(corrisponde al punto di manovra (rp della traiettoria iperbolica e'
-    %uguale a rp dell'orbita di cattura -punto di manovra per rimanerci)
+    %% Traiettoria iperbolica:
+    	%Calcolo del raggio al periasse ottimo dell'iperbole di ingresso (r_p che minimizza il delta-v);	
+	%r_p è anche il punto di manovra per rimanere sull'orbita di parcheggio.
     
-    r_soi = compute_soi(body_id, 11); 
-    
-    if (varargin{1} == 'opt')   
+
+    if (varargin{1} == 'opt')   %caso (a)
         e_park = varargin{2}; 
         r_p =  (2*mu_p / v_inf^2)*( (1 - e_park) / (1 + e_park) ); %(Eq.8.67 Curtis)
         e_hyp = 1 + (r_p * v_inf^2) / mu_p;
-        %da aggiungere: check sul risultato, potrebbe venire troppo piccolo
-        % (o troppo grande!)
-    elseif (isa(varargin{1}, 'float')) 
+		if(r_p > r_soi)
+			disp('Error! ----> r_p out of SOI <----');
+			return
+		elseif(r_p < R)
+			disp('Error! ----> r_p too small <----');
+			return
+		end
+    elseif (isa(varargin{1}, 'float')) %caso (b)
         if (varargin{1} > r_soi)
-            disp('Too far away to be held by the celestial body');
+            disp('Error! ----> r_p out of SOI <----');
             return
         elseif(varargin{1} < R)
-            disp('Orbit too small') ;
+            disp('Error! ----> r_p too small <----') ;
             return
         else
-            %IN QUESTO CASO E' NECESSARIO SPECIFICARE ANCHE
-            %L'ECCENTRICITA'!!
             r_p = varargin{1};
-            e_park = 0.4;
+            e_park = varargin{2};
             
             %NOTA: se viene fissato r_p, l'eccentricità risulta fissata
             e_hyp = 1 + (r_p * v_inf^2) / mu_p;
@@ -97,15 +93,15 @@ function [delta_v, r_p] = capture_hyp(body_id, V2, arr_time, varargin)
 
     %raggio all'apoasse dell'orbita di cattura
     %ra = 2*mu_body/norm(vinf)^2;
-    %velocita' (scalare) della sonda nella traiettoria iperbolica nel
-    %periasse
-    v_hyp = sqrt(v_inf^2 + 2*mu_p / r_p); 
 
-    %velocita' (scalare) dell'orbita di cattura nel periasse
-    v_park = sqrt(mu_p * (1 + e_park) / r_p);
+    %velocita' (scalare) della sonda al periasse della traiettoria iperbolica 
+    v_p_hyp = sqrt(v_inf^2 + 2*mu_p / r_p); 
+
+    %velocita' (scalare) della sonda al periasse dell'orbita di cattura
+    v_p_park = sqrt(mu_p * (1 + e_park) / r_p);
 
     %Delta-v delle manovre di entrata
-    delta_v = abs(v_hyp - v_park);  
+    delta_v = abs(v_p_hyp - v_p_park);  
     
     %% HYPERBOLA PLOT
     %capture_hyp_plot(body_id);
