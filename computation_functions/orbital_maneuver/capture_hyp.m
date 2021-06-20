@@ -4,8 +4,7 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, varargin)
 %in arrivo al pianeta identificato dal body_id e la fa rimanere in
 %orbita attorno ad esso ad una distanza rp (distanza che ottimizza l'uso
 %di carburante) - presa dal centro del pianeta.
-%ATT. questa funzione non permette di scegliere il raggio al periasse
-%dell'orbita di cattura.
+%L'orbita scelta dovrà ovviamente essere chiusa.
 %
 % Dati in ingresso:
 %	body_id : numero associato al pianeta al quale la sonda si sta
@@ -58,11 +57,11 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, varargin)
     	%Calcolo del raggio al periasse ottimo dell'iperbole di ingresso (r_p che minimizza il delta-v);	
 	%r_p è anche il punto di manovra per rimanere sull'orbita di parcheggio.
     
-
+	%Definizione di r_p ed e_park
+        e_park = varargin{2};
+if(e_park < 1 & e_park >=0)
     if (varargin{1} == 'opt')   %caso (a)
-        e_park = varargin{2}; 
         r_p =  (2*mu_p / v_inf^2)*( (1 - e_park) / (1 + e_park) ); %(Eq.8.67 Curtis)
-        e_hyp = 1 + (r_p * v_inf^2) / mu_p;
 		if(r_p > r_soi)
 			disp('Error! ----> r_p out of SOI <----');
 			return
@@ -77,12 +76,11 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, varargin)
         else
             r_p = varargin{1} + R;
             e_park = varargin{2};
-            
-            %NOTA: se viene fissato r_p, l'eccentricità risulta fissata
-            e_hyp = 1 + (r_p * v_inf^2) / mu_p;
         end
     end
-   
+else
+	disp('Error! ----> Cannot keep on orbit around the celestial body choosen <----');
+               e_hyp = 1 + (r_p * v_inf^2) / mu_p;
 %     %angolo di svolta /2 perche' la sonda compie meta' della traiettoria iperbolica
 %     half_turn = asin(1/ei);
 %     %aiming radius 
