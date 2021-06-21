@@ -1,24 +1,25 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function  [delta_v, coe] = escape_hyp (body_id, V1, r_park, ...
+function  [delta_v, coe] = escape_hyp (body_id, V1, h_park, ...
                                               dep_time, incl)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %Questa funzione calcola le caratteristiche dell'iperbole di uscita dalla SOI
 %del pianeta body_id fissata un orbita di parcheggio CIRCOLARE di raggio 
 %r_p attorno al pianeta body_id
 %
-%   input:
-%   V1 = velocita' eliocentrica della sonda all'uscita della SOI    [km/s]
-%   time = data di inizio trasferimento interplanetario          [datetime]
-%   r_park = raggio dell'orbita di parcheggio                       [km]
-%   incl = inclinazione dell'orbita iperbolica di uscita rispetto al piano 
-%          equatoriale del pianeta                                  [deg] 
+%   Dati in ingresso:
+%	V1     - velocita' eliocentrica della sonda all'uscita della SOI    [km/s]
+%	time   - data di inizio trasferimento interplanetario             [datetime]
+%	h_park - altezza dell'orbita di parcheggio dal pianeta body_id       [km]
+%	incl   - inclinazione dell'orbita iperbolica di uscita rispetto al piano 
+%          equatoriale del pianeta                                          [deg] 
 
-%   output:
-%   delta_v = deltaV necessario per entrare nell'iperbole di uscita
-%   e       - eccentricita'  (magnitude of E)
-%   a       - semiasse maggiore (km)
-%   theta   - angolo di partenza della sonda rispetta all'asse X terrestre
-    %% Definizione input
+%   Dati di uscita:
+%	delta_v - deltaV necessario per entrare nell'iperbole di uscita
+%	e       - eccentricita'  (magnitude of E)
+%	a       - semiasse maggiore 						[km]
+%	theta   - angolo di partenza della sonda rispetta all'asse X terrestre [deg]
+    
+%% Definizione input
     validateattributes(V1,{'double'},{'size',[1 3]})
     
     global pl_mu radii %Costanti globali (contenuti in parameters.m)
@@ -31,10 +32,10 @@ function  [delta_v, coe] = escape_hyp (body_id, V1, r_park, ...
     r_soi = compute_soi(body_id, 11); %11: SUN (non dovendo fare l'iperbole
                                       %di uscita di Europa, è l'unico caso 
                                       %di interesse).
-    r_p = R + r_park;
+    r_p = R + h_park;
     
     if(r_p > r_soi)
-        disp('Periapsis radius bigger than SOI of the body chosen')
+        disp('Error! ----> Periapsis radius bigger than SOI of the body chosen <----')
         return
     end
  

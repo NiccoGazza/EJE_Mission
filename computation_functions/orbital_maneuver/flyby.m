@@ -1,20 +1,19 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function [deltav, deltav_inf, e, a, delta, r_p] = flyby ( body_id, v1, V, v2)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% Questa funzione calcola i parametri dell'ipeebole di flyby e il deltav
+% Questa funzione calcola i parametri dell'iperbole di flyby e il deltav
 % dovuto alla manovra.
-% Grandezze in entrata:
-%   v1 = velocita'  della sonda in entrata al SOI del pianeta (da Lambert);
-%   V  = velocita' del pianeta (da planet_elements_and_sv);
-%   v2 = velocita'  in uscita da SOI del pianeta (da Lambert);
-%   mu = costante gravitazionele del pianeta
+% Dati in ingresso:
+%   v1 - velocita'  della sonda in entrata al SOI del pianeta (da Lambert);
+%   V  - velocita' del pianeta (da body_elements_and_sv);
+%   v2 - velocita'  in uscita da SOI del pianeta (da Lambert);
 %
-% Grandezze in uscita:
-%   deltav = accelerazione dovuta al flyby;
-%   e      = eccemtricita'  dell'iperbole di flyby;
-%   a      = semiasse maggiore dell'iperbole di flyby;
-%   delta  = angolo caratteristico di flyby;
-%   r_p    = raggio del periasse dell'iperbole di flyby;
+% Dati in uscita:
+%   deltav - accelerazione dovuta al flyby;
+%   e      - eccemtricita'  dell'iperbole di flyby;
+%   a      - semiasse maggiore dell'iperbole di flyby;
+%   delta  - angolo caratteristico di flyby;
+%   r_p    - raggio del periasse dell'iperbole di flyby;
 
     %% TODO: INPUT => BODY_ID, MU VIENE CALCOLATO
     global pl_mu

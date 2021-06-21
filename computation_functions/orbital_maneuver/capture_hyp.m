@@ -23,7 +23,7 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, varargin)
 %               	10 = Europe
 %               	11 = Sun
 %
-%	Va       - velocita' eliocentrica della sonda, in arrivo alla SOI del pianeta target [m/s]
+%	Va       - velocita' eliocentrica della sonda, in arrivo alla SOI del pianeta target [km/s]
 %	arr_time - data di arrivo alla SOI del body_id. [datetime] - (yyyy,mm,dd)
 %	varargin - campo equivalente a due ingressi come spiegato di seguito.
 %		varargin{1} = h : primo input per definire l'ALTEZZA dell'orbita di cattura. L'utente può scegliere di utilizzare uno dei due casi: 
@@ -66,15 +66,15 @@ if(e_park < 1 & e_park >=0)
     if (varargin{1} == 'opt')   %caso (a)
         r_p =  (2*mu_p / v_inf^2)*( (1 - e_park) / (1 + e_park) ); %(Eq.8.67 Curtis)
 		if(r_p > r_soi)
-			disp('Error! ----> r_p out of SOI <----');
+			disp('Error! ----> Periapsis radius bigger than SOI of the body chosen <----');
 			return
 		elseif(r_p < R)
-			disp('Error! ----> r_p too small <----');
+			disp('Error! ----> Periapsis radius smaller than radius of the body chosen <----');
 			return
 		end
     elseif (isa(varargin{1}, 'float')) %caso (b)
         if ((varargin{1} + R) > r_soi)
-            disp('Error! ----> r_p out of SOI <----');
+            disp('Error! ----> Periapsis radius bigger than SOI of the body chosen <----');
             return
         else
             r_p = varargin{1} + R;
