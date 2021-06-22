@@ -84,11 +84,12 @@ t_c = (caldays(T_c)) * 24 * 3600; %[sec]
 
 %% 7) Iperbole di ingresso nella SOI gioviana
 % 8) Parcheggio sull'orbita attorno a Giove
-%[delta_v4, ~] = capture_hyp(5, V5, date3, 8e5, 0.7);
+[delta_v4, r_p] = capture_hyp(5, V5, date3, 8e5, 0.7);
 
 
 %% 9) Trasferimento Lambert Giove-Europa
-[~, r_jupiter2, ~] = body_elements_and_sv(5, y4, m4, d4, 0, 0, 0);
+%[~, r_jupiter2, ~] = body_elements_and_sv(5, y4, m4, d4, 0, 0, 0); no buono perchè la funzione lambert la usiamo gioviocentrica
+r_jupiter2 = [ -r_p, 0 , 0 ];
 [~, r_europe, ~] = body_elements_and_sv(10, y5, m5 , d5, 0, 0, 0);
 T_d = between (date4, date5, 'Days'); %[days]
 t_d = (caldays(T_d)) * 24 * 3600; %[sec]
