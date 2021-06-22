@@ -69,6 +69,11 @@ t_a = (caldays(T_a)) * 24 * 3600; %[sec]
 %V1 - velocità di inizio Lambert
 [delta_v1,~] = escape_hyp (3, V1, 200, date0, 0); %incl=0?
 
+%% 4) Trasferimento Lambert Marte-Terra
+[~, r_earth2, ~] = body_elements_and_sv(3, y2, m2, d2, 0, 0, 0);
+T_b = between (date1, date2, 'Days'); %[days]
+t_b = (caldays(T_b)) * 24 * 3600; %[sec]
+[V2, V3] = lambert(r_mars1, r_earth2, t_b);
 
 %% 3) Flyby su Marte
 [delta_v2, deltav_inf2, ~] = flyby ( 4, V2, V_mars1, V3);

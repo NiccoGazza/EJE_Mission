@@ -2,7 +2,7 @@
 
 import os
 
-os.chdir("/home/francesca_vhu/Scrivania/EJE_Mission/data")
+os.chdir("/home/francesca_vhu/Scrivania/EJE_Mission/ephemerides")
 
 europe = open("europe_rv.m", "r")
 
