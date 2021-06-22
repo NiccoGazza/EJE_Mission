@@ -131,7 +131,8 @@ for k = 1:number_of_days
     addpoints(h2, e_posx(k), e_posy(k), e_posz(k));
     addpoints(h3, s_posx(k), s_posy(k), s_posz(k));
     addpoints(h4, j_posx(k), j_posy(k), j_posz(k));
-    drawnow 
+    drawnow limitrate
+    pause(0.01)
 end
 
 

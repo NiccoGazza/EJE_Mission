@@ -1,10 +1,13 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function [t, dv, r_p, v_lam] = compute_intplt_launch(t1, e_park)
+function [t, dv, r_p, v_lam] = earth_flyby(t1, r_park, e_park)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%Questa funzione restituisce data di partenza, variazione di velocita' dell'orbita interplanetaria ottima e raggio dell'orbita di parcheggio, data una data di arrivo t1 e un'eccentricita' e. 
+%Questa funzione restituisce data di partenza dalla Terra (post flyby),
+%variazione di velocita' dell'orbita interplanetaria ottima e raggio
+%dell'orbita di parcheggio, data una data di arrivo t1 e un'eccentricita' e. 
 %
 %   Dati in ingresso:
 %       t1     - Data di arrivo su Giove [datetime]
+%       r_park - raggio al periasse dell'orbita di parcheggio su Giove 
 %       e_park - eccentricita' desiderata per l'orbita di parcheggio su Giove
 %
 %   Dati in uscita:
@@ -20,7 +23,7 @@ function [t, dv, r_p, v_lam] = compute_intplt_launch(t1, e_park)
     m = month (t1);
     d = day (t1);
     [~, r_jup, ~] = body_elements_and_sv(5, y, m, d, 0, 0, 0);
-    %vj = [vj(1), vj(2)];
+
     R = radii(5);
 
     %% Traiettoria Terra-Giove
@@ -47,11 +50,11 @@ function [t, dv, r_p, v_lam] = compute_intplt_launch(t1, e_park)
         t_lam = ( caldays(dt1) ) * 24 * 3600;
         [~ , v2] = lambert (r_e, r_jup, t_lam); %v2 vettore velocità finale eliocentrica della sonda
         
-        % Raggio ottimo
+        % Raggio ottimo: problema => vengono r_p troppo grandi!
         %[deltav, rp] = capture_hyp(5, v2, t1, 'opt', e_park);
         
         %Raggio di parcheggio desiderato
-        [deltav, rp] = capture_hyp(5, v2, t1, 3e5, e_park);
+        [deltav, rp] = capture_hyp(5, v2, t1, 0, r_park, e_park);
         
         if deltav < 5
             v_lam = [v_lam; v2];

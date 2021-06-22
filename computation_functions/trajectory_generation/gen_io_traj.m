@@ -1,5 +1,5 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function [eur_pos] = gen_europe_traj(begin_date, end_date)
+function [eur_pos] = gen_io_traj(begin_date, end_date)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %Questa funzione genera la traiettoria di Europa, nel sdr zeuscentrico, a
 %partire dalla data begin_date fino alla data end_date, integrando
@@ -22,9 +22,9 @@ function [eur_pos] = gen_europe_traj(begin_date, end_date)
 
     hours = 3600;
     m1 = masses(5);
-    m2 = masses(10);
+    m2 = masses(12);
 
-    [~, r0, v0, ~] = body_elements_and_sv(10, y0, m0, d0, 0, 0, 0);
+    [~, r0, v0, ~] = body_elements_and_sv(12, y0, m0, d0, 0, 0, 0);
 
     t0 = 0;
     tf = number_of_days*24*hours;
@@ -71,4 +71,5 @@ az   = -mu*z/r^3;
 dydt = [vx vy vz ax ay az]';    
 end %rates
 % ~~~~~~~~~~~~~
-end %gen_europe_traj
+end %gen_io_traj
+

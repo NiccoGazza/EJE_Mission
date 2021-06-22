@@ -16,12 +16,10 @@ function [delta_t_A, delta_t_H, delta_t_tot] = hohmann_phasing(dep_body, arr_bod
 %                7 = Uranus
 %                8 = Neptune
 %                9 = Pluto
-%               10=Europe
-
+%               10 = Europe
 
     global mu distances T
-    parameters
-    
+        
     dep_year = year(t0);
     dep_month = month(t0);
     dep_day = day(t0);

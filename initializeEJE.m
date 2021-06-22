@@ -18,7 +18,7 @@
 addpath(genpath("M_files_Curtis"));
 addpath(genpath("computation_functions"));
 addpath(genpath("animation_functions"));
-addpath(genpath("europe_ephemerides"));
+addpath(genpath("ephemerides"));
 
 %% Variabili Globali
 global mu radii distances T masses G AU  pl_mu incl_body 
@@ -38,7 +38,8 @@ mu = 1.327565122000000e+11; % [km^3/s^2] //PARAMETRO MU DEL SOLE
                       102.410       %nettuno
                       0.01309       %plutone 
                       0.04800       %europa 
-                      1989100];     %sole         %[kg]
+                      1989100       %sole
+                      0.089];       %io         %[kg]
    
 	radii = [2439.7     %mercurio
              6051.8     %venere
@@ -49,8 +50,9 @@ mu = 1.327565122000000e+11; % [km^3/s^2] //PARAMETRO MU DEL SOLE
              25362      %urano
              24622      %nettuno
              1188.3     %plutone
-             1560.8     %europa  	
-             695508] ;  %sole;                  %[km] 
+             1560.8     %europa
+             695508     %sole
+             1821] ;    %io                  %[km] 
 
 	distances = [57909175   %mercurio
                  108208930  %venere
@@ -70,7 +72,10 @@ mu = 1.327565122000000e+11; % [km^3/s^2] //PARAMETRO MU DEL SOLE
 		11.862615;	
 		29.447498;	
 		84.016846;	
-		164.79132] * Jy; % [s] 
+		164.79132;
+        248;
+        0] * Jy; % [s] 
+    T(10) = 3.551181041 * 24 * 60 * 60; 
     
     incl_body = [ 0.0;	
                   177.3;

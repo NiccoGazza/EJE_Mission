@@ -1,5 +1,5 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function [t, dv, r, v_dep, v_arr] = compute_departure(t1, t2)
+function [t, dv, r, v_dep, v_arr] = mars_flyby(t1, t2)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % Questa funzione trova una data di partenza per Lambert pre Flyby su terra in modo
 % da far coincidere le velocità relative di entrata e uscita.

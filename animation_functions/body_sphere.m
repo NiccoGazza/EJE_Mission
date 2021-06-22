@@ -29,7 +29,7 @@ function body_sphere(obj_id,obj_pos)
     if(obj_id == 11)
         sp_hand = surface(obj_pos(1)+R*xx*50, obj_pos(2)+R*yy*50, obj_pos(3)+R*zz*50);
     elseif(obj_id == 5)
-        sp_hand = surface(obj_pos(1)+R*xx*2, obj_pos(2)+R*yy*2, obj_pos(3)+R*zz*2);
+        sp_hand = surface(obj_pos(1)+R*xx, obj_pos(2)+R*yy, obj_pos(3)+R*zz);
     else
         sp_hand = surface(obj_pos(1)+R*xx/1.5, obj_pos(2)+R*yy/1.5, obj_pos(3)+R*zz/1.5);
     end

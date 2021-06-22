@@ -36,6 +36,7 @@ function [coe, r, v, jd] = body_elements_and_sv ...
 %                9 = Pluto
 %               10 = Europe 
 %               11 = Sun
+%               12 = Io
 %  
 %   year      - range: 1901 - 2050
 %   month     - range: 1 - 12
@@ -61,7 +62,7 @@ function [coe, r, v, jd] = body_elements_and_sv ...
 
  addpath(genpath("..M_files_Curtis"));
 %% Constants
-    global mu G masses pl_mu
+    global mu pl_mu
    
     %parameters //PROBLEMA: SE parameters viene chiamato da una funzione 
     %che a sua volta chiama planet_elements_and_sv si genera un errore
@@ -75,7 +76,7 @@ function [coe, r, v, jd] = body_elements_and_sv ...
     %% Algorithm
     
 
-    if(body_id ~= 10)
+    if(body_id ~= 10 && body_id ~= 12)
 
         deg    = pi/180;
 
@@ -123,15 +124,21 @@ function [coe, r, v, jd] = body_elements_and_sv ...
         [r, v] = sv_from_coe(coe, mu);
         return
 
-    elseif(body_id < 11)
+    elseif(body_id < 11 || body_id == 12)
 
         % Conversions
         au2km = 149597870.700; % [km]
         auday2kms = 149597870.700/86400.0; % [km/s]
 
-        if(body_id == 10)
+        if(body_id == 10 || body_id==12)
             % Data loading
-            europe_data = europe_rv();
+            if(body_id == 10)
+                data = europe_rv();
+                mu_pl = pl_mu(10);
+            elseif(body_id == 12)
+                data = io_rv();
+                mu_pl = pl_mu(12);
+            end
 
             % Index calculation based on date
             j0     = J0(year, month, day);
@@ -140,9 +147,9 @@ function [coe, r, v, jd] = body_elements_and_sv ...
             t     = jd - 2451544.5 + 1; % +1 because index starts at 1
 
             % Setting position, velocity, coe
-            r = au2km * europe_data(t,1:3);
-            v = auday2kms * europe_data(t,4:6);
-            coe = coe_from_sv(r, v, pl_mu(10));
+            r = au2km * data(t,1:3);
+            v = auday2kms * data(t,4:6);
+            coe = coe_from_sv(r, v, mu_pl);
 
         end
 
@@ -196,7 +203,7 @@ function [coe, r, v, jd] = body_elements_and_sv ...
          9.53667594  0.05386179  2.48599187 113.66242448  92.59887831 	49.95424423
         19.18916464  0.04725744  0.77263783  74.01692503 170.95427630  313.23810451
         30.06992276  0.00859048  1.77004347 131.78422574  44.96476227  -55.12002969 
-	39.48211675  0.24882730 17.14001206 110.30393684 224.06891629  238.92903833
+        39.48211675  0.24882730 17.14001206 110.30393684 224.06891629  238.92903833
          0.004860642 0.0094	 0.466	    268.084	 357.0540      119.0920   
         0.006977376  0.26965557  1.55468744 103.66985200 326.77648848  229.63858632];
 

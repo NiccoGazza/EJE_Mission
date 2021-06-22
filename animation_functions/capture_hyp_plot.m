@@ -1,4 +1,4 @@
-function capture_hyp_plot(body_id)
+function capture_hyp_plot(body_id, r_p)
 
 %RICORDA: I SDR PLANETOCENTRICI HANNO INCLINAZIONE DIVERSA RISPETTO
 %ALL'ECLITTICA. AD ESEMPIO: TERRA => 23.5 DEG
@@ -10,9 +10,7 @@ function capture_hyp_plot(body_id)
 %% Definizione input
     rad = pi/180;
     global incl_body mu_p R    
-    global r_p v_hyp v_park
-    %incl_body = 3; %potrebbe essere aggiunto un vettore contentente
-    %l'inclinazione dei vari pianeti rispetto all'eclittica (in parameters)
+    global v_p_hyp v_p_park
     incl = incl_body(body_id); 
     
     %matrice di rotazione: viene utilizzata non come cambio di coordinate 
@@ -28,7 +26,7 @@ function capture_hyp_plot(body_id)
     %anche per l'orbita circolare.
     
     r0 = (R_x*[-r_p, 0, 0]')';
-    v0 = (R_x*[0, v_hyp, 0]')'; %velocità al periasse
+    v0 = (R_x*[0, v_p_hyp, 0]')'; %velocità al periasse
     
     %Integro utilizzando rates
     hours = 3600;
@@ -37,7 +35,7 @@ function capture_hyp_plot(body_id)
     y0 = [r0, v0]';
     [t,y] = rkf45(@rates, [t0 tf], y0);
    
-    %TRICK:per plottare inverto gli elementi di y  
+    %TRICK: per plottare inverto gli elementi di y  
     len = size(y,1);
     for i = 1 : len/2
         tmp = y(i, :);
@@ -48,11 +46,11 @@ function capture_hyp_plot(body_id)
     
     %% PARKING ORBIT
     r0_new = (R_x*[-r_p, 0, 0]')'; 
-    v0_new = (R_x*[0, -v_park, 0]')';
+    v0_new = (R_x*[0, -v_p_park, 0]')';
     
     %Integro utilizzando rates
     t0 = 0;
-    tf = 10*hours;
+    tf = 240*hours;
     y0 = [r0_new v0_new]';
     [t_new ,y_new] = rkf45(@rates, [t0 tf], y0);
     
@@ -146,12 +144,6 @@ fprintf('\n The speed at that point is %g km/s\n', v_at_rmax)
 fprintf('\n--------------------------------------------------------\n\n')
  
 %...Plot the results:
-%   Draw the planet
-% [xx, yy, zz] = sphere(100);
-% surf(R*xx/1.5, R*yy/1.5, R*zz/1.5)
-% colormap(light_gray)
-% caxis([-R/100 R/100])
-% shading interp
 fig = gca;
 fig.Color = [0, 0.1686, 0.4196];
 fig.GridColor = [0.9020, 0.9020, 0.9020];
@@ -194,24 +186,6 @@ for k = 1:size(y,1)
     drawnow limitrate 
     pause(0.03)
 end
-% ~~~~~~~~~~~~~~~~~~~~~~~
-function map = light_gray
-% ~~~~~~~~~~~~~~~~~~~~~~~
-%{
-  This function creates a color map for displaying the planet as light
-  gray with a black equator.
-  
-  r - fraction of red
-  g - fraction of green
-  b - fraction of blue
- 
-%}
-% -----------------------
-r = 0.8; g = r; b = r;
-map = [r g b
-       0 0 0
-       r g b];
-end %light_gray
  
 end %output
  

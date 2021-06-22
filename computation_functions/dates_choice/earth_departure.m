@@ -1,5 +1,5 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function [epsilon, t, dv, r, DVU] = iterazione_primo_flyby (t1, t2)
+function [t, dv, r, DVU] = earth_departure(t1, t2)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % Questa funzione trova una data di partenza per Lambert pre flyby su Marte in modo
 % da far coincidere le velocita'  relative di entrata e uscita, minimizzando
@@ -19,48 +19,44 @@ function [epsilon, t, dv, r, DVU] = iterazione_primo_flyby (t1, t2)
 %      DVU     - Deltav di uscita dalla terra
 
 
-global radii
-%% TRAGITTO MARTE-TERRA POST FLYBY
+    global radii
+    %% TRAGITTO MARTE-TERRA POST FLYBY
 
-% Data di flyby su Marte
-y1 = year(t1);
-m1 = month(t1);
-d1 = day(t1);
+    % Data di flyby su Marte
+    y1 = year(t1);
+    m1 = month(t1);
+    d1 = day(t1);
 
-% Data di arrivo sulla Terra post flyby
-y2 = year(t2);
-m2 = month(t2);
-d2 = day(t2);
+    % Data di arrivo sulla Terra post flyby
+    y2 = year(t2);
+    m2 = month(t2);
+    d2 = day(t2);
 
-%Posizioni relative dei pianeti
-[~, r_mars, v_mars, ~] = body_elements_and_sv(4, y1, m1, d1, 0, 0, 0);
-[~, r_earth2, ~, ~] = body_elements_and_sv(3, y2, m2, d2, 0, 0, 0);
-% v_mars = [v_mars(1), v_mars(2)];
+    %Posizioni relative dei pianeti
+    [~, r_mars, v_mars, ~] = body_elements_and_sv(4, y1, m1, d1, 0, 0, 0);
+    [~, r_earth2, ~, ~] = body_elements_and_sv(3, y2, m2, d2, 0, 0, 0);
 
-%Lambert fra Marte e Terra post Flyby
-dt = between (t1, t2, 'Days');
-t_volo = (caldays(dt))* 24 *3600;
-[v_dep, ~] = lambert (r_mars, r_earth2, t_volo);
-% v_dep = [v_dep(1), v_dep(2)];
 
-%Valutazione della velocita'  relativa post Flyby rispetto a Marte
+    %Lambert fra Marte e Terra post Flyby
+    dt = between (t1, t2, 'Days');
+    t_volo = (caldays(dt))* 24 *3600;
+    [v_dep, ~] = lambert (r_mars, r_earth2, t_volo);
 
-modul_vout = norm((v_dep-v_mars),2);
 
-%% TRAGITTO TERRA-MARTE PRE FLYBY
+    %Valutazione della velocita'  relativa post Flyby rispetto a Marte
+    norm_vout = norm((v_dep-v_mars),2);
 
-%Inizializzazione dati dell'iterazione
-t0 = datetime (2023, 1, 1);
-n=0;
-toll = 1.5;
-t = datetime(2010, 1, 1);
-%t = [];
-dv=0;
-%dv = [];
-epsilon = 5;
-r = 0;
-DVU = 10;
-%DVU = [];
+    %% TRAGITTO TERRA-MARTE PRE FLYBY
+
+    %Inizializzazione dati dell'iterazione
+    t0 = datetime (2023, 1, 1);
+    n=0;
+    toll = 1.5;
+    t = [];
+    dv = [];
+    epsilon = 5;
+    r = 0;
+    DVU = [];
 
     %Scandaglio un anno e mezzo
     while n ~= 760
@@ -79,11 +75,11 @@ DVU = 10;
         %v2 = [v2(1), v2(2)];
 
         %Valutazione velocita'  relativa di uscita dal Flyby rispetto a Marte
-        modul_vin = norm((v2-v_mars),2);
+        norm_vin = norm((v2-v_mars),2);
 
         %Se modul_vin e modul_vout sono comparabili posso considerare fattibile
         %il Flyby su Marte
-        diff = abs(modul_vout-modul_vin);
+        diff = abs(norm_vout-norm_vin);
 
         if diff < toll 
             %fprintf("TROVATO");

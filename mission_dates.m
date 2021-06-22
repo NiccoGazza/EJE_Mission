@@ -5,8 +5,11 @@
 
 t_arr_jup = datetime(2031, 01, 01);
 
-% per ora passo e = 0; dobbiamo sistemare capture_hyp %DONE
-[t_earth2, delta_park_jup, ~] = compute_departure(t_arr_jup, 0);
+% Abbiamo scelto un'altezza dell'orbita di cattura tale che il raggio
+% all'apoasse sia di circa 600 000km, ben lontano dalla sfera di influenza
+% di Europa. Converrebbe scegliere un raggio al periasse maggiore, ma per
+% evitare possibili problemi di collisione per ora la scelta è questa.
+[t_earth2, delta_park_jup, ~,  v_lam] = earth_flyby(t_arr_jup, 80000, 0.6);
 
 if( isempty(t_earth2) )
     fprintf("No date found for second flyby earth->jupiter \n");
@@ -15,14 +18,19 @@ end
 
 %Ricavo la data con il delta_v2 minore
 [dv_jup_min, k] = min(delta_park_jup);
-t_earth2 = t_earth2(k);                                        %%19-11-2027
+Va = v_lam(k, :);
+capture_hyp(5, Va, t_arr_jup, 1, 80000, 0.6);
+% dv_jup_min
+% t_earth2 = t_earth2(k)
+            
 
+                                       %%19-11-2027
 %% Secondo Step:
 %fissata la data di partenza dalla Terra post-flyby, cercare una data di
 %partenza da Marte (post primo flyby) in modo che il flyby sulla Terra sia
 %effettivamente fattibile 
 
-[t_mars, dv_fb2, ~] = compute_departure(t_earth2, t_arr_jup);
+[t_mars, dv_fb2, ~] = mars_flyby(t_earth2, t_arr_jup);
 
 if ( isempty(t_mars) ) 
     fprintf("No date found for departure from mars \n");
@@ -38,9 +46,9 @@ t_mars = t_mars(j);                                            %%04-03-2025
 %fissata la data di partenza da Marte post-flyby, cercare una data di
 %partenza dalla Terra (a seguito della manovra di fuga) in modo che il
 %flyby su Marte sia effettivamente fattibile
-[~, t_dep_earth, dv_fb1, ~, dv_esc_earth] = iterazione_primo_flyby( ...
-                                                                 t_mars, ...
-                                                                 t_earth2);
+[t_dep_earth, dv_fb1, ~, dv_esc_earth] = earth_departure( ...
+                                                             t_mars, ...
+                                                             t_earth2);
                                                              
 if ( isempty(t_dep_earth) )
     fprintf("No date found for departure from earth \n");
