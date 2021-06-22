@@ -42,18 +42,18 @@ d3 =day(date3);
 %m5 =month(date5);
 %d5 =day(date5);
 
-delta_t1 = between(date0 , date1, 'Days');  %da uscita dalla SOI terrestre a ingresso nella SOI marziana
-delta_t2 = between(date1 , date2, 'Days');  %da uscita dalla SOI marziana a ingresso nella SOI terrestre (post-flyby1)
-delta_t3 = between(date2 , date3, 'Days');  %da uscita dalla SOI terrestre a ingresso nella SOI gioviana (post-flyby2)
-delta_t4 = 3;				    %tempo speso sull'orbita di parcheggio di Giove [days] DA DECIDERE. PER ORA METTO 3gg
-delta_t5 = between(date4 , date5, 'Days');  %da orbita di parcheggio gioviana alla SOI di Europa
+delta_t1 = between(date0 , date1);  %da uscita dalla SOI terrestre a ingresso nella SOI marziana
+delta_t2 = between(date1 , date2);  %da uscita dalla SOI marziana a ingresso nella SOI terrestre (post-flyby1)
+delta_t3 = between(date2 , date3);  %da uscita dalla SOI terrestre a ingresso nella SOI gioviana (post-flyby2)
+delta_t4 = caldays(3);				    %tempo speso sull'orbita di parcheggio di Giove [days] DA DECIDERE. PER ORA METTO 3gg
+%delta_t5 = between(date4 , date5, 'Days');  %da orbita di parcheggio gioviana alla SOI di Europa
 %delta_t5b =  %per parcheggiare sull'orbita attorno a Europa NON ESISTE SE CONSIDERIAMO INGRESSO IPERBOLICO ISTANTANEO
 
 %NOTA BENE : i flyby e le manovre di ingresso e uscite iperboliche sono considerati istantanei
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-DeltaT = delta_t1 +delta_t2 +delta_t3 +delta_t4 +delta_t5;
+DeltaT = delta_t1 +delta_t2 +delta_t3 +delta_t4 %+delta_t5
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
