@@ -11,6 +11,7 @@
 % 9) Trasferimento Lambert Giove-Europa
 % 10)Parcheggio sull'orbita attorno a Europa
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 date0 = datetime(2024,10,30); %1) partenza Terra
 y0 = year(date0);
 m0 =month(date0);
