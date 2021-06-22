@@ -4,8 +4,8 @@ TODO LIST:
 ✅ DONE (TO CHECK) modificare i nomi delle funzioni in dates_choice: scriverli in inglese e scegliere nomi piu' "esplicativi" (i commenti vanno bene)
 〰️ scegliere l'orbita di parcheggio su Giove (messa a 8e5km tra Europa e Ganimede)
 -> scegliere la manovra di trasferimento Giove_to_Europa
-〰️ inserire uno script che calcoli il delta_V complessivo (potremmo farlo nello script mission_dates in cui i delta_V vengono giÃ  salvati)-(alla fine fatto separatamente, manca da inserire deltav dei lambert)
--> fare script per calcolo del tempo di volo totale
+〰️ (TO CHECK) inserire uno script che calcoli il delta_V complessivo (potremmo farlo nello script mission_dates in cui i delta_V vengono giÃ  salvati)-(alla fine fatto separatamente, manca da inserire deltav dei lambert)
+✅ fare script per calcolo del tempo di volo totale
 -> EUROPE_PLOT dovrà essere inglobato dentro entire_mission_plot e dovrà plottare il trasferimento Giove-Europa
 
 💡️Obiettivo Finale:
