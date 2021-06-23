@@ -45,7 +45,13 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, plot, varargin)
     
     R = radii(body_id);
     mu_p = pl_mu(body_id);
-    r_soi = compute_soi(body_id, 11); 
+    if(body_id ~= 10 && body_id~=12)
+            r_soi = compute_soi(body_id, 11); 
+            return
+    elseif (body_id ~= 10 || body_id~=12)
+            r_soi = compute_soi(body_id, 5); 
+            return
+    end 
     
     %% Calcolo velocita' di eccesso iperbolico v_inf in entrata alla SOI
     y = year(arr_time);
