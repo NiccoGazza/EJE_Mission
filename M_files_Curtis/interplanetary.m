@@ -1,6 +1,6 @@
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   function ...
-  [planet1, planet2, trajectory, tof] = interplanetary(depart, arrive)
+  [planet1, planet2, trajectory, tof] = interplanetary(depart, arrive, hohmann)
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %{
   This function determines the spacecraft trajectory from the sphere
@@ -41,6 +41,8 @@
                at departure
   arrive     - [planet_id, year, month, day, hour, minute, second]
                at arrival
+  hohmann    -flag for hohmann transfer; if it is set to 1, lambert problem
+              is solved on the xy plane
  
   planet1    - [Rp1, Vp1, jd1]
   planet2    - [Rp2, Vp2, jd2]
@@ -82,7 +84,10 @@ tof = (jd2 - jd1)*24*3600;
 %...Patched conic assumption:
 R1 = Rp1;
 R2 = Rp2;
- 
+if(hohmann == 1)
+    R1(3) = 0;
+    R2(3) = 0;
+end
 %...Use Algorithm 5.2 to find the spacecraft's velocity at
 %   departure and arrival, assuming a prograde trajectory:
 [V1, V2] = lambert(R1, R2, tof, 'pro');

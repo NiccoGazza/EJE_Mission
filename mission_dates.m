@@ -18,13 +18,13 @@ end
 
 %Ricavo la data con il delta_v2 minore
 [dv_jup_min, k] = min(delta_park_jup);
-Va = v_lam(k, :);
-capture_hyp(5, Va, t_arr_jup, 1, 80000, 0.6);
+%Va = v_lam(k, :);
+%capture_hyp(5, Va, t_arr_jup, 1, 80000, 0.6);
 % dv_jup_min
-% t_earth2 = t_earth2(k)
+t_earth2 = t_earth2(k);                                        %%19-11-2027
             
 
-                                       %%19-11-2027
+                                      
 %% Secondo Step:
 %fissata la data di partenza dalla Terra post-flyby, cercare una data di
 %partenza da Marte (post primo flyby) in modo che il flyby sulla Terra sia
@@ -47,8 +47,8 @@ t_mars = t_mars(j);                                            %%04-03-2025
 %partenza dalla Terra (a seguito della manovra di fuga) in modo che il
 %flyby su Marte sia effettivamente fattibile
 [t_dep_earth, dv_fb1, ~, dv_esc_earth] = earth_departure( ...
-                                                             t_mars, ...
-                                                             t_earth2);
+                                                          t_mars, ...
+                                                          t_earth2);
                                                              
 if ( isempty(t_dep_earth) )
     fprintf("No date found for departure from earth \n");
@@ -57,6 +57,7 @@ end
                                                              
 [dv_esc_earth, i] = min(dv_esc_earth); 
 t_dep_earth = t_dep_earth(i);                                  %%30-10-2024
+dv_fb1 = dv_fb1(i);
 
 
 

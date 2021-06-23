@@ -21,7 +21,7 @@ addpath(genpath("animation_functions"));
 addpath(genpath("ephemerides"));
 
 %% Variabili Globali
-global mu radii distances T masses G AU  pl_mu incl_body 
+global mu radii distances T masses G AU  pl_mu incl_body color
 
 G = 6.6742e-20; %[km^3/kg/s^2]
 Jy = 31557600; % [s], corrisponde a 365.25 d
@@ -101,7 +101,18 @@ mu = 1.327565122000000e+11; % [km^3/s^2] //PARAMETRO MU DEL SOLE
     
 	pl_mu = G * masses ; %[km^3/s^2]
 
-    
+    color = ["g"          %green
+          "m"          %magenta
+          "b"          %blue
+          "r"          %red
+          "#A2142F"    %darker red
+          "#7E2F8E"    %purple
+          "#4DBEEE"    %darker cyan
+          "c"          %(bright) cyan
+          "#D95319"    %orange
+          "#77AC30"    %darker green
+          "#EDB120"    %ochre
+          "#D95319"];
     
     %% Effemeridi di Europa
     %     eE = 0.0094; %eccentricità

@@ -10,7 +10,7 @@ function [deltav, deltav_inf, e, a, delta, r_p] = flyby ( body_id, v1, V, v2)
 %
 % Dati in uscita:
 %   deltav - accelerazione dovuta al flyby;
-%   e      - eccemtricita'  dell'iperbole di flyby;
+%   e      - eccentricita'  dell'iperbole di flyby;
 %   a      - semiasse maggiore dell'iperbole di flyby;
 %   delta  - angolo caratteristico di flyby;
 %   r_p    - raggio del periasse dell'iperbole di flyby;
@@ -36,6 +36,7 @@ function [deltav, deltav_inf, e, a, delta, r_p] = flyby ( body_id, v1, V, v2)
     %     end
 
     deltav = norm((v_inf1-v_inf2),2); %norma del vettore differenza fra le v_inf
+    deltav = abs(norm(v1) - norm(v2));
     deltav_inf = norm(v_inf1, 2) - norm(v_inf2, 2);%differenza delle norme (mi aspetto che sia prossima a 0)
 
     %flyby_plot(body_id, r_p, norm(v_inf1));

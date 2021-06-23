@@ -19,7 +19,6 @@ function lambert_phasing(dep_body, arr_body, t0)
 %                9 = Pluto
 
     global distances 
-    parameters;
     
     dep_year = year(t0);
     dep_month = month(t0);

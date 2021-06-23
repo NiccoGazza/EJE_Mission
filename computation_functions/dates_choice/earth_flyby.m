@@ -28,7 +28,7 @@ function [t, dv, r_p, v_lam] = earth_flyby(t1, r_park, e_park)
 
     %% Traiettoria Terra-Giove
     %Inizializzazione
-    t0 = datetime(2026, 6, 1);
+    t0 = datetime(2027, 1, 1);
     n=0;
     t = [];
     dv = [];
@@ -36,7 +36,7 @@ function [t, dv, r_p, v_lam] = earth_flyby(t1, r_park, e_park)
     v_lam = [];
 
     %Scandaglio un anno e mezzo
-    while n~=547
+    while n ~= 365
 
         y = year(t0);
         m = month(t0);
@@ -56,7 +56,7 @@ function [t, dv, r_p, v_lam] = earth_flyby(t1, r_park, e_park)
         %Raggio di parcheggio desiderato
         [deltav, rp] = capture_hyp(5, v2, t1, 0, r_park, e_park);
         
-        if deltav < 5
+        if deltav < 4.8
             v_lam = [v_lam; v2];
             dv = [dv; deltav];
             t = [t; t0];

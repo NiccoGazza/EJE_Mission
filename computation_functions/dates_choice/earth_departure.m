@@ -71,13 +71,11 @@ function [t, dv, r, DVU] = earth_departure(t1, t2)
         dt1 = between (t0, t1, 'Days');
         t_lam = (caldays(dt1))*24*3600;
         [v1, v2] = lambert (r_earth, r_mars, t_lam);
-        %v1 = [v1(1), v1(2)];
-        %v2 = [v2(1), v2(2)];
 
         %Valutazione velocita'  relativa di uscita dal Flyby rispetto a Marte
         norm_vin = norm((v2-v_mars),2);
 
-        %Se modul_vin e modul_vout sono comparabili posso considerare fattibile
+        %Se norm_vin e norm_vout sono comparabili posso considerare fattibile
         %il Flyby su Marte
         diff = abs(norm_vout-norm_vin);
 
@@ -91,7 +89,6 @@ function [t, dv, r, DVU] = earth_departure(t1, t2)
             if r_p > radii(4) + 100
                 %MANOVRA DI USCITA
                 [dvu, ~] = escape_hyp (3, v1, 200, t0, 23.5);
-
                 %Aggiornamento grandezze variabili se la manovra di uscita è
                 %piu' vantaggiosa
                 t = [t, t0];

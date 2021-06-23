@@ -83,6 +83,5 @@ for k = 1 : len
     addpoints(h1, europe_pos(k, 1), europe_pos(k, 2), europe_pos(k, 3));
     addpoints(h2, io_pos(k, 1), io_pos(k, 2), io_pos(k, 3));
     addpoints(h3, probe_pos(k, 1), probe_pos(k, 2), probe_pos(k, 3));
-    drawnow  limitrate
-    pause(0.01)
+    drawnow  
 end

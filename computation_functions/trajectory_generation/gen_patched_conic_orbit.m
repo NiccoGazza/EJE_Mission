@@ -30,7 +30,7 @@ function [e_pos, m_pos, j_pos, s_pos, number_of_days] = ...
     arrive = [arr_body_id, y_a, m_a, d_a, 0, 0, 0];
 
     %Genero la traiettoria della sonda
-    [planet_dep, ~, traj, ~] = interplanetary(depart, arrive);
+    [planet_dep, ~, traj, ~] = interplanetary(depart, arrive, 0);
     r0 = planet_dep(1:3);
     v0 = traj(1:3);
 

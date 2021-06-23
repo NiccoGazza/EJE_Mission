@@ -17,21 +17,8 @@ end_date_3 = datetime(2031, 01, 01);
 %% To Jupiter
 [e_pos_3, m_pos_3, j_pos_3, s_pos_3, nod_3] = gen_patched_conic_orbit(begin_date_3, end_date_3, 3, 5);
 
-%% Graphical Setup
-color = ["g"          %green
-          "m"          %magenta
-          "b"          %blue
-          "r"          %red
-          "#A2142F"    %darker red
-          "#7E2F8E"    %purple
-          "#4DBEEE"    %darker cyan
-          "c"          %(bright) cyan
-          "#D95319"    %orange
-          "#77AC30"    %darker green
-          "#EDB120"    %ochre
-          "#D95319"];
-      
-global radii
+%% Graphical Setup      
+global radii color
 R = radii(11);
 hold on	
 axis equal;
@@ -50,18 +37,18 @@ body_sphere(11, sun_pos);
 
 % X-axis
 xlim([-4.5e8, 1.5e8]);
-line([0 2*50*R],   [0 0],   [0 0], 'Color', 'white'); 
-text(2*R*50,   0,   0, 'X', 'Color', 'white', 'FontSize', 6)
+%line([0 2*50*R],   [0 0],   [0 0], 'Color', 'white'); 
+%text(2*R*50,   0,   0, 'X', 'Color', 'white', 'FontSize', 6)
 
 %Y-axis
 ylim([-4e8, 4e8]);
-line(  [0 0], [0 2*50*R],   [0 0], 'Color', 'white');
-text(  0, 2*R*50,   0, 'Y', 'Color', 'white', 'FontSize', 6)
+%line(  [0 0], [0 2*50*R],   [0 0], 'Color', 'white');
+%text(  0, 2*R*50,   0, 'Y', 'Color', 'white', 'FontSize', 6)
 
 %Z-axis
 zlim([-1e8, 1e8]);
-line(  [0 0],   [0 0], [0 2*50*R], 'Color', 'white');
-text(  0,   0, 2*R*50, 'Z', 'Color', 'white', 'FontSize', 6)
+%line(  [0 0],   [0 0], [0 2*50*R], 'Color', 'white');
+%text(  0,   0, 2*R*50, 'Z', 'Color', 'white', 'FontSize', 6)
 
 
 %% Animation
@@ -131,8 +118,8 @@ for k = 1:number_of_days
     addpoints(h2, e_posx(k), e_posy(k), e_posz(k));
     addpoints(h3, s_posx(k), s_posy(k), s_posz(k));
     addpoints(h4, j_posx(k), j_posy(k), j_posz(k));
-    drawnow limitrate
-    pause(0.01)
+    drawnow %limitrate
+    %pause(0.01)
 end
 
 
