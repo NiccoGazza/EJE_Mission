@@ -62,6 +62,7 @@ d5 = day(date5);
 %% 2) Trasferimento Lambert Terra-Marte
 [~, r_earth1, ~] = body_elements_and_sv(3, y0, m0, d0, 0, 0, 0);
 [~, r_mars1, V_mars1 , ~] = body_elements_and_sv(4, y1, m1, d1, 0, 0, 0);
+r_mars1(3) = 0;
 T_a = between (date0, date1, 'Days'); %[days]
 t_a = (caldays(T_a)) * 24 * 3600; %[sec]
 [V1, V2_a] = lambert(r_earth1, r_mars1, t_a);
@@ -72,6 +73,7 @@ t_a = (caldays(T_a)) * 24 * 3600; %[sec]
 
 %% 4) Trasferimento Lambert Marte-Terra
 [~, r_earth2, V_earth2,~] = body_elements_and_sv(3, y2, m2, d2, 0, 0, 0);
+r_earth2(3) = 0;
 T_b = between (date1, date2, 'Days'); %[days]
 t_b = (caldays(T_b)) * 24 * 3600; %[sec]
 [V2_b, V3_a] = lambert(r_mars1, r_earth2, t_b);
@@ -83,6 +85,7 @@ norm(V2_b)
 
 %% 6) Tasferimento Lambert Terra-Giove
 [~, r_jupiter1, ~] = body_elements_and_sv(5, y3, m3, d3, 0, 0, 0);
+r_jupiter1(3) = 0;
 T_c = between (date2, date3, 'Days'); %[days]
 t_c = (caldays(T_c)) * 24 * 3600; %[sec]
 [V3_b, V4] = lambert(r_earth2, r_jupiter1, t_c);

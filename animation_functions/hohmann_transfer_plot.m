@@ -68,6 +68,11 @@ arrive = [5, y_a, m_a, d_a, 0, 0, 0];
 [planet_dep, planet_arr, traj, tof] = interplanetary(depart, arrive, 1);
 r0 = planet_dep(1:3);
 v0 = traj(1:3);
+vf = traj(4:6);
+
+% [dv1, ~] = escape_hyp(3, v0, 200, begin_date, 23.5);
+% [dv2, ~] = capture_hyp(5, vf, end_date, 0, 8e4, 0.6); 
+
 
 %k = 0.2952; %normalized_dv_1 !! 
 %v0 = (k+1)*planet_dep(4:6); %stesso problema descritto all'inizio

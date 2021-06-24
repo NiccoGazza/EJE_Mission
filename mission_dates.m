@@ -59,6 +59,3 @@ end
 t_dep_earth = t_dep_earth(i);                                  %%30-10-2024
 dv_fb1 = dv_fb1(i);
 
-
-
-

@@ -1,5 +1,5 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function [eur_pos] = gen_europe_traj(begin_date, end_date)
+function [eur_pos, eur_vel] = gen_europe_traj(begin_date, end_date)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %Questa funzione genera la traiettoria di Europa, nel sdr zeuscentrico, a
 %partire dalla data begin_date fino alla data end_date, integrando
@@ -35,7 +35,7 @@ function [eur_pos] = gen_europe_traj(begin_date, end_date)
     [t,y] = rkf1_4(@rates, [t0 tf], y0, 60, 4);
     %[t,y] = rkf45(@rates, [t0 tf], y0);
     eur_pos = y(: , 1:3); %prelevo soltanto la parte di posizione 
-  
+    eur_vel = y(:, 4:6);
 return
  
 % ~~~~~~~~~~~~~~~~~~~~~~~~

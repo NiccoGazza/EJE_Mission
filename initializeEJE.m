@@ -84,7 +84,9 @@ mu = 1.327565122000000e+11; % [km^3/s^2] //PARAMETRO MU DEL SOLE
                   3.12;
                   26.73;
                   97.86;
-                  29.58]; %[deg] : rappresenta l'inclinazione ASSIALE, ovvero
+                  29.58;
+                  122.53;
+                  0.47]; %[deg] : rappresenta l'inclinazione ASSIALE, ovvero
                           %        l'inclinazione dell'asse di rotazione
                           %        rispetto alla perpendicolare al piano
                           %        orbitale. Viene utilizzata nel plot

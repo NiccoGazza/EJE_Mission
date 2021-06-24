@@ -19,7 +19,7 @@ function body_sphere(obj_id,obj_pos)
             "planets/uranus.jpg" 
             "planets/neptune.jpg" 
             "planets/pluto.jpg"
-            "planets/europe"
+            "planets/pluto.jpg"
             "planets/sun.jpg"];
      
 	R = radii(obj_id); %[km]
