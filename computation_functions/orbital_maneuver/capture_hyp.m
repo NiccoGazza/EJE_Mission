@@ -72,16 +72,13 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, plot, varargin)
         if (varargin{1} == 'opt')   %caso (a)
             r_p =  (2*mu_p / v_inf^2)*( (1 - e_park) / (1 + e_park) ); %(Eq.8.67 Curtis)
             if(r_p > r_soi)
-                disp('Error! ----> r_p out of SOI <----');
-                return
+                disp('Error! ---->  Periapsis radius bigger than SOI of the body chosen <----');
             elseif(r_p < R)
-                disp('Error! ----> r_p too small <----');
-                return
+                disp('Error! ---->  Periapsis radius smaller than the radius of the body chosen <----');
             end
         elseif (isa(varargin{1}, 'float')) %caso (b)
             if ((varargin{1} + R) > r_soi)
-                disp('Error! ----> r_p out of SOI <----');
-                return
+                disp('Error! ---->  Periapsis radius bigger than SOI of the body chosen <----');
             else
                 r_p = varargin{1} + R;
                 e_park = varargin{2};
