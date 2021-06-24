@@ -36,6 +36,7 @@ function  [delta_v, coe] = escape_hyp (body_id, V1, h_park, ...
     
     if(r_p > r_soi)
         disp('Error! ----> Periapsis radius bigger than SOI of the body chosen <----')
+	return
     end
  
     % calcolo velocita' di eccesso iperbolico in uscita da SOI
