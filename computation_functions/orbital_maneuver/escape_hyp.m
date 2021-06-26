@@ -45,7 +45,7 @@ function  [delta_v, coe] = escape_hyp (body_id, V1, h_park, ...
     d = day(dep_time);
     
     [~, ~, v, ~] = body_elements_and_sv (body_id, y, m, d, 0, 0, 0); 
-                                                                 
+    
     v_inf = norm((V1-v),2);                                                                    
 
     v_park = sqrt(mu_p/r_p);                    %velocita' di parcheggio
@@ -70,6 +70,6 @@ function  [delta_v, coe] = escape_hyp (body_id, V1, h_park, ...
     coe = [h e RA incl w TA a];
     
     %% HYPERBOLA PLOT
-    escape_hyp_plot(body_id, incl)
+    %escape_hyp_plot(body_id, incl)
 end
 

@@ -27,7 +27,7 @@ function body_sphere(obj_id,obj_pos)
     %% Sphere creation
     [xx,yy,zz] = sphere(100);
     if(obj_id == 11)
-        sp_hand = surface(obj_pos(1)+R*xx*50, obj_pos(2)+R*yy*50, obj_pos(3)+R*zz*50);
+        sp_hand = surface(obj_pos(1)+R*xx*25, obj_pos(2)+R*yy*25, obj_pos(3)+R*zz*25);
     elseif(obj_id == 5)
         sp_hand = surface(obj_pos(1)+R*xx, obj_pos(2)+R*yy, obj_pos(3)+R*zz);
     else

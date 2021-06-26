@@ -1,5 +1,5 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function [t, dv, r_p, v_lam] = earth_flyby(t1, r_park, e_park)
+function [t, dv, r_p] = earth_flyby(t1, r_park, e_park)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %Questa funzione restituisce data di partenza dalla Terra (post flyby),
 %variazione di velocita' dell'orbita interplanetaria ottima e raggio
@@ -28,15 +28,14 @@ function [t, dv, r_p, v_lam] = earth_flyby(t1, r_park, e_park)
 
     %% Traiettoria Terra-Giove
     %Inizializzazione
-    t0 = datetime(2027, 1, 1);
+    t0 = datetime(2026, 1, 1);
     n=0;
     t = [];
     dv = [];
     r_p = [];
-    v_lam = [];
 
-    %Scandaglio un anno e mezzo
-    while n ~= 365
+    %Scandaglio due anni
+    while n ~= 730
 
         y = year(t0);
         m = month(t0);
@@ -57,7 +56,6 @@ function [t, dv, r_p, v_lam] = earth_flyby(t1, r_park, e_park)
         [deltav, rp] = capture_hyp(5, v2, t1, 0, r_park, e_park);
         
         if deltav < 4.8
-            v_lam = [v_lam; v2];
             dv = [dv; deltav];
             t = [t; t0];
             r_p = [r_p; rp];

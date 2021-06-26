@@ -1,5 +1,5 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function [t, dv, r, DVU] = earth_departure(t1, t2)
+function [t, dv, r, dv_esc_earth] = earth_departure(t1, t2)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % Questa funzione trova una data di partenza per Lambert pre flyby su Marte in modo
 % da far coincidere le velocita'  relative di entrata e uscita, minimizzando
@@ -11,10 +11,8 @@ function [t, dv, r, DVU] = earth_departure(t1, t2)
 %
 %  Dati in uscita:
 %      t       - tempo plausibile di partenza da planet_id0 per il Lambert pre
-%                Fly-by (nominal value = 0)
-%      dv      - Deltav del Fly-by su planet_id1 (nominal value = 1)
-%      epsilon - Differenza fra i due moduli delle v infinito (nomianal
-%                value = 1)
+%                Fly-by
+%      dv      - Deltav del Fly-by su planet_id1 
 %      r       - Raggio al periasse dell'iperbole di flyby
 %      DVU     - Deltav di uscita dalla terra
 
@@ -36,12 +34,10 @@ function [t, dv, r, DVU] = earth_departure(t1, t2)
     [~, r_mars, v_mars, ~] = body_elements_and_sv(4, y1, m1, d1, 0, 0, 0);
     [~, r_earth2, ~, ~] = body_elements_and_sv(3, y2, m2, d2, 0, 0, 0);
 
-
     %Lambert fra Marte e Terra post Flyby
     dt = between (t1, t2, 'Days');
     t_volo = (caldays(dt))* 24 *3600;
     [v_dep, ~] = lambert (r_mars, r_earth2, t_volo);
-
 
     %Valutazione della velocita'  relativa post Flyby rispetto a Marte
     norm_vout = norm((v_dep-v_mars),2);
@@ -54,12 +50,11 @@ function [t, dv, r, DVU] = earth_departure(t1, t2)
     toll = 1.5;
     t = [];
     dv = [];
-    epsilon = 5;
-    r = 0;
-    DVU = [];
+    r = [];
+    dv_esc_earth = [];
 
-    %Scandaglio un anno e mezzo
-    while n ~= 760
+    %Analizzo due anni
+    while n ~= 730
         y = year(t0);
         m = month(t0);
         d = day(t0);
@@ -80,21 +75,18 @@ function [t, dv, r, DVU] = earth_departure(t1, t2)
         diff = abs(norm_vout-norm_vin);
 
         if diff < toll 
-            %fprintf("TROVATO");
             %FLYBY
             [deltav, ~, ~, ~, ~, r_p] = flyby (4, v2, v_mars, v_dep);
 
             %Se la manovra di Flyby è fattibile calcolo il deltav di uscita
             %dalla Terra
-            if r_p > radii(4) + 100
+            if r_p > radii(4) + 50
                 %MANOVRA DI USCITA
                 [dvu, ~] = escape_hyp (3, v1, 200, t0, 23.5);
-                %Aggiornamento grandezze variabili se la manovra di uscita è
-                %piu' vantaggiosa
                 t = [t, t0];
                 dv = [dv, deltav];
                 r = [r, r_p];
-                DVU = [DVU, dvu];
+                dv_esc_earth = [dv_esc_earth, dvu];
             end
         end
         t0 = t0+1;

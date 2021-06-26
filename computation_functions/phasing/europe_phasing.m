@@ -98,14 +98,14 @@ h3 = animatedline('Color', '[0.0745    0.6235    1.0000]');
 len = size(europe_pos(:, 1));
 
 pause()
-for k = t_per_sonda - 3*60*24 : t_per_sonda + t_manovra
-    if (k == t_per_sonda - 3*60*24)
+for k = 1 : t_per_sonda + t_manovra
+    if (k == 1)
         europe = plot3(europe_pos(k, 1), europe_pos(k, 2), europe_pos(k, 3),...
                 'o','Color','#A2142F', 'MarkerSize', 6,...
                 'MarkerFaceColor','#A2142F');
-%         io = plot3(io_pos(k, 1), io_pos(k, 2), io_pos(k, 3),...
-%                 'o','Color','yellow', 'MarkerSize', 6,...
-%                 'MarkerFaceColor','yellow');
+        io = plot3(io_pos(k, 1), io_pos(k, 2), io_pos(k, 3),...
+                'o','Color','yellow', 'MarkerSize', 6,...
+                'MarkerFaceColor','yellow');
         probe = plot3(probe_pos(k, 1), probe_pos(k, 2), probe_pos(k, 3),...
                 'o','Color','[0.0745    0.6235    1.0000]', 'MarkerSize', 3,...
                 'MarkerFaceColor','[0.0745    0.6235    1.0000]');
@@ -114,9 +114,9 @@ for k = t_per_sonda - 3*60*24 : t_per_sonda + t_manovra
         europe.YData = europe_pos(k, 2);
         europe.ZData = europe_pos(k, 3);
         
-%         io.XData = io_pos(k, 1);
-%         io.YData = io_pos(k, 2);
-%         io.ZData = io_pos(k, 3);
+        io.XData = io_pos(k, 1);
+        io.YData = io_pos(k, 2);
+        io.ZData = io_pos(k, 3);
         
         probe.XData = probe_pos(k, 1);
         probe.YData = probe_pos(k, 2);
@@ -126,19 +126,25 @@ for k = t_per_sonda - 3*60*24 : t_per_sonda + t_manovra
         europe.YData = europe_pos(k, 2);
         europe.ZData = europe_pos(k, 3);
         
+        io.XData = io_pos(k, 1);
+        io.YData = io_pos(k, 2);
+        io.ZData = io_pos(k, 3);
+        
         probe.XData = jup_to_eur_traj(k - t_per_sonda, 1);
         probe.YData = jup_to_eur_traj(k - t_per_sonda, 2);
         probe.ZData = jup_to_eur_traj(k - t_per_sonda, 3);
     end
     addpoints(h1, europe_pos(k, 1), europe_pos(k, 2), europe_pos(k, 3));
-    %addpoints(h2, io_pos(k, 1), io_pos(k, 2), io_pos(k, 3));
+    addpoints(h2, io_pos(k, 1), io_pos(k, 2), io_pos(k, 3));
     if(k <= t_per_sonda)
         addpoints(h3, probe_pos(k, 1), probe_pos(k, 2), probe_pos(k, 3));
     else
         addpoints(h3, jup_to_eur_traj(k - t_per_sonda, 1), jup_to_eur_traj(k - t_per_sonda, 2), jup_to_eur_traj(k - t_per_sonda, 3));
     end
-    drawnow 
+    drawnow limitrate
+    pause(0.0001)
+
 end
 
-[dv2, ~] = capture_hyp(10, v2_in_eur, begin_date, 1, 100, 0, europe_vel(t_per_sonda + t_manovra, :));
+%[dv2, ~] = capture_hyp(10, v2_in_eur, begin_date, 1, 100, 0, europe_vel(t_per_sonda + t_manovra, :));
 

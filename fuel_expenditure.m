@@ -17,7 +17,7 @@ y0 = year(date0);
 m0 = month(date0);
 d0 = day(date0);
 
-date1 = datetime(2025, 3, 4); %2) flyby Marte
+date1 = datetime(2025, 03, 04); %2) flyby Marte
 y1 = year(date1);
 m1 = month(date1);
 d1 = day(date1);
@@ -62,7 +62,8 @@ d5 = day(date5);
 %% 2) Trasferimento Lambert Terra-Marte
 [~, r_earth1, ~] = body_elements_and_sv(3, y0, m0, d0, 0, 0, 0);
 [~, r_mars1, V_mars1 , ~] = body_elements_and_sv(4, y1, m1, d1, 0, 0, 0);
-r_mars1(3) = 0;
+% r_earth1(3) = 0;
+% r_mars1(3) = 0;
 T_a = between (date0, date1, 'Days'); %[days]
 t_a = (caldays(T_a)) * 24 * 3600; %[sec]
 [V1, V2_a] = lambert(r_earth1, r_mars1, t_a);
@@ -73,7 +74,7 @@ t_a = (caldays(T_a)) * 24 * 3600; %[sec]
 
 %% 4) Trasferimento Lambert Marte-Terra
 [~, r_earth2, V_earth2,~] = body_elements_and_sv(3, y2, m2, d2, 0, 0, 0);
-r_earth2(3) = 0;
+% r_earth2(3) = 0;
 T_b = between (date1, date2, 'Days'); %[days]
 t_b = (caldays(T_b)) * 24 * 3600; %[sec]
 [V2_b, V3_a] = lambert(r_mars1, r_earth2, t_b);
@@ -98,8 +99,7 @@ norm(V3_b)
 
 %% 7) Iperbole di ingresso nella SOI gioviana
 % 8) Parcheggio sull'orbita attorno a Giove
-
-[delta_v4, rp_jupiter] = capture_hyp(5, V4, date3, 0, 8e4, 0.6);
+[delta_v4, rp_jupiter] = capture_hyp(5, V4, date3, 1, 8e4, 0.6);
 
 
 %% 9) Trasferimento Lambert Giove-Europa
