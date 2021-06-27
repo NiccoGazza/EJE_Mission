@@ -70,7 +70,7 @@ t_a = (caldays(T_a)) * 24 * 3600; %[sec]
 
 %% 1) Iperbole di uscita dalla SOI terrestre
 %V1 - velocita'  di inizio Lambert
-[delta_v1,~] = escape_hyp (3, V1, 200, date0, 23.5); %incl = 23.5 è un parametro utilizzato solo dal plot
+[delta_v1,~] = escape_hyp (3, V1, 200, date0, 1); %incl = 23.5 è un parametro utilizzato solo dal plot
 
 %% 4) Trasferimento Lambert Marte-Terra
 [~, r_earth2, V_earth2,~] = body_elements_and_sv(3, y2, m2, d2, 0, 0, 0);

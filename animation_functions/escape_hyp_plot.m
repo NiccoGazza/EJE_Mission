@@ -1,4 +1,4 @@
-function escape_hyp_plot(body_id, incl)
+function escape_hyp_plot(body_id)
 %escape_hyp_plot plotta l'iperbole di uscita partendo da un'orbita di
 %parcheggio. L'orbita è inclinata di incl; si assume che
 %l'orbita di parcheggio dalla quale avviene il cambio sia anch'essa
@@ -8,11 +8,12 @@ function escape_hyp_plot(body_id, incl)
    
 %% Definizione input
     rad = pi/180;
-    global mu_p R 
+    global mu_p R incl_body
     global r_soi r_p v_park v_hyp 
     
     %matrice di rotazione: viene utilizzata non come cambio di coordinate 
     %ma per mappare una rotazione rigida 
+    incl = incl_body(body_id);
     R_x = [1 0 0; 0 cos(incl*rad) -sin(incl*rad); 0 sin(incl*rad) cos(incl*rad)];
     
 %% PARKING ORBIT
@@ -129,30 +130,9 @@ v_at_rmax   = norm([y(imax,4) y(imax,5) y(imax,6)]);
 v_at_rmin   = norm([y(imin,4) y(imin,5) y(imin,6)]);
  
 %...Output to the command window:
-fprintf('\n\n--------------------------------------------------------\n')
-fprintf(' %s\n', datestr(now))
-fprintf('\n The initial position is [%g, %g, %g] (km).',...
-                                                     r0(1), r0(2), r0(3))
-fprintf('\n   Magnitude = %g km\n', norm(r0))
-fprintf('\n The initial velocity is [%g, %g, %g] (km/s).',...
-                                                     v0(1), v0(2), v0(3))
-fprintf('\n   Magnitude = %g km/s\n', norm(v0))
-fprintf('\n Initial time = %g h.\n Final time   = %g h.\n',0,tf/hours) 
-fprintf('\n The minimu_pm altitude is %g km at time = %g h.',...
-            rmin-R, t(imin)/hours)
-fprintf('\n The speed at that point is %g km/s.\n', v_at_rmin)
-fprintf('\n The maximu_pm altitude is %g km at time = %g h.',...
-            rmax-R, t(imax)/hours)
-fprintf('\n The speed at that point is %g km/s\n', v_at_rmax)
-fprintf('\n--------------------------------------------------------\n\n')
- 
+
+
 %...Plot the results:
-%   Draw the planet
-% [xx, yy, zz] = sphere(100);
-% surf(R*xx/1.5, R*yy/1.5, R*zz/1.5)
-% colormap(light_gray)
-% caxis([-R/100 R/100])
-% shading interp
 fig = gca;
 fig.Color = [0, 0.1686, 0.4196];
 fig.GridColor = [0.9020, 0.9020, 0.9020];
@@ -163,7 +143,6 @@ body_sphere(body_id, obj_pos);
 grid on
 grid minor
 
- 
 %   Draw and label the X, Y and Z axes
 line([0 2*R/1.5],   [0 0],   [0 0]); text(2*R/1.5,   0,   0, 'X')
 line(  [0 0], [0 2*R/1.5],   [0 0]); text(  0, 2*R/1.5,   0, 'Y')
@@ -172,7 +151,6 @@ hold on
 
   
 %   Specify some properties of the graph
-grid on
 axis equal
 % xlim([-0.7e4, 0.7e4])
 % ylim([-2e4, 2e4])
@@ -196,27 +174,9 @@ for k = 1:size(y,1)
     end
     
     addpoints(h, y(k,1), y(k,2), y(k,3));
-    drawnow limitrate 
-    pause(0.03)
+    drawnow %limitrate 
+    %pause(0.03)
 end
-% ~~~~~~~~~~~~~~~~~~~~~~~
-function map = light_gray
-% ~~~~~~~~~~~~~~~~~~~~~~~
-%{
-  This function creates a color map for displaying the planet as light
-  gray with a black equator.
-  
-  r - fraction of red
-  g - fraction of green
-  b - fraction of blue
- 
-%}
-% -----------------------
-r = 0.8; g = r; b = r;
-map = [r g b
-       0 0 0
-       r g b];
-end %light_gray
  
 end %output
  

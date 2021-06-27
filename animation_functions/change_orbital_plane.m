@@ -1,11 +1,10 @@
 % change_orbital_plane plotta il cambio di piano da equatoriale a quello
 % dell'eclittica, nel quale poi tutta la missione si svilupperà. Potrebbe
 % essere generalizzata, ma essendo una manovra che avviene solo sulla Terra
-% si è scelto di farla (per ora) specificatamente per questo caso.
+% si è scelto di farla specificatamente per questo caso.
 function y = change_orbital_plane
     %% PARKING ORBIT
     global pl_mu radii 
-    global y
     
     mu_obj = pl_mu(3);
     R = radii(3);
@@ -20,11 +19,11 @@ function y = change_orbital_plane
     w = 0;
     TA = 0;  
     coe_park_orbit = [h e RA incl w TA];
-    [r0, v0] = sv_from_coe(coe_park_orbit, pl_mu(3));
+    [r0, v0] = sv_from_coe(coe_park_orbit, mu_obj);
     
     hours = 3600;
     t0 = 0;
-    tf = 2*pi*sqrt( (R + r_park)^3 / pl_mu(3) ); %[s]
+    tf = 2*pi*sqrt( (R + r_park)^3 / mu_obj ); %[s]
     %...End input data
  
  
@@ -126,7 +125,6 @@ v_at_rmin   = norm([y(imin,4) y(imin,5) y(imin,6)]);
 %...Output to the command window:
 fprintf('\n\n--------------------------------------------------------\n')
 fprintf('\n Earth Orbit\n')
-fprintf(' %s\n', datestr(now))
 fprintf('\n The initial position is [%g, %g, %g] (km).',...
                                                      r0(1), r0(2), r0(3))
 fprintf('\n   Magnitude = %g km\n', norm(r0))
@@ -141,17 +139,10 @@ fprintf('\n The maximum altitude is %g km at time = %g h.',...
             rmax-R, t(imax)/hours)
 fprintf('\n The speed at that point is %g km/s\n', v_at_rmax)
 fprintf('\n--------------------------------------------------------\n\n')
+
+fprintf('\n The orbital period is %g s\n', tf)
  
-%...Plot the results:
-%   Draw the planet
-% [xx, yy, zz] = sphere(100);
-% %NOTA: riduco le dimensioni della Terra di 1.5 soltanto per rendere la
-% %traiettoria più visibile
-% surf(R*xx/1.5, R*yy/1.5, R*zz/1.5)
-% colormap(light_gray)
-% caxis([-R/100 R/100])
-% shading interp
-%fig = set(gca, 'Color', [0, 0.1686, 0.4196]);
+
 fig = gca;
 fig.Color = [0, 0.1686, 0.4196];
 fig.GridColor = [0.9020, 0.9020, 0.9020];
@@ -172,12 +163,17 @@ hold on
 grid on
 axis equal
 xlabel('km')
+xlim([-1e4, 1e4])
 ylabel('km')
+ylim([-8e3, 8e3])
 zlabel('km')
+zlim([-8e3, 8e3])
+
 %view( [128 , 28] )
 view( [158, 26] )
 h = animatedline('Color', [1, 0.93333, 0]);
 
+pause();
 for k = 1:size(y,1)
     if(k == 1)
         sonda = plot3(y(k,1),y(k,2), y(k,3),...
@@ -193,27 +189,8 @@ for k = 1:size(y,1)
     drawnow 
     pause(0.01)
 end
- 
-% ~~~~~~~~~~~~~~~~~~~~~~~
-function map = light_gray
-% ~~~~~~~~~~~~~~~~~~~~~~~
-%{
-  This function creates a color map for displaying the planet as light
-  gray with a black equator.
-  
-  r - fraction of red
-  g - fraction of green
-  b - fraction of blue
- 
-%}
-% -----------------------
-r = 0.8; g = r; b = r;
-map = [r g b
-       0 0 0
-       r g b];
-end %light_gray
- 
+% ~~~~~~~~~~~~~~~~~~~~~~~ 
 end %output
  
-end %circular_orbit
+end %change_orbital_plane
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

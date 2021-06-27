@@ -31,11 +31,14 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, plot, varargin)
 %			(b) float varargin . L'utente assegna un valore numerico all'altezza dell'orbita di parcheggio.
 %			=> Qualunque sia la scelta dell'utente, la funzione riporta nuovamente il raggio al periasse (consente di poter richiamare facilmente questa variabile, per comodità)
 %		varargin{2}: secondo input; in entrambi i casi, questo ingresso serve per specificare l'eccentricita' desiderata dell'orbita di parcheggio e_park
-%   
+%   plot - flag che, se attivo (ovvero uguale a 1), fa eseguire il plot
+
+
 %   Dati di uscita:
 %	delta_v - deltaV totale della manovra 
 %	r_p     - raggio al periasse dell'iperbole di ingressi e dell'orbita di parcheggio (le due, coincidono)
-%
+
+
     %% Definizione di input e costanti
     validateattributes(Va,{'double'},{'size',[1 3]})
     close all;
@@ -88,10 +91,12 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, plot, varargin)
         disp('Error! ----> Cannot keep on orbit around the celestial body choosen <----');
     end
     
+    %eccentricita' iperbole di cattura
     e_hyp = 1 + (r_p * v_inf^2) / mu_p;
 
-    %raggio all'apoasse dell'orbita di cattura
-    %ra = 2*mu_body/norm(vinf)^2;
+    %periodo orbita di parcheggio
+    a = r_p / (1 - e_park);
+    T_park = 2 * pi * sqrt( a^3 / mu_p);
 
     %velocita' (scalare) della sonda al periasse della traiettoria iperbolica 
     v_p_hyp = sqrt(v_inf^2 + 2*mu_p / r_p); 
@@ -102,9 +107,10 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, plot, varargin)
     %Delta-v della manovra di entrata
     delta_v = abs(v_p_hyp - v_p_park);  
 
+
     %% HYPERBOLA PLOT
     if(plot == 1)
-        capture_hyp_plot(body_id, r_p);
+        capture_hyp_plot(body_id, r_p, T_park);
     end
 
 end

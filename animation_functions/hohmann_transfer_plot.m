@@ -1,7 +1,3 @@
-%% Plot di prova: voglio provare a plottare un trasferimento alla Hohmann
-%ok, torna => il problema è che il calcolo del deltaV non è abbastanza
-%accurato dal momento che la funzione hohmann_transfer utilizza
-%l'approssimazione di raggi circolari medi! 
 clc;
 %% Input initialization
 global radii color
@@ -23,29 +19,6 @@ time_vector = generate_time(begin_date, end_date);
 
 [normalized_dv, ~] =  hohmann_transfer(3, 5);
 dv_hohmann = normalized_dv * norm(target_vel);
-
-%% Graphical setup
-hold on	
-axis equal;
-grid on;
-
-%NOTA: se i limiti non vengono settati in anticipo, la velocità
-%dell'animazione è variabile in quanto deve aggiornare anche assi e grid!
-% xlim([-4.5e8, 1.5e8]);
-% ylim([-4e8, 4e8]);
-% zlim([-1e8, 1e8]);
-
-%Decommentare se si vuole vedere l'orientazione degli assi
-% line([0 2*50*R],   [0 0],   [0 0]); text(2*50*R,   0,   0, 'X')
-% line(  [0 0], [0 2*50*R],   [0 0]); text(  0, 2*50*R,   0, 'Y')
-% line(  [0 0],   [0 0], [0 2*50*R]); text(  0,   0, 2*50*R, 'Z')
-
-view(43, 30);
-fig = gca;
-fig.Color = [0, 0, 0];
-fig.GridColor = [0.9020, 0.9020, 0.9020];
-sun_pos = [0, 0, 0]; %origine sdr eliocentrico
-body_sphere(11, sun_pos);
 
 %% Trajectories generation
 e_posx = []; j_posx = []; s_posx = [];
@@ -70,9 +43,7 @@ r0 = planet_dep(1:3);
 v0 = traj(1:3);
 vf = traj(4:6);
 
-% [dv1, ~] = escape_hyp(3, v0, 200, begin_date, 23.5);
-% [dv2, ~] = capture_hyp(5, vf, end_date, 0, 8e4, 0.6); 
-
+[dv1, ~] = escape_hyp(3, v0, 200, begin_date, 1);
 
 %k = 0.2952; %normalized_dv_1 !! 
 %v0 = (k+1)*planet_dep(4:6); %stesso problema descritto all'inizio
@@ -100,14 +71,37 @@ vf = traj(4:6);
     s_posz = [s_posz; s_pos(3)];
     
  end
+j_posz(:) = 0;
+
+%% Graphical setup
+close all
+axis equal
+grid on
+hold on
+%Decommentare se si vuole vedere l'orientazione degli assi
+line([0 2*25*R],   [0 0],   [0 0]); text(2*25*R,   0,   0, 'X')
+line(  [0 0], [0 2*25*R],   [0 0]); text(  0, 2*25*R,   0, 'Y')
+line(  [0 0],   [0 0], [0 2*25*R]); text(  0,   0, 2*25*R, 'Z')
+
+view(43, 30);
+fig = gca;
+fig.Color = [0, 0, 0];
+fig.GridColor = [0.9020, 0.9020, 0.9020];
+sun_pos = [0, 0, 0]; %origine sdr eliocentrico
+body_sphere(11, sun_pos);
 
 %% Animation
 h1 = animatedline('Color', color(5));
 h2 = animatedline('Color', 'b');
 h3 = animatedline('Color', '#D95319');
 
-pause();
+%NOTA: se i limiti non vengono settati in anticipo, la velocità
+%dell'animazione è variabile in quanto deve aggiornare anche assi e grid!
+xlim([-9e8, 3e8]);
+ylim([-2e8, 7.5e8]);
+zlim([-1e8, 1e8]);
 
+pause();
 for k = 1 : number_of_days
     if(k == 1)
     probe = plot3(s_posx(k), s_posy(k), s_posz(k),...
@@ -119,7 +113,7 @@ for k = 1 : number_of_days
                     'MarkerFaceColor',color(3));
 
     jupiter = plot3(j_posx(k), j_posy(k), j_posz(k),...
-                    'o','Color',color(5), 'MarkerSize', 10,...
+                    'o','Color',color(5), 'MarkerSize', 7,...
                     'MarkerFaceColor',color(5));     
     else
         probe.XData = s_posx(k);
@@ -139,6 +133,17 @@ for k = 1 : number_of_days
     addpoints(h1, j_posx(k), j_posy(k), j_posz(k));
     addpoints(h2, e_posx(k), e_posy(k), e_posz(k));
     addpoints(h3, s_posx(k), s_posy(k), s_posz(k));
-    drawnow 
+    drawnow limitrate
     
-end   %hohmann_trasnsfer_plot%
+end   
+
+close all
+[dv2, ~] = capture_hyp(5, vf, end_date, 1, 8e4, 0.6);
+
+fprintf('\n Delta_v analysis:\n Escape Delta_v = %g [km/s]', dv1)
+fprintf('\n Capture Delta_v = %g [km/s]', dv2)
+fprintf('\n Total Delta_v = %g [km/s]\n', dv1 + dv2)
+
+fprintf('\n Time analysis:\n Time of Flight = %g days \n', number_of_days)
+
+% end %hohmann_transfer_plot%

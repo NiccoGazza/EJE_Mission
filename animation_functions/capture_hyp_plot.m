@@ -1,4 +1,4 @@
-function capture_hyp_plot(body_id, r_p)
+function capture_hyp_plot(body_id, r_p, T_park)
 
 %RICORDA: I SDR PLANETOCENTRICI HANNO INCLINAZIONE DIVERSA RISPETTO
 %ALL'ECLITTICA. AD ESEMPIO: TERRA => 23.5 DEG
@@ -10,7 +10,7 @@ function capture_hyp_plot(body_id, r_p)
 %% Definizione input
     rad = pi/180;
     global incl_body mu_p R    
-    global v_p_hyp v_p_park
+    global v_p_hyp v_p_park 
     incl = incl_body(body_id); 
     
     %matrice di rotazione: viene utilizzata non come cambio di coordinate 
@@ -31,7 +31,7 @@ function capture_hyp_plot(body_id, r_p)
     %Integro utilizzando rates
     hours = 3600;
     t0 = 0;
-    tf = 10*hours;
+    tf = 5*hours;
     y0 = [r0, v0]';
     [t,y] = rkf45(@rates, [t0 tf], y0);
    
@@ -50,7 +50,7 @@ function capture_hyp_plot(body_id, r_p)
     
     %Integro utilizzando rates
     t0 = 0;
-    tf = 240*hours;
+    tf = 2 * T_park;
     y0 = [r0_new v0_new]';
     [t_new ,y_new] = rkf45(@rates, [t0 tf], y0);
     
@@ -125,24 +125,6 @@ end
 v_at_rmax   = norm([y(imax,4) y(imax,5) y(imax,6)]);
 v_at_rmin   = norm([y(imin,4) y(imin,5) y(imin,6)]);
  
-%...Output to the command window:
-fprintf('\n\n--------------------------------------------------------\n')
-fprintf(' %s\n', datestr(now))
-fprintf('\n The initial position is [%g, %g, %g] (km).',...
-                                                     r0(1), r0(2), r0(3))
-fprintf('\n   Magnitude = %g km\n', norm(r0))
-fprintf('\n The initial velocity is [%g, %g, %g] (km/s).',...
-                                                     v0(1), v0(2), v0(3))
-fprintf('\n   Magnitude = %g km/s\n', norm(v0))
-fprintf('\n Initial time = %g h.\n Final time   = %g h.\n',0,tf/hours) 
-fprintf('\n The minimu_pm altitude is %g km at time = %g h.',...
-            rmin-R, t(imin)/hours)
-fprintf('\n The speed at that point is %g km/s.\n', v_at_rmin)
-fprintf('\n The maximu_pm altitude is %g km at time = %g h.',...
-            rmax-R, t(imax)/hours)
-fprintf('\n The speed at that point is %g km/s\n', v_at_rmax)
-fprintf('\n--------------------------------------------------------\n\n')
- 
 %...Plot the results:
 fig = gca;
 fig.Color = [0, 0.1686, 0.4196];
@@ -152,7 +134,6 @@ body_sphere(body_id, obj_pos);
 grid on
 grid minor
 
- 
 %   Draw and label the X, Y and Z axes
 line([0 2*R/1.5],   [0 0],   [0 0]); text(2*R/1.5,   0,   0, 'X')
 line(  [0 0], [0 2*R/1.5],   [0 0]); text(  0, 2*R/1.5,   0, 'Y')
@@ -183,8 +164,8 @@ for k = 1:size(y,1)
     end
     
     addpoints(h, y(k,1), y(k,2), y(k,3));
-    drawnow limitrate 
-    pause(0.03)
+    drawnow %limitrate 
+    %pause(0.03)
 end
  
 end %output
