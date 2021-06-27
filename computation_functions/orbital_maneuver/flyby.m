@@ -1,5 +1,5 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function [deltav, deltav_inf, e, a, delta, r_p] = flyby ( body_id, v1, V, v2)
+function [deltav, deltav_inf, e, a, delta, r_p] = flyby ( body_id, v1, V, v2, plot)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % Questa funzione calcola i parametri dell'iperbole di flyby e il deltav
 % dovuto alla manovra.
@@ -7,6 +7,7 @@ function [deltav, deltav_inf, e, a, delta, r_p] = flyby ( body_id, v1, V, v2)
 %   v1 - velocita'  della sonda in entrata al SOI del pianeta (da Lambert);
 %   V  - velocita' del pianeta (da body_elements_and_sv);
 %   v2 - velocita'  in uscita da SOI del pianeta (da Lambert);
+% plot - flag che, se attivo (ovvero uguale a 1), fa eseguire il plot
 %
 % Dati in uscita:
 %   deltav - accelerazione dovuta al flyby;
@@ -39,6 +40,8 @@ function [deltav, deltav_inf, e, a, delta, r_p] = flyby ( body_id, v1, V, v2)
     deltav = abs(norm(v1) - norm(v2));
     deltav_inf = norm(v_inf1, 2) - norm(v_inf2, 2);%differenza delle norme (mi aspetto che sia prossima a 0)
 
-    %flyby_plot(body_id, r_p, norm(v_inf1));
+    if(plot == 1)
+        flyby_plot(body_id, r_p, norm(v_inf1));
+    end
 end
 

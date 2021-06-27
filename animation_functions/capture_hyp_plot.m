@@ -31,9 +31,9 @@ function capture_hyp_plot(body_id, r_p, T_park)
     %Integro utilizzando rates
     hours = 3600;
     t0 = 0;
-    tf = 5*hours;
+    tf = 10*hours;
     y0 = [r0, v0]';
-    [t,y] = rkf45(@rates, [t0 tf], y0);
+    [t,y] = rkf1_4(@rates, [t0 tf], y0, 1000, 4);
    
     %TRICK: per plottare inverto gli elementi di y  
     len = size(y,1);
@@ -50,9 +50,9 @@ function capture_hyp_plot(body_id, r_p, T_park)
     
     %Integro utilizzando rates
     t0 = 0;
-    tf = 2 * T_park;
+    tf = 4 * T_park;
     y0 = [r0_new v0_new]';
-    [t_new ,y_new] = rkf45(@rates, [t0 tf], y0);
+    [t_new ,y_new] = rkf1_4(@rates, [t0 tf], y0, 1000, 4);
     
     t = [t; t_new];
     y = [first_orbit; y_new];
@@ -164,8 +164,7 @@ for k = 1:size(y,1)
     end
     
     addpoints(h, y(k,1), y(k,2), y(k,3));
-    drawnow %limitrate 
-    %pause(0.03)
+    drawnow 
 end
  
 end %output

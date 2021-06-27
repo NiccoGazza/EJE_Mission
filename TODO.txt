@@ -1,8 +1,8 @@
 TODO LIST:
 ✅ fare script per calcolo del tempo di volo totale
 -> EUROPA_PLOT dovrà essere inglobato dentro entire_mission_plot e dovrà plottare il trasferimento Giove-Europa
+-> sistemare EUROPA_PHASING: sarà una funzione che restituisce i dati necessari alla manovra di trasferimento, che verranno sfruttati da EUROPA_PLOT
 -> inserire legende, label e unità di misura in tutti i plot
--> aggiustare la fase di trasferimento su Europa
 -> integrare entire_mission_plot con fuel_expenditure e time_expenditure, in modo da stampare le informazioni direttamente mentre la missione viene plottata;
    in questo modo è possibile plottare (tramite le velocità in uscita da Lambert) in un unico file anche le iperboli
    di cattura e di uscita (prendere a riferimento hohmann_transfer_plot).

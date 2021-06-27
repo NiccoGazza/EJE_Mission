@@ -142,8 +142,7 @@ for k = 1 : t_per_sonda + t_manovra
         addpoints(h3, jup_to_eur_traj(k - t_per_sonda, 1), jup_to_eur_traj(k - t_per_sonda, 2), jup_to_eur_traj(k - t_per_sonda, 3));
     end
     drawnow limitrate
-    pause(0.0001)
-
+  
 end
 
 %[dv2, ~] = capture_hyp(10, v2_in_eur, begin_date, 1, 100, 0, europe_vel(t_per_sonda + t_manovra, :));

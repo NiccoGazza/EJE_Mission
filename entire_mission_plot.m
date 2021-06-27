@@ -1,4 +1,5 @@
-clear all; close all; clc;
+close all; clc;
+
 %% Input initialization
 initializeEJE
 
@@ -86,7 +87,8 @@ s_posz = [s_pos_1(:,3); s_pos_2(:,3); s_pos_3(:,3)];
 %% Plot escape hyperbola
 [delta_v1, ~] = escape_hyp (3, V1, 200, begin_date_1, 1);
 pause();
-close all
+esc_plot = gcf;
+close(esc_plot);
 
 
 %% Graphical Setup for heliocentric phase     
@@ -129,7 +131,7 @@ h4 = animatedline('Color', 'White');
 
 %% Plot heliocentric trajectories
 pause();
-for k = 1:number_of_days
+for k = 1 : number_of_days
     if(k == 1)
         probe = plot3(s_posx(k), s_posy(k), s_posz(k),...
 						'o','Color','#D95319', 'MarkerSize', 4,...
@@ -167,19 +169,35 @@ for k = 1:number_of_days
         
     end
     
+    if(k ==  nod_1)
+        [dv_fb1, ~] = flyby ( 4, V2_a, V_mars1, V2_b, 1);
+        pause();
+        mars_flyby = gcf;
+        close(mars_flyby);
+    end
+    if(k == nod_1 + nod_2)
+        [dv_fb2, ~] = flyby (3, V3_a, V_earth2, V3_b, 1);
+        pause();
+        earth_flyby = gcf;
+        close(earth_flyby);
+    end
+    
     addpoints(h1, m_posx(k), m_posy(k), m_posz(k));
     addpoints(h2, e_posx(k), e_posy(k), e_posz(k));
     addpoints(h3, s_posx(k), s_posy(k), s_posz(k));
     addpoints(h4, j_posx(k), j_posy(k), j_posz(k));
-    drawnow %limitrate
+    drawnow limitrate
     %pause(0.01)
 end
 
 %% Plot capture hyperbola
 pause();
-close all
-[delta_v4, rp_jupiter] = capture_hyp(5, V4, end_date_3, 1, 8e4, 0.6);
+%close all
 
+[delta_v4, rp_jupiter] = capture_hyp(5, V4, end_date_3, 1, 8e4, 0.6);
+pause();
+cap_hyp = gcf;
+close(cap_hyp);
 
 
 

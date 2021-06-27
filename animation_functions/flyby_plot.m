@@ -118,31 +118,8 @@ end
 v_at_rmax   = norm([y(imax,4) y(imax,5) y(imax,6)]);
 v_at_rmin   = norm([y(imin,4) y(imin,5) y(imin,6)]);
  
-%...Output to the command window:
-fprintf('\n\n--------------------------------------------------------\n')
-fprintf(' %s\n', datestr(now))
-fprintf('\n The initial position is [%g, %g, %g] (km).',...
-                                                     r0(1), r0(2), r0(3))
-fprintf('\n   Magnitude = %g km\n', norm(r0))
-fprintf('\n The initial velocity is [%g, %g, %g] (km/s).',...
-                                                     v0(1), v0(2), v0(3))
-fprintf('\n   Magnitude = %g km/s\n', norm(v0))
-fprintf('\n Initial time = %g h.\n Final time   = %g h.\n',0,tf/hours) 
-fprintf('\n The minimu_pm altitude is %g km at time = %g h.',...
-            rmin-R, t(imin)/hours)
-fprintf('\n The speed at that point is %g km/s.\n', v_at_rmin)
-fprintf('\n The maximu_pm altitude is %g km at time = %g h.',...
-            rmax-R, t(imax)/hours)
-fprintf('\n The speed at that point is %g km/s\n', v_at_rmax)
-fprintf('\n--------------------------------------------------------\n\n')
- 
-%...Plot the results:
-%   Draw the planet
-% [xx, yy, zz] = sphere(100);
-% surf(R*xx/1.5, R*yy/1.5, R*zz/1.5)
-% colormap(light_gray)
-% caxis([-R/100 R/100])
-% shading interp
+fig = figure();
+hold on
 fig = gca;
 fig.Color = [0, 0.1686, 0.4196];
 fig.GridColor = [0.9020, 0.9020, 0.9020];
@@ -156,10 +133,8 @@ grid minor
 line([0 2*R/1.5],   [0 0],   [0 0]); text(2*R/1.5,   0,   0, 'X')
 line(  [0 0], [0 2*R/1.5],   [0 0]); text(  0, 2*R/1.5,   0, 'Y')
 line(  [0 0],   [0 0], [0 2*R/1.5]); text(  0,   0, 2*R/1.5, 'Z')
-hold on 
   
 %   Specify some properties of the graph
-grid on
 axis equal
 xlabel('km')
 %xlim([-6e5, 6e5])
