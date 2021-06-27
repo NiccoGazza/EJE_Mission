@@ -70,7 +70,7 @@ t_a = (caldays(T_a)) * 24 * 3600; %[sec]
 
 %% 1) Iperbole di uscita dalla SOI terrestre
 %V1 - velocita'  di inizio Lambert
-[delta_v1,~] = escape_hyp (3, V1, 200, date0, 1); %incl = 23.5 è un parametro utilizzato solo dal plot
+[delta_v1,~] = escape_hyp (3, V1, 200, date0, 1); 
 
 %% 4) Trasferimento Lambert Marte-Terra
 [~, r_earth2, V_earth2,~] = body_elements_and_sv(3, y2, m2, d2, 0, 0, 0);
@@ -91,10 +91,9 @@ T_c = between (date2, date3, 'Days'); %[days]
 t_c = (caldays(T_c)) * 24 * 3600; %[sec]
 [V3_b, V4] = lambert(r_earth2, r_jupiter1, t_c);
 
+
 %% 5) Secondo Flyby - sulla Terra
 [delta_v3, deltav_inf3, ~] = flyby (3, V3_a, V_earth2, V3_b);
-norm(V3_a)
-norm(V3_b)
 
 
 %% 7) Iperbole di ingresso nella SOI gioviana
