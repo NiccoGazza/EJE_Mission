@@ -29,12 +29,12 @@ function [t, dv, r_p] = earth_flyby(t1, r_park, e_park)
     %% Traiettoria Terra-Giove
     %Inizializzazione
     t0 = datetime(2026, 1, 1);
-    n=0;
+    n = 0;
     t = [];
     dv = [];
     r_p = [];
 
-    %Scandaglio due anni
+    %Analizzo due anni
     while n ~= 730
 
         y = year(t0);

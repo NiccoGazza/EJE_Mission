@@ -44,7 +44,7 @@ function [t, dv, r] = mars_flyby(t1, t2)
     %Inizializzazione dati dell'iterazione
     t0 = datetime(2024, 1, 1);
     n = 0;
-    toll = 1;
+    toll = 0.15;
     t = [];
     dv = [];
     r = [];
@@ -72,7 +72,7 @@ function [t, dv, r] = mars_flyby(t1, t2)
 
         if diff < toll 
             %FLYBY
-            [deltav, ~, ~, ~, ~, r_p] = flyby (3, v2, v_earth, v_dep);
+            [deltav, ~, ~, ~, ~, r_p] = flyby (3, v2, v_earth, v_dep, 0);
             %Aggiornamento delle variabili alla data che approssima al meglio
             % le condizioni del Flyby sulle velocità relative        
             if r_p > radii(3) + 100 %Distanza di sicurezza: 100km

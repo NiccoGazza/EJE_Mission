@@ -4,27 +4,27 @@ close all; clc;
 initializeEJE
 
 %Data di partenza
-begin_date_1 = datetime(2024, 10, 30);
+begin_date_1 = datetime(2024, 10, 15);
 y0 = year(begin_date_1);
 m0 = month(begin_date_1);
 d0 = day(begin_date_1);
 
 %Flyby su Marte
-end_date_1 = datetime(2025, 03, 04);
+end_date_1 = datetime(2025, 02, 27);
 begin_date_2 = end_date_1;
 y1 = year(begin_date_2);
 m1 = month(begin_date_2);
 d1 = day(begin_date_2);
 
 %Flyby su Terra
-end_date_2 = datetime(2027, 11, 19);
+end_date_2 = datetime(2026, 12, 02);
 begin_date_3 = end_date_2;
 y2 = year(begin_date_3);
 m2 = month(begin_date_3);
 d2 = day(begin_date_3);
 
 %%Arrivo su Giove
-end_date_3 = datetime(2031, 01, 01);
+end_date_3 = datetime(2030, 04, 11);
 y3 = year(end_date_3);
 m3 = month(end_date_3);
 d3 = day(end_date_3);
@@ -89,7 +89,9 @@ s_posz = [s_pos_1(:,3); s_pos_2(:,3); s_pos_3(:,3)];
 pause();
 esc_plot = gcf;
 close(esc_plot);
-
+fprintf('\n/*-----------------------------------------------*/')
+fprintf('\nDeparture Date: %s\n', datestr(begin_date_1))
+fprintf('\nDelta_V required for escape hyperbola is: %g [km/s]\n', delta_v1)
 
 %% Graphical Setup for heliocentric phase     
 global radii color
@@ -170,23 +172,31 @@ for k = 1 : number_of_days
     end
     
     if(k ==  nod_1)
-        [dv_fb1, ~] = flyby ( 4, V2_a, V_mars1, V2_b, 1);
-        pause();
-        mars_flyby = gcf;
-        close(mars_flyby);
+        [dv_fb1, delta_vinf_1, ~] = flyby ( 4, V2_a, V_mars1, V2_b, 0);
+        fprintf('\n/*-----------------------------------------*/')
+        fprintf('\n First flyby => leading side: \n') 
+        fprintf(' Heliocentric velocity pre Flyby is: %g [km/s]\n', norm(V2_a))
+        fprintf(' Heliocentric velocity post Flyby is: %g [km/s]', norm(V2_b))
+%         pause();
+%         mars_flyby = gcf;
+%         close(mars_flyby);
     end
     if(k == nod_1 + nod_2)
-        [dv_fb2, ~] = flyby (3, V3_a, V_earth2, V3_b, 1);
-        pause();
-        earth_flyby = gcf;
-        close(earth_flyby);
+        [dv_fb2, delta_vinf_2, ~] = flyby (3, V3_a, V_earth2, V3_b, 0);
+        fprintf('\n\n/*-----------------------------------------*/')
+        fprintf('\n Second flyby => trailing side: \n')
+        fprintf(' Heliocentric velocity pre Flyby is: %g [km/s]\n', norm(V3_a))
+        fprintf(' Heliocentric velocity post Flyby is: %g [km/s]\n', norm(V3_b))
+%         pause();
+%         earth_flyby = gcf;
+%         close(earth_flyby);
     end
     
     addpoints(h1, m_posx(k), m_posy(k), m_posz(k));
     addpoints(h2, e_posx(k), e_posy(k), e_posz(k));
     addpoints(h3, s_posx(k), s_posy(k), s_posz(k));
     addpoints(h4, j_posx(k), j_posy(k), j_posz(k));
-    drawnow limitrate
+    drawnow %limitrate
     %pause(0.01)
 end
 
@@ -198,7 +208,12 @@ pause();
 pause();
 cap_hyp = gcf;
 close(cap_hyp);
-
-
-
+fprintf('\n/*-----------------------------------------------*/')
+fprintf('\nArrival Date on Jupiter: %s\n', datestr(end_date_3))
+fprintf('\nDelta_V required for parking orbit is: %g [km/s]\n', delta_v4)
+fprintf('\n/*-----------------------------------------------*/')
+fprintf('\nTotal Delta_V for Earth-Jupiter transfer is: %g [km/s]\n', ...
+        delta_v1 + delta_v4)
+fprintf('\n/*-----------------------------------------------*/')
+fprintf('\nTime of Flight for Earth-Jupiter transfer is: %g [days]\n', number_of_days)    
 

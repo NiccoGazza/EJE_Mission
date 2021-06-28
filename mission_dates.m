@@ -3,7 +3,7 @@
 %(Terra-Marte)
 %TODO: si potrebbe provare ad iterare anche sulla data di arrivo
 
-t_arr_jup = datetime(2031, 01, 01);
+t_arr_jup = datetime(2030, 04, 11);
 
 % Abbiamo scelto un'altezza dell'orbita di cattura tale che il raggio
 % all'apoasse sia di circa 600 000km, ben lontano dalla sfera di influenza
@@ -16,35 +16,35 @@ if( isempty(t_earth2) )
     return;
 end
 
-%Ricavo la data con il delta_v2 minore
+%Ricavo la data con il delta_v2 minore: potrebbe essere un problema poichè
+%i delta_v sono tutti dell'ordine di 4.7 => potrebbe essere limitante
 [dv_jup_min, k] = min(delta_park_jup);
-%Va = v_lam(k, :);
-%capture_hyp(5, Va, t_arr_jup, 1, 80000, 0.6);
-% dv_jup_min
-t_earth2 = t_earth2(k);                                        %%19-11-2027
+t_earth2 = t_earth2(72);                                        
                                          
 %% Secondo Step:
 %fissata la data di partenza dalla Terra post-flyby, cercare una data di
 %partenza da Marte (post primo flyby) in modo che il flyby sulla Terra sia
-%effettivamente fattibile 
+%effettivamente fattibile
 
-[t_mars, dv_fb2, ~] = mars_flyby(t_earth2, t_arr_jup);
+[t_mars, dv_fb2, r_p_fb2] = mars_flyby(t_earth2, t_arr_jup);
 
 if ( isempty(t_mars) ) 
     fprintf("No date found for departure from mars \n");
     return;
 end
 
-%Prima questione: quale data scelgo? Il delta_v garantito dal flyby, essendo
-% """gratis""", è meglio che sia piccolo o grande?
-[dv_fb2, j] = min(dv_fb2);
-t_mars = t_mars(j);                        %%TOL = 1   => t_mars = 04-03-25  
+%Prelevo le informazioni: il criterio di scelta è la data il cui flyby
+%garantisca il delta_v maggiore.
+[dv_fb2, j] = max(dv_fb2);
+t_mars = t_mars(j);
+r_p_fb2 = r_p_fb2(j);                                           %27-02-2025
 
 %% Terzo step:
 %fissata la data di partenza da Marte post-flyby, cercare una data di
 %partenza dalla Terra (a seguito della manovra di fuga) in modo che il
 %flyby su Marte sia effettivamente fattibile
-[t_dep_earth, dv_fb1, r, dv_esc_earth] = earth_departure( ...
+
+[t_dep_earth, dv_fb1, r_p_fb1, dv_esc_earth] = earth_departure( ...
                                                           t_mars, ...
                                                           t_earth2);
                                                              
@@ -52,9 +52,11 @@ if ( isempty(t_dep_earth) )
     fprintf("No date found for departure from earth \n");
     return;
 end
-%%                                                             
+
+%Prelevo le informazioni: il criterio di scelta à la data il cui flyby
+%garantisca un delta_v di uscita dalla SOI della Terra minima.
 [dv_esc_earth_min, i] = min(dv_esc_earth); 
-t_dep_earth_min = t_dep_earth(i);                  %%TOL = 1.5   30-10-2024
-dv_fb_min = dv_fb1(i);
-r_p_min = r(i);
+t_dep_earth_min = t_dep_earth(i);                              %%15-10-2024
+dv_fb1 = dv_fb1(i);                             
+r_p_fb1 = r_p_fb1(i);
                                                 

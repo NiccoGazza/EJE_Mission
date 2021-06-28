@@ -10,11 +10,11 @@ function [t, dv, r, dv_esc_earth] = earth_departure(t1, t2)
 %      t2 - data di arrivo del Lambert post Fly-by su Terra
 %
 %  Dati in uscita:
-%      t       - tempo plausibile di partenza da planet_id0 per il Lambert pre
-%                Fly-by
-%      dv      - Deltav del Fly-by su planet_id1 
-%      r       - Raggio al periasse dell'iperbole di flyby
-%      DVU     - Deltav di uscita dalla terra
+%      t                - tempo plausibile di partenza da planet_id0 per il 
+%                         Lamebert pre Fly-by
+%      dv               - Deltav del Fly-by su planet_id1 
+%      r                - Raggio al periasse dell'iperbole di flyby
+%      dv_esc_earth     - Deltav di uscita dalla terra
 
 
     global radii
@@ -39,22 +39,22 @@ function [t, dv, r, dv_esc_earth] = earth_departure(t1, t2)
     t_volo = (caldays(dt))* 24 *3600;
     [v_dep, ~] = lambert (r_mars, r_earth2, t_volo);
 
-    %Valutazione della velocita'  relativa post Flyby rispetto a Marte
-    norm_vout = norm((v_dep-v_mars),2);
+    %Valutazione della velocita' relativa post Flyby rispetto a Marte
+    norm_vout = norm((v_dep - v_mars),2);
 
     %% TRAGITTO TERRA-MARTE PRE FLYBY
 
     %Inizializzazione dati dell'iterazione
-    t0 = datetime (2023, 1, 1);
+    t0 = datetime (2023, 12, 1);
     n=0;
-    toll = 1.5;
+    toll = 1.1;
     t = [];
     dv = [];
     r = [];
     dv_esc_earth = [];
 
     %Analizzo due anni
-    while n ~= 730
+    while n ~= 365
         y = year(t0);
         m = month(t0);
         d = day(t0);
@@ -66,7 +66,14 @@ function [t, dv, r, dv_esc_earth] = earth_departure(t1, t2)
         dt1 = between (t0, t1, 'Days');
         t_lam = (caldays(dt1))*24*3600;
         [v1, v2] = lambert (r_earth, r_mars, t_lam);
-
+        
+        %Il Flyby su Marte deve essere da davanti
+        if norm(v2) < norm(v_dep)
+            t0 = t0 + 1;
+            n = n + 1;
+            continue;
+        end
+        
         %Valutazione velocita'  relativa di uscita dal Flyby rispetto a Marte
         norm_vin = norm((v2-v_mars),2);
 
@@ -76,7 +83,7 @@ function [t, dv, r, dv_esc_earth] = earth_departure(t1, t2)
 
         if diff < toll 
             %FLYBY
-            [deltav, ~, ~, ~, ~, r_p] = flyby (4, v2, v_mars, v_dep);
+            [deltav, ~, ~, ~, ~, r_p] = flyby (4, v2, v_mars, v_dep, 0);
 
             %Se la manovra di Flyby è fattibile calcolo il deltav di uscita
             %dalla Terra
