@@ -60,7 +60,12 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, plot, varargin)
     m = month(arr_time);
     d = day(arr_time);
     
-    [~, ~, V2, ~] = body_elements_and_sv (body_id, y, m, d, 0, 0, 0); 
+    if(body_id ~= 10) 
+        [~, ~, V2, ~] = body_elements_and_sv (body_id, y, m, d, 0, 0, 0); 
+    else
+        V2 = varargin{3};
+        V2(3) = 0;
+    end
     
     v_inf = norm((V2 - Va)); 
  

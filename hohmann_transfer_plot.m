@@ -1,9 +1,12 @@
-clc;
+clc; close all;
+
 %% Input initialization
+initializeEJE;
+
 global radii color
 R = radii(11);
 
-begin_date = datetime(2024, 10, 30);
+begin_date = datetime(2024, 10, 16);
 [t_attesa, t_manovra, ~] =  hohmann_phasing(3, 5, begin_date);
 
 number_of_days = t_manovra;
@@ -18,7 +21,8 @@ time_vector = generate_time(begin_date, end_date);
                                                   time_vector(1, 3), 0, 0, 0);
 
 [normalized_dv, ~] =  hohmann_transfer(3, 5);
-dv_hohmann = normalized_dv * norm(target_vel);
+%Valore teorico calcolato con le relative approssimazioni
+dv_hohmann = normalized_dv * sqrt(mu / distances(3));
 
 %% Trajectories generation
 e_posx = []; j_posx = []; s_posx = [];
@@ -44,11 +48,11 @@ v0 = traj(1:3);
 vf = traj(4:6);
 
 [dv1, ~] = escape_hyp(3, v0, 200, begin_date, 1);
+pause();
+esc_plot = gcf;
+close(esc_plot);
 
-%k = 0.2952; %normalized_dv_1 !! 
-%v0 = (k+1)*planet_dep(4:6); %stesso problema descritto all'inizio
-
- for days = 1:1:number_of_days
+ for days = 1 : 1 :number_of_days
     [~, e_pos, ~,~] = body_elements_and_sv(3, time_vector(days, 1),...
                                                   time_vector(days, 2),...
                                                   time_vector(days, 3), 0, 0, 0);
@@ -71,17 +75,20 @@ vf = traj(4:6);
     s_posz = [s_posz; s_pos(3)];
     
  end
+ 
+%La traiettoria di Hohmann è calcolata sul piano dell'eclittica:
+%per rendere il plot coerente, Giove viene plottato anche'esso sul piano
+%dell'eclittica
 j_posz(:) = 0;
 
 %% Graphical setup
-close all
 axis equal
 grid on
 hold on
 %Decommentare se si vuole vedere l'orientazione degli assi
-line([0 2*25*R],   [0 0],   [0 0]); text(2*25*R,   0,   0, 'X')
-line(  [0 0], [0 2*25*R],   [0 0]); text(  0, 2*25*R,   0, 'Y')
-line(  [0 0],   [0 0], [0 2*25*R]); text(  0,   0, 2*25*R, 'Z')
+% line([0 2*25*R],   [0 0],   [0 0]); text(2*25*R,   0,   0, 'X')
+% line(  [0 0], [0 2*25*R],   [0 0]); text(  0, 2*25*R,   0, 'Y')
+% line(  [0 0],   [0 0], [0 2*25*R]); text(  0,   0, 2*25*R, 'Z')
 
 view(43, 30);
 fig = gca;
@@ -139,11 +146,20 @@ end
 
 close all
 [dv2, ~] = capture_hyp(5, vf, end_date, 1, 8e4, 0.6);
+pause();
+cap_plot = gcf;
+close(cap_plot);
 
-fprintf('\n Delta_v analysis:\n Escape Delta_v = %g [km/s]', dv1)
-fprintf('\n Capture Delta_v = %g [km/s]', dv2)
-fprintf('\n Total Delta_v = %g [km/s]\n', dv1 + dv2)
-
+%Mission info print
+fprintf('\n/*-----------------------------------------------*/')
+fprintf('\n Departure Date from Earth: %s\n', datestr(begin_date))
+fprintf('\n Arrival Date on Jupiter: %s', datestr(end_date))
+fprintf('\n/*-----------------------------------------------*/')
+fprintf('\n Delta_V analysis:\n Escape Delta_v = %g [km/s]', dv1)
+fprintf('\n Capture Delta_V = %g [km/s]', dv2)
+fprintf('\n Total Delta_V = %g [km/s]\n', dv1 + dv2)
+fprintf('\n Delta_V from theory = %g [km/s]', dv_hohmann) 
+fprintf('\n/*-----------------------------------------------*/')
 fprintf('\n Time analysis:\n Time of Flight = %g days \n', number_of_days)
 
 % end %hohmann_transfer_plot%

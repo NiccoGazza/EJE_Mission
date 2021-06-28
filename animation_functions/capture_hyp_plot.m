@@ -31,10 +31,16 @@ function capture_hyp_plot(body_id, r_p, T_park)
     %Integro utilizzando rates
     hours = 3600;
     t0 = 0;
-    tf = 10*hours;
     y0 = [r0, v0]';
-    [t,y] = rkf1_4(@rates, [t0 tf], y0, 1000, 4);
-   
+    
+    if(body_id == 10)
+        tf = 1 * hours;
+        [t,y] = rkf1_4(@rates, [t0 tf], y0, 60, 4);
+    else
+        tf = 10*hours;
+        [t,y] = rkf1_4(@rates, [t0 tf], y0, 1000, 4);
+    end
+    
     %TRICK: per plottare inverto gli elementi di y  
     len = size(y,1);
     for i = 1 : len/2
@@ -52,7 +58,12 @@ function capture_hyp_plot(body_id, r_p, T_park)
     t0 = 0;
     tf = 4 * T_park;
     y0 = [r0_new v0_new]';
-    [t_new ,y_new] = rkf1_4(@rates, [t0 tf], y0, 1000, 4);
+    
+    if(body_id == 10)
+        [t_new ,y_new] = rkf1_4(@rates, [t0 tf], y0, 60, 4);
+    else
+        [t_new ,y_new] = rkf1_4(@rates, [t0 tf], y0, 1000, 4);
+    end
     
     t = [t; t_new];
     y = [first_orbit; y_new];
@@ -169,5 +180,5 @@ end
  
 end %output
  
-end %escape_hyp_plot
+end %capture_hyp_plot
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

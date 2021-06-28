@@ -1,4 +1,4 @@
-close all; clc;
+clc; close all;
 
 %% Input initialization
 initializeEJE
@@ -41,7 +41,7 @@ t_a = (caldays(T_a)) * 24 * 3600;                                   %[sec]
 
 %generate trajectory to mars
 [e_pos_1, m_pos_1, j_pos_1, s_pos_1, nod_1] = ...
-gen_patched_conic_orbit(begin_date_1, end_date_1, 3, 4);
+    gen_patched_conic_orbit(begin_date_1, end_date_1, 3, 4);
 
 
 %% Back To Earth
@@ -173,7 +173,7 @@ for k = 1 : number_of_days
     
     if(k ==  nod_1)
         [dv_fb1, delta_vinf_1, ~] = flyby ( 4, V2_a, V_mars1, V2_b, 1);
-        fprintf('\n/*-----------------------------------------*/')
+        fprintf('\n/*-----------------------------------------------*/')
         fprintf('\n First flyby => leading side: \n') 
         fprintf(' Heliocentric velocity pre Flyby is: %g [km/s]\n', norm(V2_a))
         fprintf(' Heliocentric velocity post Flyby is: %g [km/s]', norm(V2_b))
@@ -183,7 +183,7 @@ for k = 1 : number_of_days
     end
     if(k == nod_1 + nod_2)
         [dv_fb2, delta_vinf_2, ~] = flyby (3, V3_a, V_earth2, V3_b, 1);
-        fprintf('\n\n/*-----------------------------------------*/')
+        fprintf('\n\n/*-----------------------------------------------*/')
         fprintf('\n Second flyby => trailing side: \n')
         fprintf(' Heliocentric velocity pre Flyby is: %g [km/s]\n', norm(V3_a))
         fprintf(' Heliocentric velocity post Flyby is: %g [km/s]\n', norm(V3_b))
@@ -196,7 +196,7 @@ for k = 1 : number_of_days
     addpoints(h2, e_posx(k), e_posy(k), e_posz(k));
     addpoints(h3, s_posx(k), s_posy(k), s_posz(k));
     addpoints(h4, j_posx(k), j_posy(k), j_posz(k));
-    drawnow %limitrate
+    drawnow limitrate
     %pause(0.01)
 end
 
@@ -217,3 +217,6 @@ fprintf('\nTotal Delta_V for Earth-Jupiter transfer is: %g [km/s]\n', ...
 fprintf('\n/*-----------------------------------------------*/')
 fprintf('\nTime of Flight for Earth-Jupiter transfer is: %g [days]\n', number_of_days)    
 
+%% Europa Transfer
+europa_transfer_plot;
+%end %entire_mission_plot%
