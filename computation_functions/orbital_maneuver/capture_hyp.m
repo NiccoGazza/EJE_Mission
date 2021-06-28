@@ -44,14 +44,14 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, plot, varargin)
     close all;
     global pl_mu radii  %Costanti globali (contenuti in initializeEJE.m) 
     global R mu_p      %Parametri che dipendono da costanti globali
-    global v_p_park v_p_hyp  %Variabili necessarie per il plot
+    global v_p_park v_p_hyp r_soi  %Variabili necessarie per il plot
     
     R = radii(body_id);
     mu_p = pl_mu(body_id);
     
     if(body_id ~= 10 && body_id ~= 12)
             r_soi = compute_soi(body_id, 11); 
-    elseif (body_id ~= 10 || body_id~=12)
+    elseif (body_id == 10 || body_id == 12)
             r_soi = compute_soi(body_id, 5); 
     end 
     

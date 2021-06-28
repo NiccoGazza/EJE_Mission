@@ -10,7 +10,7 @@ function capture_hyp_plot(body_id, r_p, T_park)
 %% Definizione input
     rad = pi/180;
     global incl_body mu_p R    
-    global v_p_hyp v_p_park 
+    global v_p_hyp v_p_park r_soi
     incl = incl_body(body_id); 
     
     %matrice di rotazione: viene utilizzata non come cambio di coordinate 
@@ -41,6 +41,16 @@ function capture_hyp_plot(body_id, r_p, T_park)
         [t,y] = rkf1_4(@rates, [t0 tf], y0, 1000, 4);
     end
     
+    %controllo di non essere uscito dalla SOI:
+    %altrimenti rimuovo gli elementi non coerenti
+    for i = 1 : size(y,1)
+        if(norm(y(i, 1:3)) > r_soi)
+            y = y(1:i-1, :);
+            t = t(1:i-1, :);
+            break;
+        end
+    end
+    
     %TRICK: per plottare inverto gli elementi di y  
     len = size(y,1);
     for i = 1 : len/2
@@ -49,6 +59,7 @@ function capture_hyp_plot(body_id, r_p, T_park)
         y(len + 1 - i, :) = tmp;
     end
     first_orbit = y;
+
     
     %% PARKING ORBIT
     r0_new = (R_x*[-r_p, 0, 0]')'; 
@@ -67,6 +78,7 @@ function capture_hyp_plot(body_id, r_p, T_park)
     
     t = [t; t_new];
     y = [first_orbit; y_new];
+    
     %...Output the results:
     output
  
