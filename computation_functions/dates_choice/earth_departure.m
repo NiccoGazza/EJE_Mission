@@ -47,7 +47,7 @@ function [t, dv, r, dv_esc_earth] = earth_departure(t1, t2)
     %Inizializzazione dati dell'iterazione
     t0 = datetime (2023, 12, 1);
     n=0;
-    toll = 1.1;
+    toll = 0.5;
     t = [];
     dv = [];
     r = [];

@@ -55,7 +55,7 @@ function [t, dv, r_p] = earth_flyby(t1, r_park, e_park)
         %Raggio di parcheggio desiderato
         [deltav, rp] = capture_hyp(5, v2, t1, 0, r_park, e_park);
         
-        if deltav < 4.8
+        if deltav < 4.75
             dv = [dv; deltav];
             t = [t; t0];
             r_p = [r_p; rp];

@@ -44,7 +44,7 @@ function [t, dv, r] = mars_flyby(t1, t2)
     %Inizializzazione dati dell'iterazione
     t0 = datetime(2024, 1, 1);
     n = 0;
-    toll = 0.15;
+    toll = 0.08;
     t = [];
     dv = [];
     r = [];
