@@ -2,7 +2,35 @@ function  [probe_pos, io_pos, europa_pos, t_dep, t_man, dv_min, transfer_traj, .
            v2_probe_eur, v2_eur] ...
             = ...
            europa_phasing(begin_date, end_date, r_p, e_park)
-       
+%Questa funzione calcola la manovra per il trasferimento su Europa, 
+%restituendo tutte le informazioni necessarie al plot. La manovra è
+%calcolata prendendo a riferimento un tempo base (1 giorno) e risolvendo
+%iterativamente dei problemi di Lambert e ricavando quello con Delta_V
+%minimo. 
+%
+%   Dati in ingresso:
+%   begin_date      - data di inizio ricerca trasferimento       [datetime]
+%   end_date        - data di fine ricerca trasferimento         [datetime]
+%   r_p             - raggio al periasse dell'orbita di parcheggio     [km]
+%   e_park          - eccentricita' dell'orbita di parcheggio          [km]
+%
+%   Dati in uscita:
+%   probe_pos       - vettore posizione della sonda, calcolato da
+%                     begin_date a end_date con passo di integrazione di un
+%                     minuto                                           [km]
+%   io_pos          - vettore posizione di Io, calcolato come sopra    [km] 
+%   europa_pos      - vettore posizione di Europa, calcolato come sopra[km]
+%   t_dep           - indice che corrisponde all'inizio del trasferimento
+%   t_man           - durata della manovra in minuti
+%   dv_min          - delta_v minimo per la manovra orbitale trovata 
+%   transfer_traj   - vettore posizione della sonda lungo la traiettoria di
+%                      trasferimento                                   [km]
+%   v2_prob_eur     - velocità della sonda di ingresso nella SOI di Europa
+%                     utile per calcolare l'iperbole di cattura      [km/s]
+%   v2_eur          - velocità di Europa nel momento in cui la sonda entra
+%                     nella SOI                                      [km/s] 
+%
+
     global pl_mu incl_body mu 
 
     %Intervallo di integrazione espresso in ore
