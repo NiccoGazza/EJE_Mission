@@ -16,6 +16,8 @@ e_park = 0.6;
 
 
 %% Graphical Setup 
+fig = figure();
+fig.WindowState = 'maximized';
 hold on	
 axis equal;
 grid on;

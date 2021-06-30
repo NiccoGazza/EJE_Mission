@@ -96,6 +96,8 @@ fprintf('\nDelta_V required for escape hyperbola is: %g [km/s]\n', delta_v1)
 %% Graphical Setup for heliocentric phase     
 global radii color
 R = radii(11);
+fig = figure();
+fig.WindowState = 'maximized';
 hold on	
 axis equal;
 grid on;
@@ -219,4 +221,6 @@ fprintf('\nTime of Flight for Earth-Jupiter transfer is: %g [days]\n', number_of
 
 %% Europa Transfer
 europa_transfer_plot;
+
+
 %end %entire_mission_plot%

@@ -84,6 +84,8 @@ j_posz(:) = 0;
 %% Graphical setup
 axis equal
 grid on
+fig = figure();
+fig.WindowState = 'maximized';
 hold on
 %Decommentare se si vuole vedere l'orientazione degli assi
 % line([0 2*25*R],   [0 0],   [0 0]); text(2*25*R,   0,   0, 'X')

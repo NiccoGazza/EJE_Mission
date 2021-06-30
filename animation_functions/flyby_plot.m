@@ -119,6 +119,7 @@ v_at_rmax   = norm([y(imax,4) y(imax,5) y(imax,6)]);
 v_at_rmin   = norm([y(imin,4) y(imin,5) y(imin,6)]);
  
 fig = figure();
+fig.WindowState = 'maximized';
 hold on
 fig = gca;
 fig.Color = [0, 0.1686, 0.4196];

@@ -149,6 +149,9 @@ v_at_rmax   = norm([y(imax,4) y(imax,5) y(imax,6)]);
 v_at_rmin   = norm([y(imin,4) y(imin,5) y(imin,6)]);
  
 %...Plot the results:
+fig = figure();
+fig.WindowState = 'maximized';
+hold on;
 fig = gca;
 fig.Color = [0, 0.1686, 0.4196];
 fig.GridColor = [0.9020, 0.9020, 0.9020];
@@ -158,13 +161,14 @@ grid on
 grid minor
 
 %   Draw and label the X, Y and Z axes
-line([0 2*R/1.5],   [0 0],   [0 0]); text(2*R/1.5,   0,   0, 'X')
-line(  [0 0], [0 2*R/1.5],   [0 0]); text(  0, 2*R/1.5,   0, 'Y')
-line(  [0 0],   [0 0], [0 2*R/1.5]); text(  0,   0, 2*R/1.5, 'Z')
-hold on 
+line([0 2*R/1.5],   [0 0],   [0 0], 'Color', 'white');
+text(2*R/1.5,   0,   0, 'X', 'Color', 'white', 'FontSize', 6)
+line(  [0 0], [0 2*R/1.5],   [0 0], 'Color', 'white');
+text(  0, 2*R/1.5,   0, 'Y', 'Color', 'white', 'FontSize', 6)
+line(  [0 0],   [0 0], [0 2*R/1.5], 'Color', 'white');
+text(  0,   0, 2*R/1.5, 'Z', 'Color', 'white', 'FontSize', 6)
   
-%   Specify some properties of the graph
-grid on
+%   Specify some properties of the grap
 axis equal
 xlabel('km')
 %xlim([-6e5, 6e5])

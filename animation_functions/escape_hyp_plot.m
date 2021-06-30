@@ -129,10 +129,10 @@ end
 v_at_rmax   = norm([y(imax,4) y(imax,5) y(imax,6)]);
 v_at_rmin   = norm([y(imin,4) y(imin,5) y(imin,6)]);
  
-%...Output to the command window:
-
-
 %...Plot the results:
+fig = figure();
+fig.WindowState = 'maximized';
+hold on 
 fig = gca;
 fig.Color = [0, 0.1686, 0.4196];
 fig.GridColor = [0.9020, 0.9020, 0.9020];
@@ -147,13 +147,13 @@ grid minor
 line([0 2*R/1.5],   [0 0],   [0 0]); text(2*R/1.5,   0,   0, 'X')
 line(  [0 0], [0 2*R/1.5],   [0 0]); text(  0, 2*R/1.5,   0, 'Y')
 line(  [0 0],   [0 0], [0 2*R/1.5]); text(  0,   0, 2*R/1.5, 'Z')
-hold on 
 
-  
+
 %   Specify some properties of the graph
 axis equal
-% xlim([-0.7e4, 0.7e4])
-% ylim([-2e4, 2e4])
+% xlim([-4e4, 3e4])
+% ylim([-1e4, 5e4])
+% zlim([-1.5e4, 3e4])
 xlabel('km')
 ylabel('km')
 zlabel('km')
