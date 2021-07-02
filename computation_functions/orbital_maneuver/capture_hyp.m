@@ -27,7 +27,7 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, plot, varargin)
 %	arr_time - data di arrivo alla SOI del body_id. [datetime] - (yyyy,mm,dd)
 %	varargin - campo equivalente a due ingressi come spiegato di seguito.
 %		varargin{1} = h : primo input per definire l'ALTEZZA dell'orbita di cattura. L'utente può scegliere di utilizzare uno dei due casi: 
-%       		(a) varargin = 'opt' . In tal caso questa funzione usa il raggio al periasse che ottimizza il deltaV;
+%       		(a) varargin = 'opt' . In tal caso questa funzione usa il raggio al periasse (preso DAL CENTRO del pianeta) che ottimizza il deltaV;
 %			(b) float varargin . L'utente assegna un valore numerico all'altezza dell'orbita di parcheggio.
 %			=> Qualunque sia la scelta dell'utente, la funzione riporta nuovamente il raggio al periasse (consente di poter richiamare facilmente questa variabile, per comodità)
 %		varargin{2}: secondo input; in entrambi i casi, questo ingresso serve per specificare l'eccentricita' desiderata dell'orbita di parcheggio e_park
