@@ -3,12 +3,12 @@ function [t, dv, r_p] = earth_flyby(t1, r_park, e_park)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %Questa funzione restituisce data di partenza dalla Terra (post flyby),
 %variazione di velocita' dell'orbita interplanetaria ottima e raggio
-%dell'orbita di parcheggio, data una data di arrivo t1 e un'eccentricita' e. 
+%dell'orbita di parcheggio, data una data di arrivo t1 e un'eccentricita' e. 
 %
 %   Dati in ingresso:
 %       t1     - Data di arrivo su Giove [datetime]
 %       r_park - raggio al periasse dell'orbita di parcheggio su Giove 
-%       e_park - eccentricita' desiderata per l'orbita di parcheggio su Giove
+%       e_park - eccentricita' desiderata per l'orbita di parcheggio su Giove
 %
 %   Dati in uscita:
 %       t   - Vettore delle date di partenza dalla Terra 
@@ -47,7 +47,7 @@ function [t, dv, r_p] = earth_flyby(t1, r_park, e_park)
         %Lambert Terra-Giove
         dt1 = between (t0, t1, 'Days');
         t_lam = ( caldays(dt1) ) * 24 * 3600;
-        [~ , v2] = lambert (r_e, r_jup, t_lam); %v2 vettore velocità finale eliocentrica della sonda
+        [~ , v2] = lambert (r_e, r_jup, t_lam); %v2 vettore velocitï¿½ finale eliocentrica della sonda
         
         % Raggio ottimo: problema => vengono r_p troppo grandi!
         %[deltav, rp] = capture_hyp(5, v2, t1, 'opt', e_park);

@@ -5,7 +5,7 @@ function  [probe_pos, io_pos, europa_pos, t_dep, t_man, dv_min, transfer_traj, .
 %Questa funzione calcola la manovra per il trasferimento su Europa, 
 %restituendo tutte le informazioni necessarie al plot. La manovra è
 %calcolata prendendo a riferimento un tempo base (1 giorno) e risolvendo
-%iterativamente dei problemi di Lambert e ricavando quello con Delta_V
+%iterativamente dei problemi di Lambert, ricavando quello con Delta_V
 %minimo. 
 %
 %   Dati in ingresso:
@@ -49,7 +49,7 @@ function  [probe_pos, io_pos, europa_pos, t_dep, t_man, dv_min, transfer_traj, .
     %% Trajectory generation
     [probe_pos, probe_vel] = gen_jupiter_park_orbit( r0, v0, tf);
     [io_pos, ~] = gen_io_traj(begin_date, end_date);
-    [europa_pos, europa_vel] = gen_europe_traj(begin_date, end_date);
+    [europa_pos, europa_vel] = gen_europa_traj(begin_date, end_date);
 
     % Parametri orbita di parcheggio
     a = r_p / (1 - e_park);             %semiasse maggiore             [km]
@@ -87,7 +87,7 @@ function  [probe_pos, io_pos, europa_pos, t_dep, t_man, dv_min, transfer_traj, .
         %che vanno da 12 ore a 36 ore
         for delta_t_lam = 0.5 * delta_t : 0.1 * delta_t : 1.5 * delta_t
             r_europa = europa_pos(dt + delta_t_lam, :);
-            v_europa = europa_vel(dt + delta_t_lam, :);
+            %v_europa = europa_vel(dt + delta_t_lam, :);
             r_europa(3) = 0;
             [v1, v2] = lambert(r_probe, r_europa, delta_t_lam*60);
             dv1 = norm(v1 - v_probe);

@@ -82,15 +82,15 @@ close(esc_plot);
 j_posz(:) = 0;
 
 %% Graphical setup
-axis equal
-grid on
 fig = figure();
 fig.WindowState = 'maximized';
 hold on
+axis equal
+grid on
 %Decommentare se si vuole vedere l'orientazione degli assi
-% line([0 2*25*R],   [0 0],   [0 0]); text(2*25*R,   0,   0, 'X')
-% line(  [0 0], [0 2*25*R],   [0 0]); text(  0, 2*25*R,   0, 'Y')
-% line(  [0 0],   [0 0], [0 2*25*R]); text(  0,   0, 2*25*R, 'Z')
+line([0 2*25*R],   [0 0],   [0 0]); text(2*25*R,   0,   0, 'X')
+line(  [0 0], [0 2*25*R],   [0 0]); text(  0, 2*25*R,   0, 'Y')
+line(  [0 0],   [0 0], [0 2*25*R]); text(  0,   0, 2*25*R, 'Z')
 
 view(43, 30);
 fig = gca;
@@ -142,11 +142,12 @@ for k = 1 : number_of_days
     addpoints(h1, j_posx(k), j_posy(k), j_posz(k));
     addpoints(h2, e_posx(k), e_posy(k), e_posz(k));
     addpoints(h3, s_posx(k), s_posy(k), s_posz(k));
-    drawnow limitrate
+    drawnow 
     
 end   
+pause();
+close all;
 
-close all
 [dv2, ~] = capture_hyp(5, vf, end_date, 1, 8e4, 0.6);
 pause();
 cap_plot = gcf;

@@ -9,7 +9,7 @@ end_date = begin_date + 5;
 r_p = 8e4 + radii(5);
 e_park = 0.6;
 
-[probe_pos, io_pos, europa_pos, t_dep, t_man, delta_v1, transfer_traj, ...
+[probe_pos, io_pos, europa_pos, t_dep, t_man, delta_v5, transfer_traj, ...
  v2_probe_eur, v2_eur] ... 
     = ...
     europa_phasing(begin_date, end_date, r_p, e_park); 
@@ -103,5 +103,5 @@ for k = 1 : t_dep + t_man
   
 end
 
-[delta_v2, ~] = capture_hyp(10, v2_probe_eur, begin_date, 1, 100, 0, v2_eur);
+[delta_v6, ~] = capture_hyp(10, v2_probe_eur, begin_date, 1, 100, 0, v2_eur);
 
