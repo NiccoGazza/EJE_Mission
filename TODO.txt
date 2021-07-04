@@ -3,9 +3,8 @@ TODO LIST:
 -> inserire stampa informazioni delta_V per trasferimento su Europa
 -> fare confronto iperbole di uscita hohmann e missione scelta da noi
 -> inserire immagine corretta di Europa in body_sphere (per ora c'è Plutone)
--> EXTRA: cercare di plottare la sonda con il modello stl
+-> estrarre le caratteristiche orbitali delle patched conics e verificare che siano corrette (soprattutto flyby => manca beta!)
 
-💡️Obiettivo Finale:
-Avere un paio di script che, una volta chiamato initializeEJE, facciano il plot dell'intera missione ed il calcolo del delta_V complessivo.
-Tali script si troveranno nella cartella principale EJE_Mission, in modo che non ci sia bisogno di andare a cercare all'interno delle sottocartelle 
-che dovranno quindi contenere tutti e soli i file utilizzati per la progettazione della missione.
+-> EXTRA1: plottare le patched conics eliocentriche complete, in modo da visualizzare la differenza tra le varie traiettorie 
+-> EXTRA2: plottare la sonda con il modello stl
+
