@@ -23,7 +23,7 @@ function [deltav, deltav_inf, e, a, delta, r_p] = flyby ( body_id, v1, V, v2, pl
     v_inf1 = v1 - V;
     v_inf2 = v2 - V;
 
-    delta_rad = acos(dot(v_inf1, v_inf2)/(norm(v_inf1)*norm(v_inf2)));
+    delta_rad = acos(dot(v_inf1, v_inf2)/(norm(v_inf1) * norm(v_inf2)));
     delta = rad2deg (delta_rad);
     r_p = (mu / ((norm(v_inf1))^2))*(1 / (sin(delta_rad/2)) - 1);
 
@@ -35,13 +35,18 @@ function [deltav, deltav_inf, e, a, delta, r_p] = flyby ( body_id, v1, V, v2, pl
     %         disp('ERRORE: LE v_inf HANNO MODULO DIVERSO');
     %         return;
     %     end
-
-    %deltav = norm((v_inf1-v_inf2),2); %norma del vettore differenza fra le v_inf
+    
     deltav = abs(norm(v1) - norm(v2));
     deltav_inf = norm(v_inf1, 2) - norm(v_inf2, 2);%differenza delle norme (mi aspetto che sia prossima a 0)
-
+    
+    if(norm(v1) > norm(v2))
+        side = 'leading';
+    else
+        side = 'trailing';
+    end
+    
     if(plot == 1)
-        flyby_plot(body_id, r_p, norm(v_inf1));
+        flyby_plot(body_id, r_p, norm(v_inf1), side);
     end
 end
 

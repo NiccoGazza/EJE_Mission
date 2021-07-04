@@ -1,4 +1,11 @@
-function flyby_plot(body_id, r_p, v_inf)
+function flyby_plot(body_id, r_p, v_inf, side)
+
+%Dati in ingresso
+%   r_p   - raggio al periasse dell'iperbole di flyby                  [km]
+%   v_inf - modulo della velocità di eccesso iperbolico              [km/s]
+%   side  - può valere 'trailing' o 'leading' se il flyby
+%          avviene, rispettivamente, dietro o davanti al pianeta.  [string] 
+
 
 %RICORDA: I SDR PLANETOCENTRICI HANNO INCLINAZIONE DIVERSA RISPETTO
 %ALL'ECLITTICA. AD ESEMPIO: TERRA => 23.5 DEG
@@ -7,6 +14,10 @@ function flyby_plot(body_id, r_p, v_inf)
 %INCLINATE DI UN ANGOLO PARI A incl_body, MISURATO RISPETTO ALL'ECLITTICA
 
 %% Definizione Input
+    if( (strcmp(side, 'leading') == 0) &&  (strcmp(side, 'trailing') == 0))
+        fprintf('"side" input not recognized')
+        return;
+    end
     rad = pi/180;
     global incl_body pl_mu radii
     incl = incl_body(body_id);
@@ -15,11 +26,15 @@ function flyby_plot(body_id, r_p, v_inf)
     %matrice di rotazione: viene utilizzata non come cambio di coordinate 
     %ma per mappare una rotazione rigida 
     R_x = [1 0 0; 0 cos(incl*rad) -sin(incl*rad); 0 sin(incl*rad) cos(incl*rad)];
+    v_hyp = sqrt(v_inf^2 + 2*mu_p / r_p);
     
     %% Ramo di ingresso
-    v_hyp = sqrt(v_inf^2 + 2*mu_p / r_p);
-    r0 = (R_x*[r_p, 0, 0]')';
-    v0 = (R_x*[0, v_hyp, 0]')'; %velocità al periasse
+    if(strcmp(side, 'trailing') == 1)
+        r0 = (R_x*[r_p, 0, 0]')';
+    else
+        r0 = (R_x*[-r_p, 0, 0]')';
+    end
+    v0 = (R_x*[0, -v_hyp, 0]')'; %velocità al periasse
     
     %Integro utilizzando rates
     hours = 3600;
@@ -39,7 +54,7 @@ function flyby_plot(body_id, r_p, v_inf)
     
     %% Ramo di uscita
     r0_new = r0; 
-    v0_new = (R_x*[0, -v_hyp, 0]')';
+    v0_new = (R_x*[0, v_hyp, 0]')';
     
     %Integro utilizzando rates
     t0 = 0;
@@ -134,11 +149,13 @@ grid minor
 line([0 2*R/1.5],   [0 0],   [0 0]); text(2*R/1.5,   0,   0, 'X')
 line(  [0 0], [0 2*R/1.5],   [0 0]); text(  0, 2*R/1.5,   0, 'Y')
 line(  [0 0],   [0 0], [0 2*R/1.5]); text(  0,   0, 2*R/1.5, 'Z')
-  
+
+v_pl = R_x * [-10000; 0; 0];
+plotv(v_pl, '-<r');
+
 %   Specify some properties of the graph
 axis equal
 xlabel('km')
-%xlim([-6e5, 6e5])
 ylabel('km')
 zlabel('km')
 view( [-23 , 26] )
