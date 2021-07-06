@@ -122,6 +122,18 @@ function output
  
   User subfunction required: light_gray
 %}
+
+body_name = ["Mercury",   
+             "Venus",
+             "Earth",
+             "Mars",
+             "Jupiter",
+             "Saturn",
+             "Uranus",
+             "Neptune",
+             "Pluto",
+             "Europa"
+             ];
 % -------------
 for i = 1:length(t)
     r(i) = norm([y(i,1) y(i,2) y(i,3)]);
@@ -137,6 +149,7 @@ fig = figure();
 fig.WindowState = 'maximized';
 hold on
 fig = gca;
+title('Flyby on: ' + body_name(body_id))
 fig.Color = [0, 0.1686, 0.4196];
 fig.GridColor = [0.9020, 0.9020, 0.9020];
 obj_pos = [0, 0, 0];

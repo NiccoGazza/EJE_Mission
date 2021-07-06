@@ -137,6 +137,19 @@ function output
  
   User subfunction required: light_gray
 %}
+
+body_name = ["Mercury",   
+             "Venus",
+             "Earth",
+             "Mars",
+             "Jupiter",
+             "Saturn",
+             "Uranus",
+             "Neptune",
+             "Pluto",
+             "Europa"
+             ];
+
 % -------------
 for i = 1:length(t)
     r(i) = norm([y(i,1) y(i,2) y(i,3)]);
@@ -153,6 +166,7 @@ fig = figure();
 fig.WindowState = 'maximized';
 hold on;
 fig = gca;
+title('Capture Hyperbola and Parking Orbit on: ' + body_name(body_id))
 fig.Color = [0, 0.1686, 0.4196];
 fig.GridColor = [0.9020, 0.9020, 0.9020];
 obj_pos = [0, 0, 0];
@@ -171,7 +185,6 @@ text(  0,   0, 2*R/1.5, 'Z', 'Color', 'white', 'FontSize', 6)
 %   Specify some properties of the grap
 axis equal
 xlabel('km')
-%xlim([-6e5, 6e5])
 ylabel('km')
 zlabel('km')
 view( [-23 , 26] )

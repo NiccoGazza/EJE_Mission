@@ -1,6 +1,5 @@
 TODO LIST:
 -> inserire legende, label e unità di misura in tutti i plot
--> inserire stampa informazioni delta_V per trasferimento su Europa
 -> fare confronto iperbole di uscita hohmann e missione scelta da noi
 -> inserire immagine corretta di Europa in body_sphere (per ora c'è Plutone)
 -> estrarre le caratteristiche orbitali delle patched conics e verificare che siano corrette (soprattutto flyby => manca beta!)

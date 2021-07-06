@@ -107,6 +107,7 @@ grid on;
 
 view(74, 21);
 fig = gca;
+title('Heliocentric Phase');
 fig.Color = [0, 0, 0];
 fig.GridColor = [0.9020, 0.9020, 0.9020];
 
@@ -115,24 +116,28 @@ body_sphere(11, sun_pos);
 
 % X-axis
 xlim([-4.5e8, 1.5e8]);
+xlabel('km')
 %line([0 2*50*R],   [0 0],   [0 0], 'Color', 'white'); 
 %text(2*R*50,   0,   0, 'X', 'Color', 'white', 'FontSize', 6)
 
 %Y-axis
 ylim([-4e8, 4e8]);
+ylabel('km')
 %line(  [0 0], [0 2*50*R],   [0 0], 'Color', 'white');
 %text(  0, 2*R*50,   0, 'Y', 'Color', 'white', 'FontSize', 6)
 
 %Z-axis
 zlim([-1e8, 1e8]);
+zlabel('km')
 %line(  [0 0],   [0 0], [0 2*50*R], 'Color', 'white');
 %text(  0,   0, 2*R*50, 'Z', 'Color', 'white', 'FontSize', 6)
-number_of_days = nod_1 + nod_2 + nod_3;
-h1 = animatedline('Color', 'r');
-h2 = animatedline('Color', 'b');
-h3 = animatedline('Color', [1, 0.93333, 0]);
-h4 = animatedline('Color', 'White');
 
+number_of_days = nod_1 + nod_2 + nod_3;
+h1 = animatedline('Color', 'r', 'DisplayName', 'Mars');
+h2 = animatedline('Color', 'b', 'DisplayName', 'Earth');
+h3 = animatedline('Color', '[1, 0.93333, 0]', 'DisplayName', 'Probe');
+h4 = animatedline('Color', 'White', 'DisplayName', 'Jupiter');
+legend([h1, h2, h3, h4], 'TextColor', 'white', 'AutoUpdate', 'off');
 %% Plot heliocentric trajectories
 pause();
 for k = 1 : number_of_days
@@ -210,12 +215,14 @@ pause();
 pause();
 cap_hyp = gcf;
 close(cap_hyp);
+
+delta_v_jup = delta_v1 + delta_v4;
 fprintf('\n/*-----------------------------------------------*/')
 fprintf('\nArrival Date on Jupiter: %s\n', datestr(end_date_3))
 fprintf('\nDelta_V required for parking orbit is: %g [km/s]\n', delta_v4)
 fprintf('\n/*-----------------------------------------------*/')
 fprintf('\nTotal Delta_V for Earth-Jupiter transfer is: %g [km/s]\n', ...
-        delta_v1 + delta_v4)
+        delta_v_jup)
 fprintf('\n/*-----------------------------------------------*/')
 fprintf('\nTime of Flight for Earth-Jupiter transfer is: %g [days]\n', number_of_days)    
 
