@@ -116,28 +116,3 @@ mu = 1.327565122000000e+11; % [km^3/s^2] //PARAMETRO MU DEL SOLE
           "#EDB120"    %ochre
           "#D95319"];
     
-    %% Effemeridi di Europa
-    %     eE = 0.0094; %eccentricità
-%     wE = 88.970; %argomento al pericentro - omega [deg]
-%     ME = 171.016; %anomalia media [deg]
-%     iE = 0.466; %inclinazione [deg]
-%     RAE = 268.084; %ascensione retta [deg]
-%     w_hatE = RAE + wE; % longitudine al pericentro[deg]
-%     OmegaE = 219.106; %node [deg] longitudine del nodo ascendente
-%     PwE = 1.394; %[yr] periodo di precessione dell'argomento del pericentro omega	
-%     PnodeE = 30.184; %[yr] periodo di precesisone della longitudine del nodo ascendente Omega
-%     tildeomegaE =OmegaE + wE;
-%     LE = ME + tildeomegaE -360;
-% 
-%    %centennial rates:
-%     dot_aE = 0;
-%     dot_eE =  0;
-%     dot_iE = 0;
-%     dot_RAE = 0.00014620; %(preso uguale a quello di Vesta perchè parametro introvabile)
-%     dot_w_hatE = 0.00588261; %(preso uguale a quello di Vesta perchè parametro introvabile)
-%     dot_tildeomegaE = 360 /( PwE/100) + 360 / (PnodeE /100);
-%     dot_OmegaE = 101.3747242 * 365.25*100; % n  longitude rate [deg/day]2[degcy]
-%     dot_LE = dot_tildeomegaE + dot_OmegaE;
-% 
-% 	J2000Europe =[aE ,eE,iE, RAE, w_hatE, LE];   
-%  	cent_ratEurope = [dot_aE, dot_eE, dot_iE, dot_RAE, dot_w_hatE, dot_LE];  
