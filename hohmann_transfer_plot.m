@@ -88,21 +88,23 @@ hold on
 axis equal
 grid on
 %Decommentare se si vuole vedere l'orientazione degli assi
-line([0 2*25*R],   [0 0],   [0 0]); text(2*25*R,   0,   0, 'X')
-line(  [0 0], [0 2*25*R],   [0 0]); text(  0, 2*25*R,   0, 'Y')
-line(  [0 0],   [0 0], [0 2*25*R]); text(  0,   0, 2*25*R, 'Z')
+% line([0 2*25*R],   [0 0],   [0 0]); text(2*25*R,   0,   0, 'X')
+% line(  [0 0], [0 2*25*R],   [0 0]); text(  0, 2*25*R,   0, 'Y')
+% line(  [0 0],   [0 0], [0 2*25*R]); text(  0,   0, 2*25*R, 'Z')
 
 view(43, 30);
 fig = gca;
+title('Hohmann Heliocentric Phase');
 fig.Color = [0, 0, 0];
 fig.GridColor = [0.9020, 0.9020, 0.9020];
 sun_pos = [0, 0, 0]; %origine sdr eliocentrico
 body_sphere(11, sun_pos);
 
 %% Animation
-h1 = animatedline('Color', color(5));
-h2 = animatedline('Color', 'b');
-h3 = animatedline('Color', '#D95319');
+h2 = animatedline('Color', 'b', 'DisplayName', 'Earth');
+h3 = animatedline('Color', '[1, 0.93333, 0]', 'DisplayName', 'Probe');
+h1 = animatedline('Color', 'White', 'DisplayName', 'Jupiter');
+legend([h1, h2, h3], 'TextColor', 'white', 'AutoUpdate', 'off');
 
 %NOTA: se i limiti non vengono settati in anticipo, la velocità
 %dell'animazione è variabile in quanto deve aggiornare anche assi e grid!
@@ -142,7 +144,8 @@ for k = 1 : number_of_days_h
     addpoints(h1, j_posx(k), j_posy(k), j_posz(k));
     addpoints(h2, e_posx(k), e_posy(k), e_posz(k));
     addpoints(h3, s_posx(k), s_posy(k), s_posz(k));
-    drawnow 
+    drawnow limitrate
+    pause(0.01)
     
 end   
 pause();
