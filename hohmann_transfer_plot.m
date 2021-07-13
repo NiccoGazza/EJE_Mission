@@ -9,10 +9,10 @@ R = radii(11);
 begin_date = datetime(2024, 10, 16);
 [t_attesa, t_manovra, ~] =  hohmann_phasing(3, 5, begin_date);
 
-number_of_days = t_manovra;
+number_of_days_h = t_manovra;
 
 begin_date = begin_date + t_attesa;
-end_date = begin_date + number_of_days;
+end_date = begin_date + number_of_days_h;
 
 time_vector = generate_time(begin_date, end_date); 
 
@@ -52,7 +52,7 @@ pause();
 esc_plot = gcf;
 close(esc_plot);
 
- for days = 1 : 1 :number_of_days
+ for days = 1 : 1 :number_of_days_h
     [~, e_pos, ~,~] = body_elements_and_sv(3, time_vector(days, 1),...
                                                   time_vector(days, 2),...
                                                   time_vector(days, 3), 0, 0, 0);
@@ -111,7 +111,7 @@ ylim([-2e8, 7.5e8]);
 zlim([-1e8, 1e8]);
 
 pause();
-for k = 1 : number_of_days
+for k = 1 : number_of_days_h
     if(k == 1)
     probe = plot3(s_posx(k), s_posy(k), s_posz(k),...
                     'o','Color','#D95319', 'MarkerSize', 2,...
@@ -163,6 +163,6 @@ fprintf('\n Capture Delta_V = %g [km/s]', dv2)
 fprintf('\n Total Delta_V = %g [km/s]\n', dv1 + dv2)
 fprintf('\n Delta_V from theory = %g [km/s]', dv_hohmann) 
 fprintf('\n/*-----------------------------------------------*/')
-fprintf('\n Time analysis:\n Time of Flight = %g days \n', number_of_days)
+fprintf('\n Time analysis:\n Time of Flight for Hohmann = %g days \n', number_of_days_h)
 
 % end %hohmann_transfer_plot%

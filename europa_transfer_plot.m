@@ -113,6 +113,10 @@ pause();
 europa_date = begin_date + t_dep / 60 / 24;
 arrival_date = europa_date + t_man / 60 / 24;
 
+t1 = datetime(2024,10,16);
+t2 = datetime(2030,4,11);
+number_of_days_tot = between (t1, t2, 'Days');
+
 fprintf('\n/*-----------------------------------------------*/')
 fprintf('\nJupiter parking orbit departure: %s\n', datestr(europa_date))
 fprintf('\nDelta_V required for leaving Jupiter parking orbit is: %g [km/s]\n', delta_v5)
@@ -120,5 +124,11 @@ fprintf('\n/*-----------------------------------------------*/')
 fprintf('\nArrival Date on Europa parking orbit: %s\n', datestr(arrival_date))
 fprintf('\nDelta_V required for Europa parking orbit is: %g [km/s]\n', delta_v6)
 fprintf('\n/*-----------------------------------------------*/')
-fprintf('\nTotal mission Delta_v: %g [km/s]', delta_v5 + delta_v6 + delta_v_jup)
+%fprintf('\nTotal mission Delta_v: %g [km/s]', delta_v5 + delta_v6 + delta_v_jup)
 fprintf('\n/*-----------------------------------------------*/\n')
+disp('Time analysis:' )
+disp('Time of Flight : ' )
+disp(number_of_days_tot ) 
+
+
+
