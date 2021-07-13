@@ -19,16 +19,7 @@ function [deltaV_h, deltaT_h] = hohmann_transfer(dep_body, arr_body , varargin )
 %               11 = Sun
 %deltaV_h : km/s
 %deltaT_h : s 
-% body : boolean input
-%		true : trasferimento da un pianeta a un altro, durante una fase eliocentrica ( il Sole è il fuoco) - pertanto le due orbite di %			partenza e di arrivo coincidono con quelle dei pianeti
-%		false : trasferimento da un pianeta a un suo satellite (il Sole non è il fuoco di tale trasferimento), pertanto l'orbita di % %			partenza ha raggio al periasse pari a quello dell'orbita di cattura
-% varargin è un ulteriore input da dare se si effettua il trasferimento da un pianeta a un suo satellite, che serve a specificare il raggio 			dell'orbita di partenza attorno a dep_plantet
-
-%validateattributes(dep_body,{'double'})
-%validateattributes(arr_body,{'double'})
-%validateattributes(body,{'boolean'})
-%validateattributes(varargin,{'float'})
-%body = true;
+% varargin è un ulteriore input da dare se si effettua il trasferimento da un pianeta a un suo satellite, che serve a specificare il raggio 			dell'orbita di partenza attorno a dep_plantet. Di default infatti, il fuoco della (semi)ellisse di trasferimento è il Sole.
 
 
     global mu distances     
@@ -43,7 +34,6 @@ function [deltaV_h, deltaT_h] = hohmann_transfer(dep_body, arr_body , varargin )
 			disp('The two bodies do not refer to the same focus. Cannot compute a Hohmann transfer')
         end
 	else 
-		%body=true;
 		r_dep = distances(dep_body);
 		r_arr = distances(arr_body);
 	end
