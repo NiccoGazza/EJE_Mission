@@ -3,7 +3,7 @@ clc; close all;
 %% Input initialization
 initializeEJE;
 
-global radii color
+global radii color distances
 R = radii(11);
 
 begin_date = datetime(2024, 10, 16);

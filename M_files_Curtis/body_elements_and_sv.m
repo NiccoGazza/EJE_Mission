@@ -63,15 +63,6 @@ function [coe, r, v, jd] = body_elements_and_sv ...
  addpath(genpath("..M_files_Curtis"));
 %% Constants
     global mu pl_mu
-   
-    %parameters //PROBLEMA: SE parameters viene chiamato da una funzione 
-    %che a sua volta chiama planet_elements_and_sv si genera un errore
-    %dovuto alla chiamata annidata di parameters
-    %potremmo scrivere un file separato che contiene le informazioni su europa e 
-    %caricarlo solo se necessario
-	
-       
-    %pl_mu = G * masses; %[km^3/s^2]
 
     %% Algorithm
     

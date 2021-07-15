@@ -17,9 +17,12 @@ function [deltaV_h, deltaT_h] = hohmann_transfer(dep_body, arr_body , varargin )
 %                9 = Pluto
 %               10= Europe
 %               11 = Sun
-%deltaV_h : km/s
-%deltaT_h : s 
-% varargin è un ulteriore input da dare se si effettua il trasferimento da un pianeta a un suo satellite, che serve a specificare il raggio 			dell'orbita di partenza attorno a dep_plantet. Di default infatti, il fuoco della (semi)ellisse di trasferimento è il Sole.
+%   deltaV_h : [km/s]
+%   deltaT_h : [s] 
+%   varargin: un ulteriore input da dare se si effettua il trasferimento da 
+%           un pianeta a un suo satellite, che serve a specificare il raggio dell'orbita
+%           di partenza attorno a dep_plantet. Di default infatti, il fuoco della 
+%           (semi)ellisse di trasferimento è il Sole.
 
 
     global mu distances     
@@ -29,16 +32,14 @@ function [deltaV_h, deltaT_h] = hohmann_transfer(dep_body, arr_body , varargin )
 		if (dep_body == 5) 
 			r_dep = varargin{1};
 			r_arr = distances(arr_body);
-		elseif (dep_body~=5 && arr_body==10)
-
+		elseif (dep_body ~= 5 && arr_body == 10)
 			disp('The two bodies do not refer to the same focus. Cannot compute a Hohmann transfer')
         end
 	else 
 		r_dep = distances(dep_body);
 		r_arr = distances(arr_body);
 	end
-		
-    
+		 
     %mengali 7.4.1: utilizza l'approx. di orbite circolari
     deltaV_1 = sqrt((2*(r_arr/r_dep))/(1 + r_arr/r_dep)) - 1; %normalizzata a v_c1
     deltaV_2 = sqrt(1/(r_arr/r_dep)) - sqrt(2/((r_arr/r_dep)*(1 + r_arr/r_dep))); %normalizzata a v_c1
