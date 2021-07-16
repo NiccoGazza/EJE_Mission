@@ -4,6 +4,4 @@ TODO LIST:
 -> inserire immagine corretta di Europa in body_sphere (per ora c'è Plutone)
 -> estrarre le caratteristiche orbitali delle patched conics e verificare che siano corrette (soprattutto flyby => manca beta!)
 
--> EXTRA1: plottare le patched conics eliocentriche complete, in modo da visualizzare la differenza tra le varie traiettorie 
--> EXTRA2: plottare la sonda con il modello stl
 

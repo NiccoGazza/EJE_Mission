@@ -2,9 +2,9 @@
 function [t, dv, r] = mars_flyby(t1, t2)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % Questa funzione trova una data di partenza per Lambert pre Flyby su terra in modo
-% da far coincidere le velocità relative di entrata e uscita.
+% da far coincidere le velocita' relative di entrata e uscita.
 %
-%  Dati in igresso:
+%  Dati in ingresso:
 %      t1 - data del Fly_by (fissata) su Terra
 %      t2 - data di arrivo del Lambert post Fly-by su Giove
 %
@@ -37,7 +37,7 @@ function [t, dv, r] = mars_flyby(t1, t2)
     t_volo = (caldays(dt)) * 24 * 3600;
     [v_dep, ~] = lambert (r_earth, r_jupiter, t_volo);
    
-    %Valutazione della velocità relativa post Flyby su Terra
+    %Valutazione della velocitï¿½ relativa post Flyby su Terra
     norm_vout = norm( (v_dep - v_earth) , 2);
     
     %% TRAGITTO MARTE-TERRA
@@ -63,7 +63,7 @@ function [t, dv, r] = mars_flyby(t1, t2)
         t_lam = (caldays(dt1)) * 24 * 3600;
         [~, v2] = lambert (r_mars, r_earth, t_lam);
 
-        %Valutazione velocità relativa post Flyby rispetto alla Terra
+        %Valutazione velocitï¿½ relativa post Flyby rispetto alla Terra
         norm_vin = norm( (v2 - v_earth) , 2);
 
         %Se norm_vin e norm_vout sono comparabili posso considerare fattibile
@@ -74,7 +74,7 @@ function [t, dv, r] = mars_flyby(t1, t2)
             %FLYBY
             [deltav, ~, ~, ~, ~, r_p] = flyby (3, v2, v_earth, v_dep, 0);
             %Aggiornamento delle variabili alla data che approssima al meglio
-            % le condizioni del Flyby sulle velocità relative        
+            % le condizioni del Flyby sulle velocitï¿½ relative        
             if r_p > radii(3) + 100 %Distanza di sicurezza: 100km
                 t = [t; t0];
                 dv = [dv; deltav];

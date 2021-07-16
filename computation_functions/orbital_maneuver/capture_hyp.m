@@ -1,11 +1,11 @@
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, plot, varargin)
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %Questa funzione calcola l'iperbole di avvicinamento della sonda 
 %in arrivo al pianeta identificato dal body_id e la fa rimanere in
 %orbita attorno ad esso ad una distanza rp (distanza che ottimizza l'uso
 %di carburante) - presa dal centro del pianeta.
-%L'orbita scelta dovrà ovviamente essere chiusa.
+%L'orbita scelta dovra' ovviamente essere chiusa.
 %
 %   Dati in ingresso:
 %	body_id - numero associato al pianeta al quale la sonda si sta
@@ -23,25 +23,32 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, plot, varargin)
 %               	10 = Europe
 %               	11 = Sun
 %
-%	Va       - velocita' eliocentrica della sonda, in arrivo alla SOI del pianeta target [km/s]
-%	arr_time - data di arrivo alla SOI del body_id. [datetime] - (yyyy,mm,dd)
+%	Va       - velocita' eliocentrica della sonda, in arrivo alla SOI del 
+%              pianeta target [km/s]
+%	arr_time - data di arrivo alla SOI del body_id. [datetime] )
 %	varargin - campo equivalente a due ingressi come spiegato di seguito.
-%		varargin{1} = h : primo input per definire l'ALTEZZA dell'orbita di cattura. L'utente può scegliere di utilizzare uno dei due casi: 
-%       		(a) varargin = 'opt' . In tal caso questa funzione usa il raggio al periasse (preso DAL CENTRO del pianeta) che ottimizza il deltaV;
-%			(b) float varargin . L'utente assegna un valore numerico all'altezza dell'orbita di parcheggio.
-%			=> Qualunque sia la scelta dell'utente, la funzione riporta nuovamente il raggio al periasse (consente di poter richiamare facilmente questa variabile, per comodità)
-%		varargin{2}: secondo input; in entrambi i casi, questo ingresso serve per specificare l'eccentricita' desiderata dell'orbita di parcheggio e_park
-%   plot - flag che, se attivo (ovvero uguale a 1), fa eseguire il plot
-
-
+%		varargin{1} = h : primo input per definire l'ALTEZZA dell'orbita 
+%        di cattura. L'utente puo' scegliere di utilizzare 
+%        uno dei due casi: 
+%       	(a) varargin = 'opt' . In tal caso questa funzione usa il 
+%                raggio al periasse (preso DAL CENTRO del pianeta) che 
+%                ottimizza il deltaV;
+%			(b) float varargin . L'utente assegna un valore numerico 
+%                all'altezza dell'orbita di parcheggio.	
+%		varargin{2}: secondo input; in entrambi i casi, questo ingresso 
+%                    serve per specificare l'eccentricita' desiderata 
+%                    dell'orbita di parcheggio e_park
+%   plot - flag che, se attivo (ovvero uguale a 1), fa eseguire il plot 
+%           della manovra
+%
 %   Dati di uscita:
 %	delta_v - deltaV totale della manovra 
-%	r_p     - raggio al periasse dell'iperbole di ingressi e dell'orbita di parcheggio (le due, coincidono)
+%	r_p     - raggio al periasse dell'iperbole di ingresso e dell'orbita 
+%              di parcheggio (i due coincidono)
 
 
     %% Definizione di input e costanti
     validateattributes(Va,{'double'},{'size',[1 3]})
-    close all;
     global pl_mu radii  %Costanti globali (contenuti in initializeEJE.m) 
     global R mu_p      %Parametri che dipendono da costanti globali
     global v_p_park v_p_hyp r_soi  %Variabili necessarie per il plot
@@ -55,7 +62,7 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, plot, varargin)
             r_soi = compute_soi(body_id, 5); 
     end 
     
-    %% Calcolo velocita' di eccesso iperbolico v_inf in entrata alla SOI
+    %% Calcolo velocita' di eccesso iperbolico v_infï¿½in entrata alla SOI
     y = year(arr_time);
     m = month(arr_time);
     d = day(arr_time);
@@ -115,7 +122,7 @@ function [delta_v, r_p] = capture_hyp(body_id, Va, arr_time, plot, varargin)
 
     %% HYPERBOLA PLOT
     if(plot == 1)
-        capture_hyp_plot(body_id, r_p, T_park);
+       capture_hyp_plot(body_id, r_p, T_park);
     end
 
 end

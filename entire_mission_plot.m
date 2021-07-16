@@ -179,7 +179,7 @@ for k = 1 : number_of_days
     end
     
     if(k ==  nod_1)
-        [dv_fb1, delta_vinf_1, ~] = flyby ( 4, V2_a, V_mars1, V2_b, 1);
+        [dv_fb1, delta_vinf_1, e_1, a_1, delta_1, r_p1] = flyby ( 4, V2_a, V_mars1, V2_b, 1);
         fprintf('\n/*-----------------------------------------------*/')
         fprintf('\n First flyby => leading side: \n') 
         fprintf(' Heliocentric velocity pre Flyby is: %g [km/s]\n', norm(V2_a))
@@ -189,7 +189,7 @@ for k = 1 : number_of_days
         close(mars_flyby);
     end
     if(k == nod_1 + nod_2)
-        [dv_fb2, delta_vinf_2, ~] = flyby (3, V3_a, V_earth2, V3_b, 1);
+        [dv_fb2, delta_vinf_2, e_2, a_2, delta_2, r_p2] = flyby (3, V3_a, V_earth2, V3_b, 1);
         fprintf('\n\n/*-----------------------------------------------*/')
         fprintf('\n Second flyby => trailing side: \n')
         fprintf(' Heliocentric velocity pre Flyby is: %g [km/s]\n', norm(V3_a))
