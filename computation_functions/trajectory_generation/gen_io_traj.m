@@ -3,7 +3,7 @@ function [io_pos, io_vel] = gen_io_traj(begin_date, end_date)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %Questa funzione genera la traiettoria di Europa, nel sdr zeuscentrico, a
 %partire dalla data begin_date fino alla data end_date, integrando
-%l'equazione della dinamica con il metodo numerico Range-Kutta a step
+%l'equazione della dinamica con il metodo numerico Runge-Kutta a step
 %variabile. La posizione iniziale viene ricavata utilizzando le effemeridi
 %in data begin_date. Si è scelto di integrare numericamente le equazioni, e
 %di non utilizzare ad esempio i coefficienti di Lagrange, perchè i
