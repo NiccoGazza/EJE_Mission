@@ -158,10 +158,12 @@ close(cap_plot);
 
 %Mission info print
 fprintf('\n/*-----------------------------------------------*/')
+fprintf('\n Waiting time = %g days\n', t_attesa)
+fprintf('\n/*-----------------------------------------------*/')
 fprintf('\n Departure Date from Earth: %s\n', datestr(begin_date))
 fprintf('\n Arrival Date on Jupiter: %s', datestr(end_date))
 fprintf('\n/*-----------------------------------------------*/')
-fprintf('\n Delta_V analysis:\n Escape Delta_v = %g [km/s]', dv1)
+fprintf('\n Delta_V analysis:\n Escape Delta_V = %g [km/s]', dv1)
 fprintf('\n Capture Delta_V = %g [km/s]', dv2)
 fprintf('\n Total Delta_V = %g [km/s]\n', dv1 + dv2)
 fprintf('\n Delta_V from theory = %g [km/s]', dv_hohmann) 
