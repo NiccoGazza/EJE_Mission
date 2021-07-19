@@ -32,7 +32,7 @@ jup_pos = [0, 0, 0]; %origine sdr zeuscentrico
 body_sphere(5, jup_pos);
 
 %X-axis
-xlim([-7e5, 14e5]);
+xlim([-7e5, 8e5]);
 xlabel('km')
 % line([0 2*R],   [0 0],   [0 0], 'Color', 'white'); 
 % text(2*R,   0,   0, 'X', 'Color', 'white', 'FontSize', 6)
