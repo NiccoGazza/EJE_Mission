@@ -67,7 +67,7 @@ function capture_hyp_plot(body_id, r_p, T_park)
     
     %Integro utilizzando rates
     t0 = 0;
-    tf = 4 * T_park;
+    tf = 3 * T_park;
     y0 = [r0_new v0_new]';
     
     if(body_id == 10)

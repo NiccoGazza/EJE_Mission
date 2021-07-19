@@ -19,7 +19,7 @@ Di seguito, come eseguire il codice MATLAB che simula tale missione.
      ```
 	
 ## 2) Simulazione
-Per lanciare la simulazione dell'intera missione, su MATLAB, eseguire il file (nometemporaneo) entire_mission.m.
-Per spiegazioni dettagliate circa il codice e i risultati, si rimanda al report presente nella stessa cartella di README.md( https://www.overleaf.com/project/60cded9e025c52452d108dca)
+Per lanciare la simulazione dell'intera missione, su MATLAB, eseguire il file entire_mission_plot.m.
+Per spiegazioni dettagliate circa il codice e i risultati, si rimanda al report presente all'interno della stessa cartella.
 
 
